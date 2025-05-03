@@ -1,31 +1,30 @@
-
 import React, { ReactNode, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
-import { 
-  Book, 
-  Trophy, 
-  FileText, 
-  Clock, 
-  User, 
-  Settings, 
-  LogOut, 
+import {
+  Book,
+  Trophy,
+  FileText,
+  Clock,
+  User,
+  Settings,
+  LogOut,
   Menu,
   X,
   Home,
   Microscope,
-  Flask,
+  FlaskConical,
   Calculator,
   Dna,
   ChevronDown,
-  ChevronUp
+  ChevronUp,
 } from "lucide-react";
 import { toast } from "sonner";
-import { 
-  Collapsible, 
-  CollapsibleContent, 
-  CollapsibleTrigger 
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
 } from "@/components/ui/collapsible";
 
 interface DashboardLayoutProps {
@@ -36,7 +35,7 @@ const DashboardLayout = ({ children }: DashboardLayoutProps) => {
   const location = useLocation();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [subjectsExpanded, setSubjectsExpanded] = useState(true);
-  
+
   const mainLinks = [
     {
       title: "Home",
@@ -57,36 +56,36 @@ const DashboardLayout = ({ children }: DashboardLayoutProps) => {
       title: "Exam Challenges",
       href: "/exam-challenge/challenge-biology",
       icon: <Clock className="w-5 h-5" />,
-    }
+    },
   ];
-  
+
   const subjectLinks = [
     {
       title: "Biology",
       href: "/subjects/biology",
       icon: <Dna className="w-5 h-5" />,
-      color: "text-green-600"
+      color: "text-green-600",
     },
     {
       title: "Chemistry",
       href: "/subjects/chemistry",
-      icon: <Flask className="w-5 h-5" />,
-      color: "text-blue-600"
+      icon: <FlaskConical className="w-5 h-5" />,
+      color: "text-blue-600",
     },
     {
       title: "Physics",
       href: "/subjects/physics",
       icon: <Microscope className="w-5 h-5" />,
-      color: "text-purple-600"
+      color: "text-purple-600",
     },
     {
       title: "Mathematics",
       href: "/subjects/mathematics",
       icon: <Calculator className="w-5 h-5" />,
-      color: "text-red-600"
-    }
+      color: "text-red-600",
+    },
   ];
-  
+
   const handleLogout = () => {
     toast.success("You have been logged out.");
     // Normally we would handle the actual logout logic here
@@ -116,24 +115,26 @@ const DashboardLayout = ({ children }: DashboardLayoutProps) => {
               </span>
             </Link>
           </div>
-          
+
           <div className="flex items-center gap-4">
             <div className="hidden md:flex items-center gap-2">
-              <div className="badge-level bg-science-light/70 text-science-primary px-3 py-1 rounded-full text-xs font-medium">Level 7</div>
-              <div className="badge-xp bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-xs font-medium">1,250 XP</div>
-              <div className="badge-streak bg-orange-100 text-orange-800 px-3 py-1 rounded-full text-xs font-medium">5 Day Streak 🔥</div>
+              <div className="badge-level bg-science-light/70 text-science-primary px-3 py-1 rounded-full text-xs font-medium">
+                Level 7
+              </div>
+              <div className="badge-xp bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-xs font-medium">
+                1,250 XP
+              </div>
+              <div className="badge-streak bg-orange-100 text-orange-800 px-3 py-1 rounded-full text-xs font-medium">
+                5 Day Streak 🔥
+              </div>
             </div>
-            <Button
-              variant="ghost"
-              size="icon"
-              className="rounded-full border"
-            >
+            <Button variant="ghost" size="icon" className="rounded-full border">
               <User className="h-5 w-5" />
             </Button>
           </div>
         </div>
       </header>
-      
+
       <div className="flex-1 flex">
         {/* Sidebar for desktop */}
         <aside className="w-64 border-r hidden lg:block shrink-0">
@@ -145,16 +146,17 @@ const DashboardLayout = ({ children }: DashboardLayoutProps) => {
                   to={link.href}
                   className={cn(
                     "flex items-center gap-3 px-3 py-2 rounded-lg text-muted-foreground hover:text-foreground hover:bg-muted transition-colors",
-                    location.pathname === link.href && "bg-science-light text-science-primary hover:bg-science-light"
+                    location.pathname === link.href &&
+                      "bg-science-light text-science-primary hover:bg-science-light"
                   )}
                 >
                   {link.icon}
                   <span>{link.title}</span>
                 </Link>
               ))}
-              
-              <Collapsible 
-                open={subjectsExpanded} 
+
+              <Collapsible
+                open={subjectsExpanded}
                 onOpenChange={setSubjectsExpanded}
                 className="mt-4 border-t pt-4"
               >
@@ -163,7 +165,11 @@ const DashboardLayout = ({ children }: DashboardLayoutProps) => {
                     <Book className="w-5 h-5" />
                     <span className="font-medium">Subjects</span>
                   </div>
-                  {subjectsExpanded ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
+                  {subjectsExpanded ? (
+                    <ChevronUp className="h-4 w-4" />
+                  ) : (
+                    <ChevronDown className="h-4 w-4" />
+                  )}
                 </CollapsibleTrigger>
                 <CollapsibleContent className="pl-2 mt-1 space-y-1">
                   {subjectLinks.map((link) => (
@@ -172,8 +178,10 @@ const DashboardLayout = ({ children }: DashboardLayoutProps) => {
                       to={link.href}
                       className={cn(
                         "flex items-center gap-3 px-3 py-2 rounded-lg text-muted-foreground hover:text-foreground hover:bg-muted transition-colors",
-                        location.pathname === link.href && "bg-science-light text-science-primary hover:bg-science-light",
-                        location.pathname.includes(link.href) && "text-science-primary"
+                        location.pathname === link.href &&
+                          "bg-science-light text-science-primary hover:bg-science-light",
+                        location.pathname.includes(link.href) &&
+                          "text-science-primary"
                       )}
                     >
                       <div className={link.color}>{link.icon}</div>
@@ -183,16 +191,16 @@ const DashboardLayout = ({ children }: DashboardLayoutProps) => {
                 </CollapsibleContent>
               </Collapsible>
             </nav>
-            
+
             <div className="border-t pt-4 space-y-1">
-              <Link 
+              <Link
                 to="/settings"
                 className="flex items-center gap-3 px-3 py-2 rounded-lg text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
               >
                 <Settings className="w-5 h-5" />
                 <span>Settings</span>
               </Link>
-              <button 
+              <button
                 onClick={handleLogout}
                 className="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
               >
@@ -202,12 +210,12 @@ const DashboardLayout = ({ children }: DashboardLayoutProps) => {
             </div>
           </div>
         </aside>
-        
+
         {/* Mobile sidebar */}
         {sidebarOpen && (
           <div className="fixed inset-0 z-40 lg:hidden">
-            <div 
-              className="fixed inset-0 bg-black/50" 
+            <div
+              className="fixed inset-0 bg-black/50"
               onClick={toggleSidebar}
               aria-hidden="true"
             />
@@ -217,21 +225,23 @@ const DashboardLayout = ({ children }: DashboardLayoutProps) => {
                   <span className="text-2xl">🧪</span>
                   <span className="font-bold text-xl">ScienceHub</span>
                 </Link>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  onClick={toggleSidebar}
-                >
+                <Button variant="ghost" size="icon" onClick={toggleSidebar}>
                   <X className="h-5 w-5" />
                 </Button>
               </div>
-              
+
               <div className="flex flex-col gap-2 mb-4">
-                <div className="badge-level bg-science-light/70 text-science-primary px-3 py-1 rounded-full text-xs font-medium">Level 7</div>
-                <div className="badge-xp bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-xs font-medium">1,250 XP</div>
-                <div className="badge-streak bg-orange-100 text-orange-800 px-3 py-1 rounded-full text-xs font-medium">5 Day Streak 🔥</div>
+                <div className="badge-level bg-science-light/70 text-science-primary px-3 py-1 rounded-full text-xs font-medium">
+                  Level 7
+                </div>
+                <div className="badge-xp bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-xs font-medium">
+                  1,250 XP
+                </div>
+                <div className="badge-streak bg-orange-100 text-orange-800 px-3 py-1 rounded-full text-xs font-medium">
+                  5 Day Streak 🔥
+                </div>
               </div>
-              
+
               <nav className="space-y-1">
                 {mainLinks.map((link) => (
                   <Link
@@ -240,14 +250,15 @@ const DashboardLayout = ({ children }: DashboardLayoutProps) => {
                     onClick={toggleSidebar}
                     className={cn(
                       "flex items-center gap-3 px-3 py-2 rounded-lg text-muted-foreground hover:text-foreground hover:bg-muted transition-colors",
-                      location.pathname === link.href && "bg-science-light text-science-primary hover:bg-science-light"
+                      location.pathname === link.href &&
+                        "bg-science-light text-science-primary hover:bg-science-light"
                     )}
                   >
                     {link.icon}
                     <span>{link.title}</span>
                   </Link>
                 ))}
-                
+
                 <Collapsible className="mt-4 border-t pt-4">
                   <CollapsibleTrigger className="w-full flex items-center justify-between px-3 py-2 rounded-lg hover:bg-muted transition-colors">
                     <div className="flex items-center gap-3">
@@ -264,7 +275,8 @@ const DashboardLayout = ({ children }: DashboardLayoutProps) => {
                         onClick={toggleSidebar}
                         className={cn(
                           "flex items-center gap-3 px-3 py-2 rounded-lg text-muted-foreground hover:text-foreground hover:bg-muted transition-colors",
-                          location.pathname === link.href && "bg-science-light text-science-primary hover:bg-science-light"
+                          location.pathname === link.href &&
+                            "bg-science-light text-science-primary hover:bg-science-light"
                         )}
                       >
                         <div className={link.color}>{link.icon}</div>
@@ -273,9 +285,9 @@ const DashboardLayout = ({ children }: DashboardLayoutProps) => {
                     ))}
                   </CollapsibleContent>
                 </Collapsible>
-                
+
                 <div className="border-t my-4 pt-4">
-                  <Link 
+                  <Link
                     to="/settings"
                     onClick={toggleSidebar}
                     className="flex items-center gap-3 px-3 py-2 rounded-lg text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
@@ -283,7 +295,7 @@ const DashboardLayout = ({ children }: DashboardLayoutProps) => {
                     <Settings className="w-5 h-5" />
                     <span>Settings</span>
                   </Link>
-                  <button 
+                  <button
                     onClick={() => {
                       handleLogout();
                       toggleSidebar();
@@ -298,11 +310,9 @@ const DashboardLayout = ({ children }: DashboardLayoutProps) => {
             </div>
           </div>
         )}
-        
+
         {/* Main content */}
-        <main className="flex-1 overflow-auto">
-          {children}
-        </main>
+        <main className="flex-1 overflow-auto">{children}</main>
       </div>
     </div>
   );
