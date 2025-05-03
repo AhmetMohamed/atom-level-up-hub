@@ -14,6 +14,7 @@ import Leaderboard from "./pages/Leaderboard";
 import Resources from "./pages/Resources";
 import ExamChallenge from "./pages/ExamChallenge";
 import Subject from "./pages/Subject";
+import Room from "./pages/Room";
 
 const queryClient = new QueryClient();
 
@@ -33,6 +34,7 @@ const App = () => (
           <Route path="/resources" element={<Resources />} />
           <Route path="/exam-challenge/:examId" element={<ExamChallenge />} />
           <Route path="/subjects/:subjectId" element={<Subject />} />
+          <Route path="/subjects/:subjectId/rooms/:roomId" element={<Room />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

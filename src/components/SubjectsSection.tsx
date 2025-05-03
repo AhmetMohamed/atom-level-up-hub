@@ -1,4 +1,3 @@
-
 import React from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -31,6 +30,15 @@ const subjects = [
     textColor: "text-blue-800",
     border: "border-blue-200",
     topics: ["Forces", "Energy", "Waves", "Electricity"],
+  },
+  {
+    title: "Mathematics",
+    description: "Master mathematical concepts crucial for scientific understanding and problem-solving.",
+    image: "📊",
+    color: "bg-amber-100",
+    textColor: "text-amber-800",
+    border: "border-amber-200",
+    topics: ["Algebra", "Calculus", "Statistics", "Geometry"],
   },
   {
     title: "Environmental Science",

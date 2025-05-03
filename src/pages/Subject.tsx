@@ -1,6 +1,5 @@
-
 import React, { useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { 
   Accordion,
@@ -19,6 +18,7 @@ import RoomCard from "@/components/RoomCard";
 
 const Subject = () => {
   const { subjectId } = useParams();
+  const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState("learning-paths");
   
   // This would come from an API call in a real app
@@ -196,9 +196,117 @@ const Subject = () => {
       textColor: "text-purple-800",
       border: "border-purple-200",
       completionPercentage: 25,
-      learningPaths: [],
-      modules: [],
-      rooms: []
+      learningPaths: [
+        {
+          id: "atomic-structure",
+          title: "Atomic Structure",
+          description: "Master the fundamentals of atoms and their components",
+          difficulty: "Beginner",
+          image: "⚛️",
+          progress: 40,
+          modules: [
+            { id: "atomic-theory", title: "Atomic Theory", completed: true },
+            { id: "electron-configuration", title: "Electron Configuration", completed: false },
+            { id: "isotopes", title: "Isotopes & Nuclear Chemistry", completed: false },
+            { id: "quantum-mechanics", title: "Quantum Mechanical Model", completed: false }
+          ]
+        },
+        {
+          id: "chemical-bonding",
+          title: "Chemical Bonding",
+          description: "Understand how atoms form chemical bonds",
+          difficulty: "Intermediate",
+          image: "🔗",
+          progress: 15,
+          modules: [
+            { id: "ionic-bonding", title: "Ionic Bonding", completed: true },
+            { id: "covalent-bonding", title: "Covalent Bonding", completed: false },
+            { id: "metallic-bonding", title: "Metallic Bonding", completed: false },
+            { id: "intermolecular-forces", title: "Intermolecular Forces", completed: false }
+          ]
+        }
+      ],
+      modules: [
+        {
+          id: "atomic-theory",
+          title: "Atomic Theory",
+          description: "Understand the development of atomic models and structure",
+          difficulty: "Beginner",
+          progress: 100,
+          rooms: [
+            {
+              id: "early-atomic-models",
+              title: "Early Atomic Models",
+              duration: "40 mins",
+              xpPoints: 50,
+              completed: true
+            },
+            {
+              id: "modern-atom",
+              title: "The Modern Atom",
+              duration: "55 mins",
+              xpPoints: 70,
+              completed: false
+            },
+            {
+              id: "periodic-table",
+              title: "The Periodic Table",
+              duration: "45 mins",
+              xpPoints: 60,
+              completed: false
+            }
+          ]
+        },
+        {
+          id: "ionic-bonding",
+          title: "Ionic Bonding",
+          description: "Learn about the transfer of electrons between atoms",
+          difficulty: "Intermediate",
+          progress: 60,
+          rooms: [
+            {
+              id: "ionic-compounds",
+              title: "Ionic Compounds",
+              duration: "50 mins",
+              xpPoints: 65,
+              completed: true
+            },
+            {
+              id: "crystal-lattices",
+              title: "Crystal Lattices",
+              duration: "45 mins",
+              xpPoints: 60,
+              completed: false
+            }
+          ]
+        }
+      ],
+      rooms: [
+        {
+          id: "early-atomic-models",
+          title: "Early Atomic Models",
+          module: "Atomic Theory",
+          duration: "40 mins",
+          xpPoints: 50,
+          completed: true
+        },
+        {
+          id: "modern-atom",
+          title: "The Modern Atom",
+          module: "Atomic Theory",
+          duration: "55 mins",
+          xpPoints: 70,
+          completed: false
+        },
+        {
+          id: "ionic-compounds",
+          title: "Ionic Compounds",
+          module: "Ionic Bonding",
+          duration: "50 mins",
+          xpPoints: 65,
+          completed: true
+        }
+      ]
     },
     physics: {
       title: "Physics",
@@ -208,16 +316,232 @@ const Subject = () => {
       textColor: "text-blue-800", 
       border: "border-blue-200",
       completionPercentage: 10,
-      learningPaths: [],
-      modules: [],
-      rooms: []
+      learningPaths: [
+        {
+          id: "mechanics",
+          title: "Mechanics",
+          description: "Study motion, forces, and energy",
+          difficulty: "Intermediate",
+          image: "🚀",
+          progress: 20,
+          modules: [
+            { id: "kinematics", title: "Kinematics", completed: true },
+            { id: "newtons-laws", title: "Newton's Laws", completed: false },
+            { id: "energy-work", title: "Energy & Work", completed: false },
+            { id: "momentum", title: "Momentum & Collisions", completed: false }
+          ]
+        },
+        {
+          id: "waves-optics",
+          title: "Waves & Optics",
+          description: "Explore wave properties and behavior of light",
+          difficulty: "Advanced",
+          image: "🔊",
+          progress: 5,
+          modules: [
+            { id: "wave-properties", title: "Wave Properties", completed: true },
+            { id: "sound-waves", title: "Sound Waves", completed: false },
+            { id: "light-waves", title: "Light & EM Spectrum", completed: false },
+            { id: "optics", title: "Optics & Lenses", completed: false }
+          ]
+        }
+      ],
+      modules: [
+        {
+          id: "kinematics",
+          title: "Kinematics",
+          description: "Understand motion including distance, displacement, speed, velocity, and acceleration",
+          difficulty: "Intermediate",
+          progress: 75,
+          rooms: [
+            {
+              id: "motion-graphs",
+              title: "Motion Graphs",
+              duration: "60 mins",
+              xpPoints: 75,
+              completed: true
+            },
+            {
+              id: "equations-motion",
+              title: "Equations of Motion",
+              duration: "70 mins",
+              xpPoints: 85,
+              completed: false
+            }
+          ]
+        },
+        {
+          id: "wave-properties",
+          title: "Wave Properties",
+          description: "Learn about amplitude, wavelength, frequency, and wave speed",
+          difficulty: "Beginner",
+          progress: 50,
+          rooms: [
+            {
+              id: "types-of-waves",
+              title: "Types of Waves",
+              duration: "45 mins",
+              xpPoints: 60,
+              completed: true
+            },
+            {
+              id: "wave-behaviors",
+              title: "Wave Behaviors",
+              duration: "55 mins",
+              xpPoints: 70,
+              completed: false
+            }
+          ]
+        }
+      ],
+      rooms: [
+        {
+          id: "motion-graphs",
+          title: "Motion Graphs",
+          module: "Kinematics",
+          duration: "60 mins",
+          xpPoints: 75,
+          completed: true
+        },
+        {
+          id: "types-of-waves",
+          title: "Types of Waves",
+          module: "Wave Properties",
+          duration: "45 mins",
+          xpPoints: 60,
+          completed: true
+        }
+      ]
+    },
+    mathematics: {
+      title: "Mathematics",
+      description: "Master mathematical concepts crucial for scientific understanding and problem-solving.",
+      image: "📊",
+      color: "bg-amber-100",
+      textColor: "text-amber-800",
+      border: "border-amber-200",
+      completionPercentage: 30,
+      learningPaths: [
+        {
+          id: "algebra",
+          title: "Algebra",
+          description: "Master equations, functions, and algebraic structures",
+          difficulty: "Intermediate",
+          image: "➗",
+          progress: 45,
+          modules: [
+            { id: "linear-equations", title: "Linear Equations", completed: true },
+            { id: "quadratics", title: "Quadratic Equations", completed: true },
+            { id: "functions", title: "Functions", completed: false },
+            { id: "logarithms", title: "Logarithms & Exponents", completed: false }
+          ]
+        },
+        {
+          id: "calculus",
+          title: "Calculus",
+          description: "Learn about rates of change and accumulation",
+          difficulty: "Advanced",
+          image: "📈",
+          progress: 15,
+          modules: [
+            { id: "limits", title: "Limits", completed: true },
+            { id: "derivatives", title: "Derivatives", completed: false },
+            { id: "integration", title: "Integration", completed: false },
+            { id: "applications", title: "Applications of Calculus", completed: false }
+          ]
+        }
+      ],
+      modules: [
+        {
+          id: "linear-equations",
+          title: "Linear Equations",
+          description: "Solve equations involving variables to the first power",
+          difficulty: "Beginner",
+          progress: 100,
+          rooms: [
+            {
+              id: "solving-linear",
+              title: "Solving Linear Equations",
+              duration: "50 mins",
+              xpPoints: 65,
+              completed: true
+            },
+            {
+              id: "linear-systems",
+              title: "Systems of Linear Equations",
+              duration: "60 mins",
+              xpPoints: 75,
+              completed: true
+            }
+          ]
+        },
+        {
+          id: "limits",
+          title: "Limits",
+          description: "Understand the foundation of calculus through limits",
+          difficulty: "Advanced",
+          progress: 60,
+          rooms: [
+            {
+              id: "intro-limits",
+              title: "Introduction to Limits",
+              duration: "55 mins",
+              xpPoints: 70,
+              completed: true
+            },
+            {
+              id: "limit-evaluation",
+              title: "Techniques of Limit Evaluation",
+              duration: "65 mins",
+              xpPoints: 80,
+              completed: false
+            }
+          ]
+        }
+      ],
+      rooms: [
+        {
+          id: "solving-linear",
+          title: "Solving Linear Equations",
+          module: "Linear Equations",
+          duration: "50 mins",
+          xpPoints: 65,
+          completed: true
+        },
+        {
+          id: "linear-systems",
+          title: "Systems of Linear Equations",
+          module: "Linear Equations",
+          duration: "60 mins",
+          xpPoints: 75,
+          completed: true
+        },
+        {
+          id: "intro-limits",
+          title: "Introduction to Limits",
+          module: "Limits",
+          duration: "55 mins",
+          xpPoints: 70,
+          completed: true
+        }
+      ]
     }
   };
   
   const subject = subjectData[subjectId as keyof typeof subjectData];
   
   if (!subject) {
-    return <div className="container py-16 text-center">Subject not found</div>;
+    return (
+      <div className="py-16">
+        <div className="container px-4 text-center">
+          <h1 className="text-3xl font-bold mb-6">Subject not found</h1>
+          <p className="text-muted-foreground mb-8">The subject you're looking for doesn't exist or hasn't been created yet.</p>
+          <Link to="/dashboard">
+            <Button>Return to Dashboard</Button>
+          </Link>
+        </div>
+      </div>
+    );
   }
   
   return (

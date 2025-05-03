@@ -27,22 +27,34 @@ const Header = () => {
             Home
           </Link>
           <Link 
-            to="/subjects"
+            to="/subjects/biology"
             className="text-muted-foreground hover:text-science-primary transition-colors"
           >
-            Subjects
+            Biology
+          </Link>
+          <Link 
+            to="/subjects/chemistry"
+            className="text-muted-foreground hover:text-science-primary transition-colors"
+          >
+            Chemistry
+          </Link>
+          <Link 
+            to="/subjects/physics"
+            className="text-muted-foreground hover:text-science-primary transition-colors"
+          >
+            Physics
+          </Link>
+          <Link 
+            to="/subjects/mathematics"
+            className="text-muted-foreground hover:text-science-primary transition-colors"
+          >
+            Math
           </Link>
           <Link 
             to="/pricing"
             className="text-muted-foreground hover:text-science-primary transition-colors"
           >
             Pricing
-          </Link>
-          <Link 
-            to="/about"
-            className="text-muted-foreground hover:text-science-primary transition-colors"
-          >
-            About
           </Link>
         </nav>
         
@@ -72,22 +84,34 @@ const Header = () => {
                 Home
               </Link>
               <Link 
-                to="/subjects"
+                to="/subjects/biology"
                 className="text-lg font-semibold hover:text-science-primary transition-colors"
               >
-                Subjects
+                Biology
+              </Link>
+              <Link 
+                to="/subjects/chemistry"
+                className="text-lg font-semibold hover:text-science-primary transition-colors"
+              >
+                Chemistry
+              </Link>
+              <Link 
+                to="/subjects/physics"
+                className="text-lg font-semibold hover:text-science-primary transition-colors"
+              >
+                Physics
+              </Link>
+              <Link 
+                to="/subjects/mathematics"
+                className="text-lg font-semibold hover:text-science-primary transition-colors"
+              >
+                Math
               </Link>
               <Link 
                 to="/pricing"
                 className="text-lg font-semibold hover:text-science-primary transition-colors"
               >
                 Pricing
-              </Link>
-              <Link 
-                to="/about"
-                className="text-lg font-semibold hover:text-science-primary transition-colors"
-              >
-                About
               </Link>
               <div className="grid gap-3 mt-6">
                 <Link to="/signin">
