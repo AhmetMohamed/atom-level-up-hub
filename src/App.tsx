@@ -15,6 +15,7 @@ import Resources from "./pages/Resources";
 import ExamChallenge from "./pages/ExamChallenge";
 import Subject from "./pages/Subject";
 import Room from "./pages/Room";
+import Pricing from "./pages/Pricing";
 
 const queryClient = new QueryClient();
 
@@ -32,6 +33,7 @@ const App = () => (
           <Route path="/lessons/:lessonId" element={<Lesson />} />
           <Route path="/leaderboard" element={<Leaderboard />} />
           <Route path="/resources" element={<Resources />} />
+          <Route path="/pricing" element={<Pricing />} />
           <Route path="/exam-challenge/:examId" element={<ExamChallenge />} />
           <Route path="/subjects/:subjectId" element={<Subject />} />
           <Route path="/subjects/:subjectId/rooms/:roomId" element={<Room />} />

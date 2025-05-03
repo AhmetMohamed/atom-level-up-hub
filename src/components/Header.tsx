@@ -1,11 +1,19 @@
 
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Menu } from "lucide-react";
+import { Menu, ChevronDown } from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger
+} from "@/components/ui/dropdown-menu";
 
 const Header = () => {
+  const [isSubjectsOpen, setIsSubjectsOpen] = useState(false);
+  
   return (
     <header className="border-b bg-white/95 backdrop-blur-sm sticky top-0 z-50">
       <div className="container flex items-center justify-between h-16 px-4 md:px-6">
@@ -26,29 +34,40 @@ const Header = () => {
           >
             Home
           </Link>
+          
+          {/* Subjects dropdown */}
+          <div className="relative">
+            <DropdownMenu open={isSubjectsOpen} onOpenChange={setIsSubjectsOpen}>
+              <DropdownMenuTrigger asChild>
+                <button 
+                  className="text-muted-foreground hover:text-science-primary transition-colors flex items-center gap-1"
+                >
+                  Subjects
+                  <ChevronDown className="h-4 w-4" />
+                </button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="start" className="w-48">
+                <DropdownMenuItem asChild>
+                  <Link to="/subjects/biology" className="w-full cursor-pointer">Biology</Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <Link to="/subjects/chemistry" className="w-full cursor-pointer">Chemistry</Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <Link to="/subjects/physics" className="w-full cursor-pointer">Physics</Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <Link to="/subjects/mathematics" className="w-full cursor-pointer">Mathematics</Link>
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </div>
+          
           <Link 
-            to="/subjects/biology"
+            to="/resources"
             className="text-muted-foreground hover:text-science-primary transition-colors"
           >
-            Biology
-          </Link>
-          <Link 
-            to="/subjects/chemistry"
-            className="text-muted-foreground hover:text-science-primary transition-colors"
-          >
-            Chemistry
-          </Link>
-          <Link 
-            to="/subjects/physics"
-            className="text-muted-foreground hover:text-science-primary transition-colors"
-          >
-            Physics
-          </Link>
-          <Link 
-            to="/subjects/mathematics"
-            className="text-muted-foreground hover:text-science-primary transition-colors"
-          >
-            Math
+            Resources
           </Link>
           <Link 
             to="/pricing"
@@ -83,29 +102,42 @@ const Header = () => {
               >
                 Home
               </Link>
+              
+              <div className="space-y-3">
+                <p className="text-lg font-semibold">Subjects</p>
+                <div className="pl-4 border-l border-muted space-y-2">
+                  <Link 
+                    to="/subjects/biology"
+                    className="block text-muted-foreground hover:text-science-primary transition-colors"
+                  >
+                    Biology
+                  </Link>
+                  <Link 
+                    to="/subjects/chemistry"
+                    className="block text-muted-foreground hover:text-science-primary transition-colors"
+                  >
+                    Chemistry
+                  </Link>
+                  <Link 
+                    to="/subjects/physics"
+                    className="block text-muted-foreground hover:text-science-primary transition-colors"
+                  >
+                    Physics
+                  </Link>
+                  <Link 
+                    to="/subjects/mathematics"
+                    className="block text-muted-foreground hover:text-science-primary transition-colors"
+                  >
+                    Mathematics
+                  </Link>
+                </div>
+              </div>
+              
               <Link 
-                to="/subjects/biology"
+                to="/resources"
                 className="text-lg font-semibold hover:text-science-primary transition-colors"
               >
-                Biology
-              </Link>
-              <Link 
-                to="/subjects/chemistry"
-                className="text-lg font-semibold hover:text-science-primary transition-colors"
-              >
-                Chemistry
-              </Link>
-              <Link 
-                to="/subjects/physics"
-                className="text-lg font-semibold hover:text-science-primary transition-colors"
-              >
-                Physics
-              </Link>
-              <Link 
-                to="/subjects/mathematics"
-                className="text-lg font-semibold hover:text-science-primary transition-colors"
-              >
-                Math
+                Resources
               </Link>
               <Link 
                 to="/pricing"
@@ -113,6 +145,7 @@ const Header = () => {
               >
                 Pricing
               </Link>
+              
               <div className="grid gap-3 mt-6">
                 <Link to="/signin">
                   <Button variant="outline" className="w-full">Sign In</Button>
