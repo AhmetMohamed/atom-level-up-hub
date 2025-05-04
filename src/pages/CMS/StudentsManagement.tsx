@@ -1,21 +1,34 @@
-
 import React, { useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { 
-  Table, TableBody, TableCell, TableHead, 
-  TableHeader, TableRow 
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
 } from "@/components/ui/table";
-import { 
-  DropdownMenu, DropdownMenuContent, DropdownMenuItem, 
-  DropdownMenuTrigger 
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Badge } from "@/components/ui/badge";
-import { 
-  Search, MoreHorizontal, UserCog, Mail, 
-  Trash2, Eye, ChevronDown, Users,
-  ArrowUpDown, BarChart
+import {
+  Search,
+  MoreHorizontal,
+  UserCog,
+  Mail,
+  Trash2,
+  Eye,
+  ChevronDown,
+  Users,
+  ArrowUpDown,
+  BarChart,
+  CheckCircle,
 } from "lucide-react";
 import { toast } from "sonner";
 import CMSLayout from "@/components/CMSLayout";
@@ -23,113 +36,115 @@ import CMSLayout from "@/components/CMSLayout";
 const StudentsManagement = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [sortBy, setSortBy] = useState("name");
-  
+
   // Mock student data
   const studentsData = [
-    { 
-      id: "student-001", 
-      name: "Alex Johnson", 
-      email: "alex.j@example.com", 
-      level: 7, 
-      xp: 1250, 
+    {
+      id: "student-001",
+      name: "Alex Johnson",
+      email: "alex.j@example.com",
+      level: 7,
+      xp: 1250,
       completedRooms: 12,
       streak: 15,
       joinDate: "2 months ago",
       lastActive: "Today",
-      status: "Active"
+      status: "Active",
     },
-    { 
-      id: "student-002", 
-      name: "Jamie Smith", 
-      email: "jamie.smith@example.com", 
-      level: 5, 
-      xp: 780, 
+    {
+      id: "student-002",
+      name: "Jamie Smith",
+      email: "jamie.smith@example.com",
+      level: 5,
+      xp: 780,
       completedRooms: 8,
       streak: 3,
       joinDate: "3 months ago",
       lastActive: "Yesterday",
-      status: "Active"
+      status: "Active",
     },
-    { 
-      id: "student-003", 
-      name: "Sam Williams", 
-      email: "sam.w@example.com", 
-      level: 9, 
-      xp: 1645, 
+    {
+      id: "student-003",
+      name: "Sam Williams",
+      email: "sam.w@example.com",
+      level: 9,
+      xp: 1645,
       completedRooms: 15,
       streak: 21,
       joinDate: "1 year ago",
       lastActive: "3 days ago",
-      status: "Active"
+      status: "Active",
     },
-    { 
-      id: "student-004", 
-      name: "Jordan Brown", 
-      email: "jordan.b@example.com", 
-      level: 3, 
-      xp: 480, 
+    {
+      id: "student-004",
+      name: "Jordan Brown",
+      email: "jordan.b@example.com",
+      level: 3,
+      xp: 480,
       completedRooms: 5,
       streak: 0,
       joinDate: "2 weeks ago",
       lastActive: "1 week ago",
-      status: "Inactive"
+      status: "Inactive",
     },
-    { 
-      id: "student-005", 
-      name: "Taylor Lee", 
-      email: "taylor.lee@example.com", 
-      level: 6, 
-      xp: 950, 
+    {
+      id: "student-005",
+      name: "Taylor Lee",
+      email: "taylor.lee@example.com",
+      level: 6,
+      xp: 950,
       completedRooms: 9,
       streak: 7,
       joinDate: "5 months ago",
       lastActive: "Today",
-      status: "Active"
+      status: "Active",
     },
-    { 
-      id: "student-006", 
-      name: "Casey Miller", 
-      email: "casey.m@example.com", 
-      level: 4, 
-      xp: 620, 
+    {
+      id: "student-006",
+      name: "Casey Miller",
+      email: "casey.m@example.com",
+      level: 4,
+      xp: 620,
       completedRooms: 6,
       streak: 2,
       joinDate: "1 month ago",
       lastActive: "2 days ago",
-      status: "Active"
+      status: "Active",
     },
-    { 
-      id: "student-007", 
-      name: "Riley Wilson", 
-      email: "riley.w@example.com", 
-      level: 8, 
-      xp: 1380, 
+    {
+      id: "student-007",
+      name: "Riley Wilson",
+      email: "riley.w@example.com",
+      level: 8,
+      xp: 1380,
       completedRooms: 14,
       streak: 12,
       joinDate: "8 months ago",
       lastActive: "Today",
-      status: "Active"
+      status: "Active",
     },
-    { 
-      id: "student-008", 
-      name: "Morgan Davis", 
-      email: "morgan.d@example.com", 
-      level: 2, 
-      xp: 320, 
+    {
+      id: "student-008",
+      name: "Morgan Davis",
+      email: "morgan.d@example.com",
+      level: 2,
+      xp: 320,
       completedRooms: 3,
       streak: 0,
       joinDate: "3 weeks ago",
       lastActive: "2 weeks ago",
-      status: "Inactive"
-    }
+      status: "Inactive",
+    },
   ];
 
   const getFilteredStudents = () => {
-    let filtered = studentsData.filter(student => {
-      return student.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-             student.email.toLowerCase().includes(searchQuery.toLowerCase());
+    let filtered = studentsData.filter((student) => {
+      return (
+        student.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        student.email.toLowerCase().includes(searchQuery.toLowerCase())
+      );
     });
-    
+
     // Sort students
     filtered.sort((a, b) => {
       switch (sortBy) {
@@ -154,21 +169,21 @@ const StudentsManagement = () => {
           return 0;
       }
     });
-    
+
     return filtered;
   };
-  
+
   const filteredStudents = getFilteredStudents();
 
   const handleSortChange = (column: string) => {
     setSortBy(column);
   };
-  
+
   const handleResetPassword = (studentId: string) => {
     toast.success(`Password reset link sent to student`);
     // In a real application, this would make an API request to reset password
   };
-  
+
   const handleContactStudent = (studentId: string) => {
     toast.success(`Message sent to student`);
     // In a real application, this would open a modal to contact the student
@@ -180,7 +195,9 @@ const StudentsManagement = () => {
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
           <div>
             <h1 className="text-3xl font-bold mb-1">Student Management</h1>
-            <p className="text-muted-foreground">Track student progress and engagement</p>
+            <p className="text-muted-foreground">
+              Track student progress and engagement
+            </p>
           </div>
 
           <Button>
@@ -188,14 +205,16 @@ const StudentsManagement = () => {
             Export Student Data
           </Button>
         </div>
-        
+
         {/* Student Statistics */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           <Card>
             <CardContent className="p-6">
               <div className="flex justify-between items-start">
                 <div>
-                  <p className="text-sm font-medium text-muted-foreground mb-1">Total Students</p>
+                  <p className="text-sm font-medium text-muted-foreground mb-1">
+                    Total Students
+                  </p>
                   <h2 className="text-3xl font-bold">256</h2>
                   <p className="text-xs text-green-600">+12 this month</p>
                 </div>
@@ -205,12 +224,14 @@ const StudentsManagement = () => {
               </div>
             </CardContent>
           </Card>
-          
+
           <Card>
             <CardContent className="p-6">
               <div className="flex justify-between items-start">
                 <div>
-                  <p className="text-sm font-medium text-muted-foreground mb-1">Active Students</p>
+                  <p className="text-sm font-medium text-muted-foreground mb-1">
+                    Active Students
+                  </p>
                   <h2 className="text-3xl font-bold">184</h2>
                   <p className="text-xs text-muted-foreground">Last 7 days</p>
                 </div>
@@ -220,12 +241,14 @@ const StudentsManagement = () => {
               </div>
             </CardContent>
           </Card>
-          
+
           <Card>
             <CardContent className="p-6">
               <div className="flex justify-between items-start">
                 <div>
-                  <p className="text-sm font-medium text-muted-foreground mb-1">Avg. Session Time</p>
+                  <p className="text-sm font-medium text-muted-foreground mb-1">
+                    Avg. Session Time
+                  </p>
                   <h2 className="text-3xl font-bold">24m</h2>
                   <p className="text-xs text-green-600">+3m from last month</p>
                 </div>
@@ -235,12 +258,14 @@ const StudentsManagement = () => {
               </div>
             </CardContent>
           </Card>
-          
+
           <Card>
             <CardContent className="p-6">
               <div className="flex justify-between items-start">
                 <div>
-                  <p className="text-sm font-medium text-muted-foreground mb-1">Completion Rate</p>
+                  <p className="text-sm font-medium text-muted-foreground mb-1">
+                    Completion Rate
+                  </p>
                   <h2 className="text-3xl font-bold">68%</h2>
                   <p className="text-xs text-green-600">+5% from last month</p>
                 </div>
@@ -264,7 +289,7 @@ const StudentsManagement = () => {
                   onChange={(e) => setSearchQuery(e.target.value)}
                 />
               </div>
-              
+
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <Button variant="outline">
@@ -285,10 +310,14 @@ const StudentsManagement = () => {
                   <DropdownMenuItem onClick={() => handleSortChange("streak")}>
                     Streak
                   </DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => handleSortChange("completedRooms")}>
+                  <DropdownMenuItem
+                    onClick={() => handleSortChange("completedRooms")}
+                  >
                     Completed Rooms
                   </DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => handleSortChange("lastActive")}>
+                  <DropdownMenuItem
+                    onClick={() => handleSortChange("lastActive")}
+                  >
                     Last Active
                   </DropdownMenuItem>
                 </DropdownMenuContent>
@@ -302,38 +331,56 @@ const StudentsManagement = () => {
                     <TableHead className="w-[200px]">
                       <div className="flex items-center gap-2">
                         Name
-                        <ArrowUpDown className="h-3 w-3" onClick={() => handleSortChange("name")} />
+                        <ArrowUpDown
+                          className="h-3 w-3"
+                          onClick={() => handleSortChange("name")}
+                        />
                       </div>
                     </TableHead>
                     <TableHead>Email</TableHead>
                     <TableHead>
                       <div className="flex items-center gap-2">
                         Level
-                        <ArrowUpDown className="h-3 w-3" onClick={() => handleSortChange("level")} />
+                        <ArrowUpDown
+                          className="h-3 w-3"
+                          onClick={() => handleSortChange("level")}
+                        />
                       </div>
                     </TableHead>
                     <TableHead>
                       <div className="flex items-center gap-2">
                         XP
-                        <ArrowUpDown className="h-3 w-3" onClick={() => handleSortChange("xp")} />
+                        <ArrowUpDown
+                          className="h-3 w-3"
+                          onClick={() => handleSortChange("xp")}
+                        />
                       </div>
                     </TableHead>
                     <TableHead>
                       <div className="flex items-center gap-2">
                         Completed
-                        <ArrowUpDown className="h-3 w-3" onClick={() => handleSortChange("completedRooms")} />
+                        <ArrowUpDown
+                          className="h-3 w-3"
+                          onClick={() => handleSortChange("completedRooms")}
+                        />
                       </div>
                     </TableHead>
                     <TableHead>
                       <div className="flex items-center gap-2">
                         Streak
-                        <ArrowUpDown className="h-3 w-3" onClick={() => handleSortChange("streak")} />
+                        <ArrowUpDown
+                          className="h-3 w-3"
+                          onClick={() => handleSortChange("streak")}
+                        />
                       </div>
                     </TableHead>
                     <TableHead>
                       <div className="flex items-center gap-2">
                         Last Active
-                        <ArrowUpDown className="h-3 w-3" onClick={() => handleSortChange("lastActive")} />
+                        <ArrowUpDown
+                          className="h-3 w-3"
+                          onClick={() => handleSortChange("lastActive")}
+                        />
                       </div>
                     </TableHead>
                     <TableHead>Status</TableHead>
@@ -343,7 +390,9 @@ const StudentsManagement = () => {
                 <TableBody>
                   {filteredStudents.map((student) => (
                     <TableRow key={student.id}>
-                      <TableCell className="font-medium">{student.name}</TableCell>
+                      <TableCell className="font-medium">
+                        {student.name}
+                      </TableCell>
                       <TableCell>{student.email}</TableCell>
                       <TableCell>{student.level}</TableCell>
                       <TableCell>{student.xp}</TableCell>
@@ -365,8 +414,8 @@ const StudentsManagement = () => {
                         <Badge
                           variant="outline"
                           className={
-                            student.status === "Active" 
-                              ? "bg-green-100 text-green-800 border-green-200" 
+                            student.status === "Active"
+                              ? "bg-green-100 text-green-800 border-green-200"
                               : "bg-amber-100 text-amber-800 border-amber-200"
                           }
                         >
@@ -382,21 +431,30 @@ const StudentsManagement = () => {
                             </Button>
                           </DropdownMenuTrigger>
                           <DropdownMenuContent align="end">
-                            <DropdownMenuItem onClick={() => window.open(`/cms/students/${student.id}`, '_blank')}>
+                            <DropdownMenuItem
+                              onClick={() =>
+                                window.open(
+                                  `/cms/students/${student.id}`,
+                                  "_blank"
+                                )
+                              }
+                            >
                               <Eye className="h-4 w-4 mr-2" />
                               View Progress
                             </DropdownMenuItem>
-                            <DropdownMenuItem onClick={() => handleContactStudent(student.id)}>
+                            <DropdownMenuItem
+                              onClick={() => handleContactStudent(student.id)}
+                            >
                               <Mail className="h-4 w-4 mr-2" />
                               Contact Student
                             </DropdownMenuItem>
-                            <DropdownMenuItem onClick={() => handleResetPassword(student.id)}>
+                            <DropdownMenuItem
+                              onClick={() => handleResetPassword(student.id)}
+                            >
                               <UserCog className="h-4 w-4 mr-2" />
                               Reset Password
                             </DropdownMenuItem>
-                            <DropdownMenuItem
-                              className="text-red-600"
-                            >
+                            <DropdownMenuItem className="text-red-600">
                               <Trash2 className="h-4 w-4 mr-2" />
                               Remove Student
                             </DropdownMenuItem>
@@ -407,7 +465,10 @@ const StudentsManagement = () => {
                   ))}
                   {filteredStudents.length === 0 && (
                     <TableRow>
-                      <TableCell colSpan={9} className="text-center py-8 text-muted-foreground">
+                      <TableCell
+                        colSpan={9}
+                        className="text-center py-8 text-muted-foreground"
+                      >
                         No students found. Try adjusting your search.
                       </TableCell>
                     </TableRow>
