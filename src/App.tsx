@@ -1,4 +1,3 @@
-
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -42,7 +41,7 @@ const App = () => (
           <Route path="/signup" element={<SignUp />} />
           <Route path="/signin" element={<SignIn />} />
           <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/lessons/:lessonId" element={<Lesson />} />
+          {/* <Route path="/lessons/:lessonId" element={<Lesson />} /> */}
           <Route path="/leaderboard" element={<Leaderboard />} />
           <Route path="/resources" element={<Resources />} />
           <Route path="/pricing" element={<Pricing />} />
@@ -51,18 +50,21 @@ const App = () => (
           <Route path="/challenge/:examId" element={<ExamChallengeNew />} />
           <Route path="/subjects/:subjectId" element={<Subject />} />
           <Route path="/subjects/:subjectId/rooms/:roomId" element={<Room />} />
-          
+
           {/* CMS routes */}
           <Route path="/cms/login" element={<CMSAuth />} />
           <Route path="/cms" element={<CMSDashboard />} />
           <Route path="/cms/rooms" element={<RoomsManagement />} />
-          <Route path="/cms/rooms/:operation/:roomId" element={<RoomEditor />} />
+          <Route
+            path="/cms/rooms/:operation/:roomId"
+            element={<RoomEditor />}
+          />
           <Route path="/cms/rooms/:operation" element={<RoomEditor />} />
           <Route path="/cms/exams" element={<ExamsManagement />} />
           <Route path="/cms/modules" element={<ModulesManagement />} />
           <Route path="/cms/resources" element={<ResourcesManagement />} />
           <Route path="/cms/students" element={<StudentsManagement />} />
-          
+
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

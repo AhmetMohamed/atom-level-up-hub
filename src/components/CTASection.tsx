@@ -1,4 +1,3 @@
-
 import React from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -14,7 +13,9 @@ const CTASection = () => {
               Ready to transform how you learn science?
             </h2>
             <p className="text-lg text-muted/80 max-w-[600px]">
-              Join thousands of students who are leveling up their knowledge, enjoying the learning process, and acing their exams with ScienceHub.
+              Join thousands of students who are leveling up their knowledge,
+              enjoying the learning process, and acing their exams with
+              ScienceHub.
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
               <Link to="/signup">
@@ -24,7 +25,10 @@ const CTASection = () => {
                 </Button>
               </Link>
               <Link to="/contact">
-                <Button variant="outline" className="border-white/20 hover:bg-white/10 h-12 px-6">
+                <Button
+                  variant="outline"
+                  className="border-white/50 bg-transparent hover:bg-white/10 h-12 px-6"
+                >
                   Talk to Us
                 </Button>
               </Link>
@@ -45,11 +49,12 @@ const CTASection = () => {
                 ))}
               </div>
               <div className="text-sm text-muted/80">
-                Joined by <span className="font-medium text-white">5,000+</span> students
+                Joined by <span className="font-medium text-white">5,000+</span>{" "}
+                students
               </div>
             </div>
           </div>
-          
+
           <div className="relative">
             <div className="absolute -top-6 -right-6 w-24 h-24 bg-science-primary/30 rounded-full blur-xl"></div>
             <div className="rounded-2xl border border-white/10 overflow-hidden bg-gradient-to-br from-science-primary/20 to-science-secondary/20 backdrop-blur-sm p-1">
@@ -63,35 +68,44 @@ const CTASection = () => {
                     🔥 7 day streak
                   </div>
                 </div>
-                
+
                 <div className="space-y-3">
                   <div className="flex justify-between text-sm">
                     <span>Daily XP Goal</span>
                     <span>50/100 XP</span>
                   </div>
                   <div className="progress-container bg-white/10">
-                    <div className="progress-bar animate-progress-fill" style={{ width: "50%" }}></div>
+                    <div
+                      className="progress-bar animate-progress-fill"
+                      style={{ width: "50%" }}
+                    ></div>
                   </div>
                 </div>
-                
+
                 <div className="grid grid-cols-2 gap-3 pt-2">
                   <div className="rounded-lg border border-white/10 p-3 bg-white/5">
                     <div className="text-xs text-muted/80 mb-1">Total XP</div>
                     <div className="text-xl font-bold">1,240</div>
                   </div>
                   <div className="rounded-lg border border-white/10 p-3 bg-white/5">
-                    <div className="text-xs text-muted/80 mb-1">Current Level</div>
+                    <div className="text-xs text-muted/80 mb-1">
+                      Current Level
+                    </div>
                     <div className="text-xl font-bold">8</div>
                   </div>
                 </div>
-                
+
                 <div className="border-t border-white/10 pt-4 mt-2">
-                  <div className="text-sm font-medium mb-3">Suggested Next Lessons</div>
+                  <div className="text-sm font-medium mb-3">
+                    Suggested Next Lessons
+                  </div>
                   <div className="space-y-2">
                     <div className="flex items-center justify-between p-3 rounded-lg bg-white/5 border border-white/10">
                       <div>
                         <div className="font-medium">Chemical Bonding</div>
-                        <div className="text-xs text-muted/80">Chemistry • 15 min</div>
+                        <div className="text-xs text-muted/80">
+                          Chemistry • 15 min
+                        </div>
                       </div>
                       <Button size="sm" variant="ghost" className="h-8 w-8 p-0">
                         <ArrowRight className="h-4 w-4" />
@@ -100,7 +114,9 @@ const CTASection = () => {
                     <div className="flex items-center justify-between p-3 rounded-lg bg-white/5 border border-white/10">
                       <div>
                         <div className="font-medium">Forces and Motion</div>
-                        <div className="text-xs text-muted/80">Physics • 20 min</div>
+                        <div className="text-xs text-muted/80">
+                          Physics • 20 min
+                        </div>
                       </div>
                       <Button size="sm" variant="ghost" className="h-8 w-8 p-0">
                         <ArrowRight className="h-4 w-4" />

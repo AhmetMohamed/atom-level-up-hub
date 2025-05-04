@@ -1,4 +1,3 @@
-
 import React from "react";
 import {
   Book,
@@ -59,7 +58,7 @@ const FeatureCardsAnimated = () => {
       icon: <Calculator className="h-8 w-8" />,
       color: "bg-red-50 text-red-600 border-red-100",
       delay: 0.6,
-    }
+    },
   ];
 
   // Animation variants for cards
@@ -71,18 +70,18 @@ const FeatureCardsAnimated = () => {
       transition: {
         duration: 0.6,
         delay: delay,
-        ease: "easeOut"
-      }
+        ease: "easeOut",
+      },
     }),
     hover: {
       y: -10,
       boxShadow: "0 10px 30px rgba(0, 0, 0, 0.1)",
-      transition: { duration: 0.3, ease: "easeInOut" }
-    }
+      transition: { duration: 0.3, ease: "easeInOut" },
+    },
   };
 
   return (
-    <section className="py-20 bg-gradient-to-b from-slate-800 to-slate-900 text-white">
+    <section className="py-20">
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
           <motion.h2
@@ -93,7 +92,7 @@ const FeatureCardsAnimated = () => {
             style={{
               backgroundImage: "linear-gradient(to right, #60a5fa, #a78bfa)",
               WebkitBackgroundClip: "text",
-              WebkitTextFillColor: "transparent"
+              WebkitTextFillColor: "transparent",
             }}
           >
             Your Scientific Potential
@@ -126,7 +125,9 @@ const FeatureCardsAnimated = () => {
                 >
                   {feature.icon}
                 </div>
-                <h3 className="text-xl font-semibold mb-3 text-white">{feature.title}</h3>
+                <h3 className="text-xl font-semibold mb-3 text-white">
+                  {feature.title}
+                </h3>
                 <p className="text-gray-300">{feature.description}</p>
               </div>
             </motion.div>
