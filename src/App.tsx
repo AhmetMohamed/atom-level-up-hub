@@ -13,9 +13,18 @@ import Lesson from "./pages/Lesson";
 import Leaderboard from "./pages/Leaderboard";
 import Resources from "./pages/Resources";
 import ExamChallenge from "./pages/ExamChallenge";
+import ExamChallengeNew from "./pages/ExamChallengeNew";
 import Subject from "./pages/Subject";
 import Room from "./pages/Room";
 import Pricing from "./pages/Pricing";
+
+// CMS Routes
+import CMSDashboard from "./pages/CMS/CMSDashboard";
+import RoomsManagement from "./pages/CMS/RoomsManagement";
+import RoomEditor from "./pages/CMS/RoomEditor";
+import ExamsManagement from "./pages/CMS/ExamsManagement";
+import ResourcesManagement from "./pages/CMS/ResourcesManagement";
+import StudentsManagement from "./pages/CMS/StudentsManagement";
 
 const queryClient = new QueryClient();
 
@@ -35,8 +44,19 @@ const App = () => (
           <Route path="/resources" element={<Resources />} />
           <Route path="/pricing" element={<Pricing />} />
           <Route path="/exam-challenge/:examId" element={<ExamChallenge />} />
+          <Route path="/challenge/:examId" element={<ExamChallengeNew />} />
           <Route path="/subjects/:subjectId" element={<Subject />} />
           <Route path="/subjects/:subjectId/rooms/:roomId" element={<Room />} />
+          
+          {/* CMS routes */}
+          <Route path="/cms" element={<CMSDashboard />} />
+          <Route path="/cms/rooms" element={<RoomsManagement />} />
+          <Route path="/cms/rooms/:operation/:roomId" element={<RoomEditor />} />
+          <Route path="/cms/rooms/:operation" element={<RoomEditor />} />
+          <Route path="/cms/exams" element={<ExamsManagement />} />
+          <Route path="/cms/resources" element={<ResourcesManagement />} />
+          <Route path="/cms/students" element={<StudentsManagement />} />
+          
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
