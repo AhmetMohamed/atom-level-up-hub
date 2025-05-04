@@ -1,8 +1,9 @@
+
 import React from "react";
 import {
   Book,
   Trophy,
-  FileText,
+  File,
   Clock,
   Star,
   Users,
@@ -50,7 +51,7 @@ const FeatureCardsAnimated = () => {
       title: "Chemistry Excellence",
       description:
         "Master chemical reactions, atomic structure, and organic chemistry through guided lessons.",
-      icon: <FileText className="h-8 w-8" />,
+      icon: <File className="h-8 w-8" />,
       color: "bg-purple-50 text-purple-600 border-purple-100",
       delay: 0.5,
     },
@@ -88,20 +89,44 @@ const FeatureCardsAnimated = () => {
     },
   ];
 
+  // Animation variants for cards
+  const cardVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: (delay: number) => ({
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.6,
+        delay: delay,
+        ease: "easeOut"
+      }
+    }),
+    hover: {
+      y: -10,
+      boxShadow: "0 10px 30px rgba(0, 0, 0, 0.1)",
+      transition: { duration: 0.3, ease: "easeInOut" }
+    }
+  };
+
   return (
-    <section className="py-20 bg-slate-50">
+    <section className="py-20 bg-gradient-to-b from-slate-800 to-slate-900 text-white">
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
           <motion.h2
-            className="text-3xl font-bold mb-4"
+            className="text-3xl font-bold mb-4 text-gradient"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
+            style={{
+              backgroundImage: "linear-gradient(to right, #60a5fa, #a78bfa)",
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent"
+            }}
           >
-            Unlock Your Scientific Potential
+            Your Scientific Potential
           </motion.h2>
           <motion.p
-            className="text-lg text-gray-600 max-w-2xl mx-auto"
+            className="text-lg text-gray-300 max-w-2xl mx-auto"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
@@ -111,24 +136,25 @@ const FeatureCardsAnimated = () => {
           </motion.p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {features.map((feature, index) => (
             <motion.div
               key={index}
-              className="bg-white rounded-xl overflow-hidden border hover:shadow-lg transition-all duration-300"
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: feature.delay }}
-              whileHover={{ y: -5, transition: { duration: 0.2 } }}
+              className="glass-card rounded-xl overflow-hidden border border-slate-700/50 backdrop-blur-sm bg-slate-800/50 hover:bg-slate-700/50 transition-all duration-300"
+              custom={feature.delay}
+              initial="hidden"
+              animate="visible"
+              whileHover="hover"
+              variants={cardVariants}
             >
               <div className="p-6">
                 <div
-                  className={`inline-flex p-3 rounded-lg ${feature.color} mb-4`}
+                  className={`inline-flex p-4 rounded-lg ${feature.color} mb-5`}
                 >
                   {feature.icon}
                 </div>
-                <h3 className="text-xl font-semibold mb-2">{feature.title}</h3>
-                <p className="text-gray-600">{feature.description}</p>
+                <h3 className="text-xl font-semibold mb-3 text-white">{feature.title}</h3>
+                <p className="text-gray-300">{feature.description}</p>
               </div>
             </motion.div>
           ))}

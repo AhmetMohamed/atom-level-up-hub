@@ -1,9 +1,7 @@
+
 import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import ModuleCard from "@/components/ModuleCard";
-import RoomCard from "@/components/RoomCard";
-import SubjectHeader from "@/components/SubjectHeader";
 import {
   BookOpen,
   Book,
@@ -12,74 +10,265 @@ import {
   FlaskConical,
   Calculator,
   Dna,
-  FileText,
+  File,
 } from "lucide-react";
 import Header from "@/components/Header";
+import Footer from "@/components/Footer";
+
+// Define proper types for Room and Module
+interface Module {
+  id: number;
+  title: string;
+  description: string;
+  duration: string;
+  level: string;
+  progress: number;
+  status: string;
+  difficulty?: string;
+  rooms?: any[];
+}
+
+interface Room {
+  id: string;
+  title: string;
+  description: string;
+  image: string;
+  level: string;
+  completionPercentage: number;
+  sections: number;
+  quizzes: number;
+  module: string;
+  duration: string;
+  xpPoints: number;
+  completed: boolean;
+}
+
+interface SubjectData {
+  title: string;
+  description: string;
+  image: string;
+  color: string;
+  textColor: string;
+  completionPercentage: number;
+  icon: JSX.Element;
+  border?: string;
+}
+
+const ModuleCard = ({ module }: { module: any }) => {
+  return (
+    <div className="border rounded-lg shadow-sm overflow-hidden">
+      <div className="p-5">
+        <h3 className="text-lg font-medium mb-2">{module.title}</h3>
+        <p className="text-gray-600 mb-4">{module.description}</p>
+        <div className="flex items-center justify-between text-sm">
+          <span className="text-gray-500">{module.duration}</span>
+          <span className="bg-blue-100 text-blue-800 px-2 py-1 rounded">
+            {module.level}
+          </span>
+        </div>
+        <div className="mt-4">
+          <div className="flex justify-between mb-1">
+            <span className="text-xs">Progress</span>
+            <span className="text-xs font-medium">{module.progress}%</span>
+          </div>
+          <div className="w-full bg-gray-200 rounded-full h-2">
+            <div
+              className="bg-blue-600 h-2 rounded-full"
+              style={{ width: `${module.progress}%` }}
+            ></div>
+          </div>
+        </div>
+      </div>
+      <div className="border-t p-4 bg-gray-50">
+        <button
+          className={`w-full py-2 px-4 rounded-md ${
+            module.status === "completed"
+              ? "bg-green-500 text-white"
+              : module.status === "in-progress"
+              ? "bg-blue-600 text-white"
+              : "bg-gray-200 text-gray-800"
+          }`}
+        >
+          {module.status === "completed"
+            ? "Review"
+            : module.status === "in-progress"
+            ? "Continue"
+            : "Start"}
+        </button>
+      </div>
+    </div>
+  );
+};
+
+const RoomCard = ({ room, subject }: { room: any; subject: string }) => {
+  const subjectData = getSubjectData(subject);
+  
+  return (
+    <div className="border rounded-lg shadow-sm overflow-hidden">
+      <div className={`p-5 ${subjectData.color} border-b ${subjectData.border || ""}`}>
+        <h3 className="font-bold text-lg">{room.title}</h3>
+        <p className="text-sm text-muted-foreground">
+          {room.sections} sections • {room.quizzes} quizzes
+        </p>
+      </div>
+      <div className="p-5">
+        <p className="text-gray-600 mb-4">{room.description}</p>
+        <div className="flex items-center justify-between mb-3">
+          <span className="bg-gray-100 text-gray-800 text-sm px-2 py-1 rounded">
+            {room.level}
+          </span>
+        </div>
+        <div className="mt-3">
+          <div className="flex justify-between mb-1">
+            <span className="text-xs">Completion</span>
+            <span className="text-xs font-medium">
+              {room.completionPercentage}%
+            </span>
+          </div>
+          <div className="w-full bg-gray-200 rounded-full h-2">
+            <div
+              className={`h-2 rounded-full ${
+                room.completionPercentage === 100
+                  ? "bg-green-500"
+                  : room.completionPercentage > 0
+                  ? "bg-blue-600"
+                  : "bg-gray-300"
+              }`}
+              style={{ width: `${room.completionPercentage}%` }}
+            ></div>
+          </div>
+        </div>
+      </div>
+      <div className="border-t p-4 bg-gray-50">
+        <button
+          className={`w-full py-2 px-4 rounded-md ${
+            room.completionPercentage === 100
+              ? "bg-green-100 text-green-800 border border-green-200"
+              : room.completionPercentage > 0
+              ? "bg-blue-600 text-white"
+              : "bg-gray-800 text-white"
+          }`}
+        >
+          {room.completionPercentage === 100
+            ? "Review Room"
+            : room.completionPercentage > 0
+            ? "Continue Room"
+            : "Start Room"}
+        </button>
+      </div>
+    </div>
+  );
+};
+
+const SubjectHeader = ({ subject }: { subject: SubjectData }) => {
+  return (
+    <div className={`w-full ${subject.color}`}>
+      <div className="container px-4 py-8 md:px-6">
+        <a href="/dashboard" className="inline-flex items-center mb-4 text-muted-foreground hover:text-foreground transition-colors">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="mr-1">
+            <path d="m15 18-6-6 6-6"/>
+          </svg>
+          Back to Dashboard
+        </a>
+        
+        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+          <div className="flex items-center gap-4">
+            <div className="text-5xl">{subject.image}</div>
+            <div>
+              <h1 className={`text-3xl font-bold ${subject.textColor}`}>{subject.title}</h1>
+              <p className="text-muted-foreground mt-1 max-w-xl">{subject.description}</p>
+            </div>
+          </div>
+          
+          <div className="flex flex-col items-start md:items-end gap-2">
+            <div className="flex items-center gap-2">
+              <span className="text-sm font-medium">Overall completion</span>
+              <span className={`font-bold ${subject.textColor}`}>{subject.completionPercentage}%</span>
+            </div>
+            <div className="w-full md:w-48 bg-white/50 rounded-full h-2">
+              <div 
+                className="h-2 rounded-full bg-blue-600" 
+                style={{ width: `${subject.completionPercentage}%` }}
+              ></div>
+            </div>
+            <button className="mt-2 w-full md:w-auto bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors">Continue Learning</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// Function to get subject data based on subjectId
+const getSubjectData = (subjectId: string): SubjectData => {
+  switch (subjectId) {
+    case "biology":
+      return {
+        title: "Biology",
+        description:
+          "Explore the science of life, from cells to ecosystems and evolution.",
+        image: "🧬",
+        color: "bg-green-100",
+        textColor: "text-green-800",
+        border: "border-green-200",
+        completionPercentage: 45,
+        icon: <Dna className="h-5 w-5" />,
+      };
+    case "chemistry":
+      return {
+        title: "Chemistry",
+        description:
+          "Discover the properties and interactions of atoms and molecules.",
+        image: "⚗️",
+        color: "bg-blue-100",
+        textColor: "text-blue-800",
+        border: "border-blue-200",
+        completionPercentage: 30,
+        icon: <FlaskConical className="h-5 w-5" />,
+      };
+    case "physics":
+      return {
+        title: "Physics",
+        description:
+          "Understand the fundamental laws that govern the universe.",
+        image: "⚛️",
+        color: "bg-purple-100",
+        textColor: "text-purple-800",
+        border: "border-purple-200",
+        completionPercentage: 20,
+        icon: <Microscope className="h-5 w-5" />,
+      };
+    case "mathematics":
+      return {
+        title: "Mathematics",
+        description:
+          "Master mathematical concepts essential for scientific understanding.",
+        image: "📊",
+        color: "bg-red-100",
+        textColor: "text-red-800",
+        border: "border-red-200",
+        completionPercentage: 55,
+        icon: <Calculator className="h-5 w-5" />,
+      };
+    default:
+      return {
+        title: "Science Subject",
+        description: "Explore this interesting scientific discipline.",
+        image: "🔬",
+        color: "bg-gray-100",
+        textColor: "text-gray-800",
+        border: "border-gray-200",
+        completionPercentage: 0,
+        icon: <BookOpen className="h-5 w-5" />,
+      };
+  }
+};
 
 const Subject = () => {
   const { subjectId } = useParams<{ subjectId: string }>();
 
-  // Define subject specific data based on the subjectId
-  const getSubjectData = () => {
-    switch (subjectId) {
-      case "biology":
-        return {
-          title: "Biology",
-          description:
-            "Explore the science of life, from cells to ecosystems and evolution.",
-          image: "🧬",
-          color: "bg-green-100",
-          textColor: "text-green-800",
-          completionPercentage: 45,
-          icon: <Dna className="h-5 w-5" />,
-        };
-      case "chemistry":
-        return {
-          title: "Chemistry",
-          description:
-            "Discover the properties and interactions of atoms and molecules.",
-          image: "⚗️",
-          color: "bg-blue-100",
-          textColor: "text-blue-800",
-          completionPercentage: 30,
-          icon: <FlaskConical className="h-5 w-5" />,
-        };
-      case "physics":
-        return {
-          title: "Physics",
-          description:
-            "Understand the fundamental laws that govern the universe.",
-          image: "⚛️",
-          color: "bg-purple-100",
-          textColor: "text-purple-800",
-          completionPercentage: 20,
-          icon: <Microscope className="h-5 w-5" />,
-        };
-      case "mathematics":
-        return {
-          title: "Mathematics",
-          description:
-            "Master mathematical concepts essential for scientific understanding.",
-          image: "📊",
-          color: "bg-red-100",
-          textColor: "text-red-800",
-          completionPercentage: 55,
-          icon: <Calculator className="h-5 w-5" />,
-        };
-      default:
-        return {
-          title: "Science Subject",
-          description: "Explore this interesting scientific discipline.",
-          image: "🔬",
-          color: "bg-gray-100",
-          textColor: "text-gray-800",
-          completionPercentage: 0,
-          icon: <BookOpen className="h-5 w-5" />,
-        };
-    }
-  };
-
-  const subject = getSubjectData();
+  // Get subject data based on the subjectId
+  const subject = getSubjectData(subjectId || "");
 
   // Mock data for modules
   const modules = [
@@ -91,6 +280,8 @@ const Subject = () => {
       level: "Beginner",
       progress: 100,
       status: "completed",
+      difficulty: "Easy",
+      rooms: []
     },
     {
       id: 2,
@@ -101,6 +292,8 @@ const Subject = () => {
       level: "Intermediate",
       progress: 60,
       status: "in-progress",
+      difficulty: "Medium",
+      rooms: []
     },
     {
       id: 3,
@@ -110,6 +303,8 @@ const Subject = () => {
       level: "Advanced",
       progress: 0,
       status: "not-started",
+      difficulty: "Hard",
+      rooms: []
     },
   ];
 
@@ -124,6 +319,10 @@ const Subject = () => {
       completionPercentage: 100,
       sections: 4,
       quizzes: 2,
+      module: "Introduction",
+      duration: "30 min",
+      xpPoints: 50,
+      completed: true
     },
     {
       id: "room-2",
@@ -134,6 +333,10 @@ const Subject = () => {
       completionPercentage: 45,
       sections: 5,
       quizzes: 3,
+      module: "Key Theories",
+      duration: "45 min",
+      xpPoints: 75,
+      completed: false
     },
     {
       id: "room-3",
@@ -144,6 +347,10 @@ const Subject = () => {
       completionPercentage: 0,
       sections: 6,
       quizzes: 4,
+      module: "Advanced Topics",
+      duration: "60 min",
+      xpPoints: 100,
+      completed: false
     },
     {
       id: "room-4",
@@ -155,6 +362,10 @@ const Subject = () => {
       completionPercentage: 0,
       sections: 3,
       quizzes: 5,
+      module: "Revision",
+      duration: "50 min",
+      xpPoints: 85,
+      completed: false
     },
   ];
 
@@ -306,7 +517,7 @@ const Subject = () => {
                         </div>
                         <div className="w-full bg-gray-200 rounded-full h-2">
                           <div
-                            className={`h-2 rounded-full bg-science-primary`}
+                            className={`h-2 rounded-full bg-blue-600`}
                             style={{
                               width: `${subject.completionPercentage}%`,
                             }}
@@ -353,7 +564,7 @@ const Subject = () => {
                           className="flex items-center gap-3 p-3 border rounded-lg hover:bg-gray-50 transition-colors"
                         >
                           <div className="bg-blue-100 p-2 rounded-lg">
-                            <FileText className="h-4 w-4 text-blue-600" />
+                            <File className="h-4 w-4 text-blue-600" />
                           </div>
                           <div>
                             <div className="font-medium text-sm">
@@ -371,7 +582,7 @@ const Subject = () => {
                           className="flex items-center gap-3 p-3 border rounded-lg hover:bg-gray-50 transition-colors"
                         >
                           <div className="bg-purple-100 p-2 rounded-lg">
-                            <FileText className="h-4 w-4 text-purple-600" />
+                            <File className="h-4 w-4 text-purple-600" />
                           </div>
                           <div>
                             <div className="font-medium text-sm">
@@ -389,7 +600,7 @@ const Subject = () => {
                           className="flex items-center gap-3 p-3 border rounded-lg hover:bg-gray-50 transition-colors"
                         >
                           <div className="bg-green-100 p-2 rounded-lg">
-                            <FileText className="h-4 w-4 text-green-600" />
+                            <File className="h-4 w-4 text-green-600" />
                           </div>
                           <div>
                             <div className="font-medium text-sm">
@@ -534,6 +745,7 @@ const Subject = () => {
           </Tabs>
         </div>
       </div>
+      <Footer />
     </div>
   );
 };

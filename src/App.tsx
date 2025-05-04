@@ -26,6 +26,7 @@ import RoomEditor from "./pages/CMS/RoomEditor";
 import ExamsManagement from "./pages/CMS/ExamsManagement";
 import ResourcesManagement from "./pages/CMS/ResourcesManagement";
 import StudentsManagement from "./pages/CMS/StudentsManagement";
+import ModulesManagement from "./pages/CMS/ModulesManagement";
 import CMSAuth from "./pages/CMS/CMSAuth";
 
 const queryClient = new QueryClient();
@@ -58,6 +59,7 @@ const App = () => (
           <Route path="/cms/rooms/:operation/:roomId" element={<RoomEditor />} />
           <Route path="/cms/rooms/:operation" element={<RoomEditor />} />
           <Route path="/cms/exams" element={<ExamsManagement />} />
+          <Route path="/cms/modules" element={<ModulesManagement />} />
           <Route path="/cms/resources" element={<ResourcesManagement />} />
           <Route path="/cms/students" element={<StudentsManagement />} />
           

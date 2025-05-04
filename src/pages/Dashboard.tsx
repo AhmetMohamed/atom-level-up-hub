@@ -1,3 +1,4 @@
+
 import React from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -20,14 +21,13 @@ import {
   CheckCircle,
   BookOpen,
   BookText,
-  FileText,
+  File,
   Flame,
   PieChart,
   BarChart,
   Zap,
   Bell,
 } from "lucide-react";
-import DashboardLayout from "@/components/DashboardLayout";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 
@@ -103,56 +103,6 @@ const YoutubeIcon = () => (
 const Dashboard = () => {
   return (
     <div className="bg-slate-50 min-h-screen">
-      {/* Header */}
-      {/* <header className="bg-white border-b">
-        <div className="container mx-auto px-4 py-4 flex justify-between items-center">
-          <div className="flex items-center gap-2">
-            <div className="text-blue-600 text-2xl">🧪</div>
-            <h1 className="font-bold text-xl">ScienceHub</h1>
-          </div>
-          <nav className="hidden md:flex gap-6">
-            <Link
-              to="/"
-              className="text-gray-700 hover:text-blue-600 transition-colors"
-            >
-              Home
-            </Link>
-            <Link
-              to="/learn"
-              className="text-gray-700 hover:text-blue-600 transition-colors"
-            >
-              Learn
-            </Link>
-            <Link
-              to="/exams"
-              className="text-gray-700 hover:text-blue-600 transition-colors"
-            >
-              Exams
-            </Link>
-            <Link
-              to="/resources"
-              className="text-gray-700 hover:text-blue-600 transition-colors"
-            >
-              Downloads
-            </Link>
-            <Link
-              to="/leaderboard"
-              className="text-gray-700 hover:text-blue-600 transition-colors"
-            >
-              Leaderboard
-            </Link>
-          </nav>
-          <div className="flex items-center gap-3">
-            <button className="text-gray-700 hover:text-blue-600">
-              <Bell className="h-5 w-5" />
-            </button>
-            <Button variant="outline" size="sm">
-              Log in
-            </Button>
-            <Button size="sm">Sign up</Button>
-          </div>
-        </div>
-      </header> */}
       <Header />
 
       <main className="container mx-auto px-4 py-8">
@@ -539,56 +489,6 @@ const Dashboard = () => {
         </div>
       </main>
 
-      {/* Footer */}
-      {/* <footer className="bg-white border-t py-8">
-        <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-            <div>
-              <div className="flex items-center gap-2 mb-4">
-                <div className="text-blue-600 text-2xl">🧪</div>
-                <h2 className="font-bold text-xl">ScienceHub</h2>
-              </div>
-              <p className="text-sm text-gray-600">Your comprehensive platform for science education with lessons, quizzes, exams, and downloadable resources.</p>
-            </div>
-            
-            <div>
-              <h3 className="font-medium mb-4">Quick Links</h3>
-              <ul className="space-y-2 text-sm text-gray-600">
-                <li><Link to="/" className="hover:text-blue-600">Home</Link></li>
-                <li><Link to="/lessons" className="hover:text-blue-600">Lessons</Link></li>
-                <li><Link to="/quizzes" className="hover:text-blue-600">Quizzes</Link></li>
-                <li><Link to="/exams" className="hover:text-blue-600">Exams</Link></li>
-                <li><Link to="/downloads" className="hover:text-blue-600">Downloads</Link></li>
-              </ul>
-            </div>
-            
-            <div>
-              <h3 className="font-medium mb-4">Subjects</h3>
-              <ul className="space-y-2 text-sm text-gray-600">
-                <li><Link to="/subjects/biology" className="hover:text-blue-600">Biology</Link></li>
-                <li><Link to="/subjects/physics" className="hover:text-blue-600">Physics</Link></li>
-                <li><Link to="/subjects/chemistry" className="hover:text-blue-600">Chemistry</Link></li>
-                <li><Link to="/subjects/mathematics" className="hover:text-blue-600">Mathematics</Link></li>
-              </ul>
-            </div>
-            
-            <div>
-              <h3 className="font-medium mb-4">Connect</h3>
-              <div className="flex gap-4 mb-4">
-                <a href="#" className="text-gray-600 hover:text-blue-600"><FacebookIcon className="h-5 w-5" /></a>
-                <a href="#" className="text-gray-600 hover:text-blue-600"><TwitterIcon className="h-5 w-5" /></a>
-                <a href="#" className="text-gray-600 hover:text-blue-600"><InstagramIcon className="h-5 w-5" /></a>
-                <a href="#" className="text-gray-600 hover:text-blue-600"><YoutubeIcon className="h-5 w-5" /></a>
-              </div>
-              <p className="text-sm text-gray-600">Contact: info@sciencehub.com</p>
-            </div>
-          </div>
-          
-          <div className="border-t mt-8 pt-6 text-center text-sm text-gray-500">
-            © 2023 ScienceHub. All rights reserved.
-          </div>
-        </div>
-      </footer> */}
       <Footer />
     </div>
   );

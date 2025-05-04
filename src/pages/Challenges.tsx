@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -23,7 +24,8 @@ import {
   Star,
   Trophy,
 } from "lucide-react";
-import DashboardLayout from "@/components/DashboardLayout";
+import Header from "@/components/Header";
+import Footer from "@/components/Footer";
 
 // Mock data for challenge exams
 const challengeExams = [
@@ -133,8 +135,9 @@ const Challenges = () => {
         );
 
   return (
-    <DashboardLayout>
-      <div className="container px-4 py-6 max-w-6xl">
+    <div className="bg-slate-50 min-h-screen">
+      <Header />
+      <div className="container px-4 py-6 max-w-6xl mx-auto">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
           <div>
             <h1 className="text-3xl font-bold tracking-tight">
@@ -418,7 +421,8 @@ const Challenges = () => {
           </TabsContent>
         </Tabs>
       </div>
-    </DashboardLayout>
+      <Footer />
+    </div>
   );
 };
 
