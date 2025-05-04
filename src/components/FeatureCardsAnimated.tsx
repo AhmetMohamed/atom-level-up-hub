@@ -3,13 +3,10 @@ import React from "react";
 import {
   Book,
   Trophy,
-  File,
   Clock,
-  Star,
-  Users,
-  CheckCircle,
   Microscope,
   Calculator,
+  CheckCircle,
 } from "lucide-react";
 import { motion } from "framer-motion";
 
@@ -51,17 +48,9 @@ const FeatureCardsAnimated = () => {
       title: "Chemistry Excellence",
       description:
         "Master chemical reactions, atomic structure, and organic chemistry through guided lessons.",
-      icon: <File className="h-8 w-8" />,
+      icon: <Trophy className="h-8 w-8" />,
       color: "bg-purple-50 text-purple-600 border-purple-100",
       delay: 0.5,
-    },
-    {
-      title: "Physics Mastery",
-      description:
-        "Understand the laws of physics through clear explanations and practical examples.",
-      icon: <Star className="h-8 w-8" />,
-      color: "bg-indigo-50 text-indigo-600 border-indigo-100",
-      delay: 0.6,
     },
     {
       title: "Math Support",
@@ -69,24 +58,8 @@ const FeatureCardsAnimated = () => {
         "Strengthen your mathematical skills essential for success in all science disciplines.",
       icon: <Calculator className="h-8 w-8" />,
       color: "bg-red-50 text-red-600 border-red-100",
-      delay: 0.7,
-    },
-    {
-      title: "Progress Tracking",
-      description:
-        "Monitor your learning journey with detailed progress tracking and performance analytics.",
-      icon: <Trophy className="h-8 w-8" />,
-      color: "bg-yellow-50 text-yellow-600 border-yellow-100",
-      delay: 0.8,
-    },
-    {
-      title: "Learning Community",
-      description:
-        "Join a community of learners to collaborate, compete, and celebrate achievements together.",
-      icon: <Users className="h-8 w-8" />,
-      color: "bg-cyan-50 text-cyan-600 border-cyan-100",
-      delay: 0.9,
-    },
+      delay: 0.6,
+    }
   ];
 
   // Animation variants for cards
@@ -113,7 +86,7 @@ const FeatureCardsAnimated = () => {
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
           <motion.h2
-            className="text-3xl font-bold mb-4 text-gradient"
+            className="text-3xl font-bold mb-4"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
@@ -136,7 +109,7 @@ const FeatureCardsAnimated = () => {
           </motion.p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {features.map((feature, index) => (
             <motion.div
               key={index}

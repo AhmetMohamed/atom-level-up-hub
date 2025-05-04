@@ -1,3 +1,4 @@
+
 import React from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -39,15 +40,6 @@ const subjects = [
     textColor: "text-amber-800",
     border: "border-amber-200",
     topics: ["Algebra", "Calculus", "Statistics", "Geometry"],
-  },
-  {
-    title: "Environmental Science",
-    description: "Learn about ecosystems, sustainability, and human impact on the environment.",
-    image: "🌍",
-    color: "bg-teal-100",
-    textColor: "text-teal-800",
-    border: "border-teal-200",
-    topics: ["Ecosystems", "Climate", "Conservation", "Sustainability"],
   },
 ];
 

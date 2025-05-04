@@ -115,7 +115,7 @@ const RoomCard = ({ room, subject }: RoomCardProps) => {
       </CardContent>
       
       <CardFooter className="p-4 pt-0">
-        <Link to={`/subjects/${subject}/rooms/${room.id}`} className="w-full">
+        <Link to={`/subjects/${subject.toLowerCase()}/rooms/${room.id}`} className="w-full">
           <Button 
             variant={room.completed ? "outline" : "default"} 
             className={`w-full ${

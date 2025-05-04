@@ -19,8 +19,8 @@ const Room = () => {
   const { subjectId, roomId } = useParams();
   const [activeSection, setActiveSection] = useState<string | null>("what-are-cells");
   
-  // This would come from API in a real application
-  const roomData = {
+  // Room data mapping
+  const roomDataMap = {
     "intro-to-cells": {
       title: "Cell Structure & Function",
       subject: "Biology",
@@ -71,10 +71,161 @@ const Room = () => {
         }
       ]
     },
-    // Additional room data would be here
+    "room-1": {
+      title: "Foundation Concepts",
+      subject: "Biology",
+      level: "GCSE",
+      module: "Introduction",
+      instructor: "Dr. Sarah Johnson",
+      duration: "30 min",
+      xpPoints: 50,
+      progress: 100,
+      completed: true,
+      description: "Master the core concepts and terminology.",
+      sections: [
+        {
+          id: "intro-section",
+          title: "1. Introduction to Fundamentals",
+          content: "This section covers the basic principles and key terminology used throughout this subject. Understanding these core concepts is essential for building a strong foundation in the science.\n\nKey terms to know:\n- Scientific method: A systematic approach to research involving observation, hypothesis formation, experimentation, and conclusion drawing\n- Theory: A well-substantiated explanation acquired through the scientific method\n- Law: A statement based on repeated experimental observations that describes some phenomena of nature",
+          completed: true
+        },
+        {
+          id: "history-section",
+          title: "2. Historical Context",
+          content: "The historical development of this field helps us understand how scientific knowledge evolves. Major breakthroughs and paradigm shifts have shaped our current understanding.\n\nImportant historical milestones include:\n- Early observations and hypotheses\n- Development of specialized tools and techniques\n- Modern research methodologies and computational approaches",
+          completed: true
+        }
+      ],
+      quiz: [
+        {
+          question: "What is the scientific method?",
+          options: ["A random approach to solving problems", "A systematic approach to research involving observation, hypothesis, experimentation, and conclusion", "A method only used in chemistry", "A theoretical concept with no practical application"],
+          answer: "A systematic approach to research involving observation, hypothesis, experimentation, and conclusion"
+        },
+        {
+          question: "What is the difference between a scientific theory and a scientific law?",
+          options: ["They are the same thing", "Theories are proven but laws are not", "Laws describe phenomena, theories explain them", "Laws are more important than theories"],
+          answer: "Laws describe phenomena, theories explain them"
+        }
+      ]
+    },
+    "room-2": {
+      title: "Intermediate Principles",
+      subject: "Chemistry",
+      level: "GCSE",
+      module: "Key Theories",
+      instructor: "Prof. Michael Anderson",
+      duration: "45 min",
+      xpPoints: 75,
+      progress: 45,
+      completed: false,
+      description: "Build on your foundation with more complex ideas.",
+      sections: [
+        {
+          id: "intermediate-concepts",
+          title: "1. Advanced Terminology",
+          content: "This section builds upon basic concepts and introduces more complex terminology and principles. These intermediate concepts form the bridge between foundational knowledge and specialized applications.\n\nThis section covers:\n- Extended theoretical frameworks\n- Relationships between different scientific phenomena\n- Practical applications of intermediate principles",
+          completed: false
+        },
+        {
+          id: "case-studies",
+          title: "2. Real-world Applications",
+          content: "Understanding how theoretical principles apply to real-world situations helps cement your knowledge. This section presents case studies and practical examples of scientific principles in action.\n\nWe'll explore:\n- Industry applications\n- Research case studies\n- Everyday examples of scientific principles",
+          completed: false
+        }
+      ],
+      quiz: [
+        {
+          question: "Why are real-world applications important in scientific education?",
+          options: ["They aren't important", "They help connect theory to practice", "They're only important for advanced students", "They replace the need for theoretical understanding"],
+          answer: "They help connect theory to practice"
+        },
+        {
+          question: "What builds the bridge between basic knowledge and specialized applications?",
+          options: ["Only practical experience", "Memorizing terms without understanding", "Intermediate principles and concepts", "Advanced mathematics"],
+          answer: "Intermediate principles and concepts"
+        }
+      ]
+    },
+    "room-3": {
+      title: "Advanced Applications",
+      subject: "Physics",
+      level: "A-Level",
+      module: "Advanced Topics",
+      instructor: "Dr. Elizabeth Wong",
+      duration: "60 min",
+      xpPoints: 100,
+      progress: 0,
+      completed: false,
+      description: "Apply your knowledge to solve complex problems.",
+      sections: [
+        {
+          id: "advanced-principles",
+          title: "1. Complex Theory",
+          content: "This advanced section delves into sophisticated theoretical frameworks and complex principles. These concepts represent the cutting edge of the field and require a solid understanding of foundational and intermediate concepts.\n\nKey areas covered:\n- Specialized theoretical models\n- Advanced problem-solving techniques\n- Current research directions",
+          completed: false
+        },
+        {
+          id: "problem-solving",
+          title: "2. Complex Problem Solving",
+          content: "Applying advanced principles to solve complex, real-world problems is the hallmark of expertise in any scientific field. This section focuses on developing sophisticated problem-solving skills.\n\nYou will learn to:\n- Break down complex problems into manageable components\n- Apply multiple principles simultaneously\n- Evaluate and refine solutions based on outcomes",
+          completed: false
+        }
+      ],
+      quiz: [
+        {
+          question: "What characterizes advanced scientific concepts?",
+          options: ["They're easy to understand", "They build on foundational and intermediate principles", "They don't relate to basic principles", "They don't have practical applications"],
+          answer: "They build on foundational and intermediate principles"
+        },
+        {
+          question: "What is an important skill when solving complex scientific problems?",
+          options: ["Memorizing formulas without understanding them", "Avoiding mathematical calculations", "Breaking problems down into manageable components", "Working alone without consultation"],
+          answer: "Breaking problems down into manageable components"
+        }
+      ]
+    },
+    "room-4": {
+      title: "Exam Preparation",
+      subject: "Mathematics",
+      level: "A-Level",
+      module: "Revision",
+      instructor: "Prof. James Wilson",
+      duration: "50 min",
+      xpPoints: 85,
+      progress: 0,
+      completed: false,
+      description: "Get ready for your exams with practice questions and reviews.",
+      sections: [
+        {
+          id: "exam-strategies",
+          title: "1. Exam Techniques",
+          content: "Successful exam performance combines knowledge with strategic approaches to test-taking. This section covers proven techniques for maximizing your exam scores.\n\nYou'll learn about:\n- Time management during exams\n- Question interpretation strategies\n- Common exam pitfalls and how to avoid them",
+          completed: false
+        },
+        {
+          id: "practice-questions",
+          title: "2. Practice Materials",
+          content: "Regular practice with exam-style questions is one of the most effective ways to prepare for assessments. This section provides curated practice materials with detailed solutions.\n\nThis section includes:\n- Past paper questions with solutions\n- Common mistake analysis\n- Progressive difficulty exercises",
+          completed: false
+        }
+      ],
+      quiz: [
+        {
+          question: "What is one of the most effective ways to prepare for exams?",
+          options: ["Studying only the night before", "Regular practice with exam-style questions", "Focusing only on theory", "Avoiding difficult topics"],
+          answer: "Regular practice with exam-style questions"
+        },
+        {
+          question: "Why is time management important during exams?",
+          options: ["It isn't important", "To ensure you can answer all questions appropriately", "To impress the examiner with speed", "To finish faster than other students"],
+          answer: "To ensure you can answer all questions appropriately"
+        }
+      ]
+    }
   };
   
-  const room = roomData[roomId as keyof typeof roomData];
+  const room = roomDataMap[roomId as keyof typeof roomDataMap];
   
   if (!room) {
     return (
