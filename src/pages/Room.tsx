@@ -1,5 +1,5 @@
 
-import React from "react";
+import React, { useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { 
   Accordion,
@@ -11,74 +11,63 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
-import { ArrowLeft, Clock, Trophy, BookOpen, CheckCircle, Lightbulb } from "lucide-react";
-import DashboardLayout from "@/components/DashboardLayout";
+import { ArrowLeft, Clock, User, BookOpen, CheckCircle, Lightbulb } from "lucide-react";
+import Header from "@/components/Header";
+import Footer from "@/components/Footer";
 
 const Room = () => {
   const { subjectId, roomId } = useParams();
+  const [activeSection, setActiveSection] = useState<string | null>("what-are-cells");
   
   // This would come from API in a real application
   const roomData = {
     "intro-to-cells": {
-      title: "Introduction to Cells",
+      title: "Cell Structure & Function",
       subject: "Biology",
+      level: "Beginner",
       module: "Cell Structure & Function",
+      instructor: "Dr. Emma Chen",
       duration: "45 mins",
       xpPoints: 50,
-      progress: 100,
-      completed: true,
+      progress: 0,
+      completed: false,
+      description: "Explore the basic building blocks of life and understand how cells function.",
       sections: [
         {
           id: "what-are-cells",
-          title: "What Are Cells?",
-          content: "Cells are the basic structural and functional units of all living organisms. They are the smallest unit of life that can replicate independently. The study of cells is called cell biology, cellular biology, or cytology.",
-          completed: true
+          title: "1. Introduction to Cells",
+          content: "Cells are the fundamental units of life. They are the smallest structural and functional units of living organisms. All living things are made up of cells, from single-celled bacteria to multi-cellular organisms like humans.\n\nThere are two main types of cells:\n- Prokaryotic cells - simple cells without a nucleus (e.g., bacteria)\n- Eukaryotic cells - complex cells with a nucleus (e.g., plant and animal cells)",
+          completed: false,
+          image: "public/lovable-uploads/4ce305d8-2d7c-42f8-8aaa-fcd470a3bf58.png"
         },
         {
-          id: "cell-theory",
-          title: "Cell Theory",
-          content: "Cell theory states that: (1) All living organisms are composed of one or more cells. (2) The cell is the basic unit of structure and organization in organisms. (3) All cells arise from pre-existing cells.",
-          completed: true
+          id: "cell-organelles",
+          title: "2. Cell Organelles",
+          content: "Cell organelles are specialized structures within a cell that perform specific functions. In eukaryotic cells, these include:\n\n- Nucleus: Contains DNA and controls cellular activities\n- Mitochondria: Produces energy through cellular respiration\n- Endoplasmic Reticulum: Synthesizes proteins and lipids\n- Golgi Apparatus: Processes and packages proteins\n- Lysosomes: Digest waste materials and cellular debris\n- Ribosomes: Site of protein synthesis",
+          completed: false
         },
         {
-          id: "types-of-cells",
-          title: "Types of Cells",
-          content: "There are two main types of cells: prokaryotic and eukaryotic. Prokaryotic cells are simpler and lack membrane-bound organelles, while eukaryotic cells are more complex with various membrane-bound organelles including a nucleus.",
-          completed: true,
-          keyPoints: [
-            "Prokaryotic cells lack a true nucleus and membrane-bound organelles",
-            "Eukaryotic cells have a true nucleus and numerous membrane-bound organelles",
-            "Bacteria and archaea are prokaryotic",
-            "Plants, animals, fungi, and protists are eukaryotic"
-          ]
-        },
-        {
-          id: "cell-sizes",
-          title: "Cell Sizes and Shapes",
-          content: "Cells vary greatly in size and shape. Most cells are microscopic and invisible to the naked eye, ranging from 1-100 micrometers. Cell shapes can be round, flat, elongated, star-shaped, or cylindrical depending on their function.",
-          completed: true
+          id: "cell-membrane",
+          title: "3. Cell Membrane",
+          content: "The cell membrane is a semipermeable lipid bilayer that surrounds the cell and separates it from the external environment. Its main functions include:\n\n- Controlling what enters and leaves the cell\n- Maintaining cell shape and integrity\n- Cell-to-cell communication\n- Providing structural support",
+          completed: false
         }
       ],
       quiz: [
         {
-          question: "What is the smallest unit of life that can replicate independently?",
-          options: ["Atom", "Molecule", "Cell", "Organelle"],
-          answer: "Cell"
+          question: "What are the two main types of cells?",
+          options: ["Simple and complex cells", "Prokaryotic and eukaryotic cells", "Animal and plant cells", "Large and small cells"],
+          answer: "Prokaryotic and eukaryotic cells"
         },
         {
-          question: "Which of the following is NOT part of the cell theory?",
-          options: [
-            "All living organisms are composed of cells",
-            "Cells are the basic unit of life",
-            "All cells arise from pre-existing cells",
-            "All cells contain DNA in a nucleus"
-          ],
-          answer: "All cells contain DNA in a nucleus"
+          question: "Which organelle is responsible for energy production in the cell?",
+          options: ["Nucleus", "Mitochondria", "Golgi apparatus", "Lysosome"],
+          answer: "Mitochondria"
         },
         {
-          question: "Which type of cell contains membrane-bound organelles?",
-          options: ["Prokaryotic cells", "Eukaryotic cells", "Both types", "Neither type"],
-          answer: "Eukaryotic cells"
+          question: "What is the primary function of the cell membrane?",
+          options: ["Energy production", "Protein synthesis", "Controlling what enters and leaves the cell", "Cell division"],
+          answer: "Controlling what enters and leaves the cell"
         }
       ]
     },
@@ -89,8 +78,9 @@ const Room = () => {
   
   if (!room) {
     return (
-      <DashboardLayout>
-        <div className="container px-4 py-8">
+      <div className="min-h-screen flex flex-col">
+        <Header />
+        <div className="container px-4 py-8 flex-1">
           <div className="text-center">
             <h1 className="text-3xl font-bold mb-4">Room Not Found</h1>
             <p className="text-muted-foreground mb-6">The room you're looking for doesn't exist or hasn't been created yet.</p>
@@ -99,138 +89,157 @@ const Room = () => {
             </Link>
           </div>
         </div>
-      </DashboardLayout>
+        <Footer />
+      </div>
     );
   }
+
+  const handleSectionClick = (sectionId: string) => {
+    setActiveSection(sectionId === activeSection ? null : sectionId);
+  };
+
+  const markAsComplete = () => {
+    // This would connect to an API in a real application
+  };
   
   return (
-    <DashboardLayout>
-      <div className="container px-4 py-8 max-w-4xl">
-        <Link to={`/subjects/${subjectId}`} className="inline-flex items-center mb-6 text-muted-foreground hover:text-foreground transition-colors">
-          <ArrowLeft className="mr-2 h-4 w-4" />
-          Back to {room.subject}
-        </Link>
-        
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
-          <div>
-            <div className="flex items-center gap-2 mb-1">
-              <h1 className="text-3xl font-bold">{room.title}</h1>
-              {room.completed && (
-                <Badge variant="outline" className="bg-green-100 text-green-800 border-green-200 ml-2">
-                  <CheckCircle className="h-3 w-3 mr-1" />
-                  Completed
-                </Badge>
-              )}
-            </div>
-            <div className="text-muted-foreground">Part of: {room.module}</div>
-          </div>
+    <div className="min-h-screen flex flex-col bg-slate-50">
+      <Header />
+      
+      <main className="flex-1">
+        <div className="container px-4 py-6 max-w-4xl mx-auto">
+          <Link to={`/subjects/${subjectId}`} className="inline-flex items-center mb-6 text-muted-foreground hover:text-foreground transition-colors">
+            <ArrowLeft className="mr-2 h-4 w-4" />
+            Back to Learning Rooms
+          </Link>
           
-          <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
-            <div className="flex items-center px-3 py-1.5 rounded-md bg-muted text-sm">
-              <Clock className="h-4 w-4 mr-2 text-muted-foreground" />
-              {room.duration}
+          <div className="mb-6">
+            <div className="flex gap-2 mb-1">
+              <Badge variant="outline" className="bg-white">{room.subject}</Badge>
+              <Badge variant="outline" className="bg-white">{room.level}</Badge>
             </div>
-            <div className="flex items-center px-3 py-1.5 rounded-md bg-science-light text-sm">
-              <Trophy className="h-4 w-4 mr-2 text-science-primary" />
-              {room.xpPoints} XP
-            </div>
-          </div>
-        </div>
-        
-        {/* Progress tracking */}
-        <Card className="mb-8">
-          <CardContent className="p-4">
-            <div className="flex justify-between items-center mb-2">
-              <div className="text-sm font-medium">Your progress</div>
-              <div className="text-sm font-medium">{room.progress}% Complete</div>
-            </div>
-            <Progress value={room.progress} className="h-2" />
-          </CardContent>
-        </Card>
-        
-        {/* Room Content */}
-        <div className="space-y-6">
-          <Accordion type="single" collapsible className="w-full">
-            {room.sections.map((section, index) => (
-              <AccordionItem key={section.id} value={section.id} className="border rounded-lg mb-4 overflow-hidden">
-                <AccordionTrigger className="px-4 py-3 hover:no-underline bg-muted/40">
-                  <div className="flex items-center gap-3">
-                    <div className="flex items-center justify-center w-6 h-6 rounded-full bg-science-light text-science-primary font-medium text-sm">
-                      {index + 1}
-                    </div>
-                    <span className="font-medium">{section.title}</span>
-                    {section.completed && (
-                      <CheckCircle className="h-4 w-4 text-green-500 ml-2" />
-                    )}
-                  </div>
-                </AccordionTrigger>
-                <AccordionContent className="px-6 py-4">
-                  <div className="prose max-w-none">
-                    <p>{section.content}</p>
-                    
-                    {section.keyPoints && (
-                      <div className="mt-4 bg-muted/50 p-4 rounded-md">
-                        <div className="flex items-center gap-2 mb-2 text-sm font-medium">
-                          <Lightbulb className="h-4 w-4 text-amber-500" />
-                          Key Points
-                        </div>
-                        <ul className="list-disc pl-5 space-y-1">
-                          {section.keyPoints.map((point, i) => (
-                            <li key={i} className="text-sm">{point}</li>
-                          ))}
-                        </ul>
-                      </div>
-                    )}
-                  </div>
-                </AccordionContent>
-              </AccordionItem>
-            ))}
-          </Accordion>
-          
-          {/* Quiz Section */}
-          {room.quiz && (
-            <Card className="mt-8 overflow-hidden">
-              <div className="bg-science-light p-4 border-b border-science-primary/20">
-                <h2 className="text-xl font-bold text-science-primary flex items-center">
-                  <BookOpen className="h-5 w-5 mr-2" />
-                  Knowledge Check
-                </h2>
-                <p className="text-sm text-muted-foreground">Test your understanding of the concepts covered in this room.</p>
+            
+            <h1 className="text-3xl font-bold tracking-tight mb-2">{room.title}</h1>
+            <p className="text-muted-foreground mb-4">{room.description}</p>
+            
+            <div className="flex items-center justify-between flex-wrap gap-4 mt-4">
+              <div className="flex items-center gap-2">
+                <Clock className="h-4 w-4 text-muted-foreground" />
+                <span>{room.duration}</span>
               </div>
               
-              <CardContent className="p-6">
-                <div className="space-y-6">
-                  {room.quiz.map((question, index) => (
-                    <div key={index} className="p-4 border rounded-lg">
-                      <h3 className="font-medium mb-3">Question {index + 1}: {question.question}</h3>
-                      <div className="space-y-2">
-                        {question.options.map((option, i) => (
-                          <div key={i} className="flex items-center">
-                            <input 
-                              type="radio" 
-                              id={`q${index}-o${i}`} 
-                              name={`question-${index}`} 
-                              className="mr-2"
-                            />
-                            <label htmlFor={`q${index}-o${i}`} className="text-sm">
-                              {option}
-                            </label>
-                          </div>
-                        ))}
+              <div className="flex items-center gap-2">
+                <User className="h-4 w-4 text-muted-foreground" />
+                <span>By: {room.instructor}</span>
+              </div>
+            </div>
+          </div>
+          
+          {/* Progress tracking */}
+          <div className="mb-8">
+            <div className="flex justify-between items-center mb-2">
+              <div className="text-sm font-medium">Progress</div>
+              <div className="text-sm font-medium">{room.progress}% complete</div>
+            </div>
+            <Progress value={room.progress} className="h-2" />
+          </div>
+          
+          {/* Room Content */}
+          <div className="space-y-4">
+            {room.sections.map((section) => (
+              <Accordion
+                key={section.id}
+                type="single"
+                collapsible
+                value={activeSection === section.id ? section.id : ""}
+                onValueChange={() => handleSectionClick(section.id)}
+              >
+                <AccordionItem value={section.id} className="border rounded-lg overflow-hidden">
+                  <AccordionTrigger className="px-4 py-3 hover:no-underline bg-white">
+                    <div className="flex items-center gap-3 w-full">
+                      <div className="font-semibold">{section.title}</div>
+                      {section.completed && (
+                        <CheckCircle className="h-4 w-4 text-green-500 ml-auto" />
+                      )}
+                    </div>
+                  </AccordionTrigger>
+                  <AccordionContent className="px-4 py-6 bg-white">
+                    <div className="prose max-w-none">
+                      {section.content.split('\n\n').map((paragraph, idx) => (
+                        <p key={idx}>{paragraph}</p>
+                      ))}
+                      
+                      {section.image && (
+                        <div className="mt-4 flex justify-center">
+                          <img 
+                            src={section.image}
+                            alt={section.title}
+                            className="rounded-lg max-h-96 object-contain"
+                          />
+                        </div>
+                      )}
+                      
+                      <div className="mt-6">
+                        <Button variant="outline" size="sm" onClick={() => {}}>
+                          Take Section Quiz
+                        </Button>
+                        <Button className="ml-2" size="sm" onClick={markAsComplete}>
+                          Mark as Complete
+                        </Button>
                       </div>
                     </div>
-                  ))}
-                  
-                  <div className="flex justify-end mt-4">
-                    <Button>Submit Answers</Button>
-                  </div>
+                  </AccordionContent>
+                </AccordionItem>
+              </Accordion>
+            ))}
+            
+            {/* Quiz Section */}
+            {room.quiz && (
+              <Card className="mt-8 overflow-hidden">
+                <div className="bg-science-light p-4 border-b border-science-primary/20">
+                  <h2 className="text-xl font-bold text-science-primary flex items-center">
+                    <BookOpen className="h-5 w-5 mr-2" />
+                    Final Assessment
+                  </h2>
+                  <p className="text-sm text-muted-foreground">Test your understanding of the concepts covered in this room.</p>
                 </div>
-              </CardContent>
-            </Card>
-          )}
+                
+                <CardContent className="p-6">
+                  <div className="space-y-6">
+                    {room.quiz.map((question, index) => (
+                      <div key={index} className="p-4 border rounded-lg">
+                        <h3 className="font-medium mb-3">Question {index + 1}: {question.question}</h3>
+                        <div className="space-y-2">
+                          {question.options.map((option, i) => (
+                            <div key={i} className="flex items-center">
+                              <input 
+                                type="radio" 
+                                id={`q${index}-o${i}`} 
+                                name={`question-${index}`} 
+                                className="mr-2"
+                              />
+                              <label htmlFor={`q${index}-o${i}`} className="text-sm">
+                                {option}
+                              </label>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    ))}
+                    
+                    <div className="flex justify-end mt-4">
+                      <Button>Submit Answers</Button>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            )}
+          </div>
         </div>
-      </div>
-    </DashboardLayout>
+      </main>
+      
+      <Footer />
+    </div>
   );
 };
 
