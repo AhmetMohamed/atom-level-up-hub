@@ -1,6 +1,5 @@
-
 import React, { useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   BookOpen,
@@ -102,10 +101,14 @@ const ModuleCard = ({ module }: { module: any }) => {
 
 const RoomCard = ({ room, subject }: { room: any; subject: string }) => {
   const subjectData = getSubjectData(subject);
-  
+
   return (
     <div className="border rounded-lg shadow-sm overflow-hidden">
-      <div className={`p-5 ${subjectData.color} border-b ${subjectData.border || ""}`}>
+      <div
+        className={`p-5 ${subjectData.color} border-b ${
+          subjectData.border || ""
+        }`}
+      >
         <h3 className="font-bold text-lg">{room.title}</h3>
         <p className="text-sm text-muted-foreground">
           {room.sections} sections • {room.quizzes} quizzes
@@ -140,21 +143,23 @@ const RoomCard = ({ room, subject }: { room: any; subject: string }) => {
         </div>
       </div>
       <div className="border-t p-4 bg-gray-50">
-        <button
-          className={`w-full py-2 px-4 rounded-md ${
-            room.completionPercentage === 100
-              ? "bg-green-100 text-green-800 border border-green-200"
+        <Link to={`/subjects/${subject}/rooms/${room.id}`}>
+          <button
+            className={`w-full py-2 px-4 rounded-md ${
+              room.completionPercentage === 100
+                ? "bg-green-100 text-green-800 border border-green-200"
+                : room.completionPercentage > 0
+                ? "bg-blue-600 text-white"
+                : "bg-gray-800 text-white"
+            }`}
+          >
+            {room.completionPercentage === 100
+              ? "Review Room"
               : room.completionPercentage > 0
-              ? "bg-blue-600 text-white"
-              : "bg-gray-800 text-white"
-          }`}
-        >
-          {room.completionPercentage === 100
-            ? "Review Room"
-            : room.completionPercentage > 0
-            ? "Continue Room"
-            : "Start Room"}
-        </button>
+              ? "Continue Room"
+              : "Start Room"}
+          </button>
+        </Link>
       </div>
     </div>
   );
@@ -164,34 +169,56 @@ const SubjectHeader = ({ subject }: { subject: SubjectData }) => {
   return (
     <div className={`w-full ${subject.color}`}>
       <div className="container px-4 py-8 md:px-6">
-        <a href="/dashboard" className="inline-flex items-center mb-4 text-muted-foreground hover:text-foreground transition-colors">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="mr-1">
-            <path d="m15 18-6-6 6-6"/>
+        <a
+          href="/dashboard"
+          className="inline-flex items-center mb-4 text-muted-foreground hover:text-foreground transition-colors"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            className="mr-1"
+          >
+            <path d="m15 18-6-6 6-6" />
           </svg>
           Back to Dashboard
         </a>
-        
+
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
           <div className="flex items-center gap-4">
             <div className="text-5xl">{subject.image}</div>
             <div>
-              <h1 className={`text-3xl font-bold ${subject.textColor}`}>{subject.title}</h1>
-              <p className="text-muted-foreground mt-1 max-w-xl">{subject.description}</p>
+              <h1 className={`text-3xl font-bold ${subject.textColor}`}>
+                {subject.title}
+              </h1>
+              <p className="text-muted-foreground mt-1 max-w-xl">
+                {subject.description}
+              </p>
             </div>
           </div>
-          
+
           <div className="flex flex-col items-start md:items-end gap-2">
             <div className="flex items-center gap-2">
               <span className="text-sm font-medium">Overall completion</span>
-              <span className={`font-bold ${subject.textColor}`}>{subject.completionPercentage}%</span>
+              <span className={`font-bold ${subject.textColor}`}>
+                {subject.completionPercentage}%
+              </span>
             </div>
             <div className="w-full md:w-48 bg-white/50 rounded-full h-2">
-              <div 
-                className="h-2 rounded-full bg-blue-600" 
+              <div
+                className="h-2 rounded-full bg-blue-600"
                 style={{ width: `${subject.completionPercentage}%` }}
               ></div>
             </div>
-            <button className="mt-2 w-full md:w-auto bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors">Continue Learning</button>
+            <button className="mt-2 w-full md:w-auto bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors">
+              Continue Learning
+            </button>
           </div>
         </div>
       </div>
@@ -281,7 +308,7 @@ const Subject = () => {
       progress: 100,
       status: "completed",
       difficulty: "Easy",
-      rooms: []
+      rooms: [],
     },
     {
       id: 2,
@@ -293,7 +320,7 @@ const Subject = () => {
       progress: 60,
       status: "in-progress",
       difficulty: "Medium",
-      rooms: []
+      rooms: [],
     },
     {
       id: 3,
@@ -304,7 +331,7 @@ const Subject = () => {
       progress: 0,
       status: "not-started",
       difficulty: "Hard",
-      rooms: []
+      rooms: [],
     },
   ];
 
@@ -322,7 +349,7 @@ const Subject = () => {
       module: "Introduction",
       duration: "30 min",
       xpPoints: 50,
-      completed: true
+      completed: true,
     },
     {
       id: "room-2",
@@ -336,7 +363,7 @@ const Subject = () => {
       module: "Key Theories",
       duration: "45 min",
       xpPoints: 75,
-      completed: false
+      completed: false,
     },
     {
       id: "room-3",
@@ -350,7 +377,7 @@ const Subject = () => {
       module: "Advanced Topics",
       duration: "60 min",
       xpPoints: 100,
-      completed: false
+      completed: false,
     },
     {
       id: "room-4",
@@ -365,7 +392,7 @@ const Subject = () => {
       module: "Revision",
       duration: "50 min",
       xpPoints: 85,
-      completed: false
+      completed: false,
     },
   ];
 

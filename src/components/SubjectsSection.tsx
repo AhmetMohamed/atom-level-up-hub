@@ -21,8 +21,8 @@ const SubjectsSection = () => {
       icon: <AtomIcon className="h-7 w-7 text-physics" />,
       link: "/subjects/physics",
       className:
-        "bg-gradient-to-br from-blue-50 to-blue-100 border-blue-200 hover:shadow-blue-100/40",
-      iconBg: "bg-blue-100",
+        "bg-gradient-to-br from-purple-50 to-purple-100 border-purple-200 hover:shadow-purple-100/40",
+      iconBg: "bg-purple-100",
       delay: 0.2,
     },
     {
@@ -32,8 +32,9 @@ const SubjectsSection = () => {
       icon: <TestTube className="h-7 w-7 text-chemistry" />,
       link: "/subjects/chemistry",
       className:
-        "bg-gradient-to-br from-purple-50 to-purple-100 border-purple-200 hover:shadow-purple-100/40",
-      iconBg: "bg-purple-100",
+        "bg-gradient-to-br from-blue-50 to-blue-100 border-blue-200 hover:shadow-blue-100/40",
+      iconBg: "bg-blue-100",
+
       delay: 0.3,
     },
     {

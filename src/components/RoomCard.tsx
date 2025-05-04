@@ -1,4 +1,3 @@
-
 import React from "react";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -35,35 +34,45 @@ const RoomCard = ({ room, subject }: RoomCardProps) => {
           color: "bg-green-100",
           textColor: "text-green-800",
           border: "border-green-200",
-          buttonColor: room.completed ? "bg-green-100 text-green-800 border-green-200" : "bg-green-600",
+          buttonColor: room.completed
+            ? "bg-green-100 text-green-800 border-green-200"
+            : "bg-green-600",
         };
       case "chemistry":
         return {
           color: "bg-blue-100",
           textColor: "text-blue-800",
           border: "border-blue-200",
-          buttonColor: room.completed ? "bg-blue-100 text-blue-800 border-blue-200" : "bg-blue-600",
+          buttonColor: room.completed
+            ? "bg-purple-100 text-purple-800 border-purple-200"
+            : "bg-purple-600",
         };
       case "physics":
         return {
           color: "bg-purple-100",
           textColor: "text-purple-800",
           border: "border-purple-200",
-          buttonColor: room.completed ? "bg-purple-100 text-purple-800 border-purple-200" : "bg-purple-600",
+          buttonColor: room.completed
+            ? "bg-blue-100 text-blue-800 border-blue-200"
+            : "bg-blue-600",
         };
       case "mathematics":
         return {
           color: "bg-red-100",
           textColor: "text-red-800",
           border: "border-red-200",
-          buttonColor: room.completed ? "bg-red-100 text-red-800 border-red-200" : "bg-red-600",
+          buttonColor: room.completed
+            ? "bg-red-100 text-red-800 border-red-200"
+            : "bg-red-600",
         };
       default:
         return {
           color: "bg-gray-100",
           textColor: "text-gray-800",
           border: "border-gray-200",
-          buttonColor: room.completed ? "bg-gray-100 text-gray-800 border-gray-200" : "bg-gray-600",
+          buttonColor: room.completed
+            ? "bg-gray-100 text-gray-800 border-gray-200"
+            : "bg-gray-600",
         };
     }
   };
@@ -78,7 +87,7 @@ const RoomCard = ({ room, subject }: RoomCardProps) => {
           {room.sections} sections • {room.quizzes} quizzes
         </p>
       </div>
-      
+
       <CardContent className="p-4">
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-2 text-sm">
@@ -89,9 +98,9 @@ const RoomCard = ({ room, subject }: RoomCardProps) => {
             {room.xpPoints} XP
           </Badge>
         </div>
-        
+
         <p className="text-sm text-gray-600 mb-4">{room.description}</p>
-        
+
         <div className="mt-2">
           <div className="flex items-center justify-between mb-1">
             <span className="text-xs text-gray-500">Completion</span>
@@ -113,14 +122,15 @@ const RoomCard = ({ room, subject }: RoomCardProps) => {
           </div>
         </div>
       </CardContent>
-      
+
       <CardFooter className="p-4 pt-0">
-        <Link to={`/subjects/${subject.toLowerCase()}/rooms/${room.id}`} className="w-full">
-          <Button 
-            variant={room.completed ? "outline" : "default"} 
-            className={`w-full ${
-              !room.completed ? styles.buttonColor : ""
-            }`}
+        <Link
+          to={`/subjects/${subject.toLowerCase()}/rooms/${room.id}`}
+          className="w-full"
+        >
+          <Button
+            variant={room.completed ? "outline" : "default"}
+            className={`w-full ${!room.completed ? styles.buttonColor : ""}`}
           >
             {room.completed ? "Review Room" : "Start Room"}
             <ArrowRight className="ml-2 h-4 w-4" />
