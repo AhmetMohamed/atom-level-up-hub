@@ -1,4 +1,3 @@
-
 import React from "react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -8,21 +7,20 @@ import SubjectsSection from "@/components/SubjectsSection";
 import TestimonialsSection from "@/components/TestimonialsSection";
 import PricingSection from "@/components/PricingSection";
 import CTASection from "@/components/CTASection";
+import FeatureCardsAnimated from "@/components/FeatureCardsAnimated";
 
 const Index = () => {
   return (
-    <div className="min-h-screen flex flex-col">
+    <>
       <Header />
-      <main className="flex-grow">
-        <HeroSection />
-        <FeaturesSection />
-        <SubjectsSection />
-        <TestimonialsSection />
-        <PricingSection />
-        <CTASection />
-      </main>
+      <HeroSection />
+      <FeatureCardsAnimated />
+      <SubjectsSection />
+      <TestimonialsSection />
+      <PricingSection />
+      <CTASection />
       <Footer />
-    </div>
+    </>
   );
 };
 

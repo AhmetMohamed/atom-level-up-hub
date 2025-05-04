@@ -17,6 +17,7 @@ import ExamChallengeNew from "./pages/ExamChallengeNew";
 import Subject from "./pages/Subject";
 import Room from "./pages/Room";
 import Pricing from "./pages/Pricing";
+import Challenges from "./pages/Challenges";
 
 // CMS Routes
 import CMSDashboard from "./pages/CMS/CMSDashboard";
@@ -25,6 +26,7 @@ import RoomEditor from "./pages/CMS/RoomEditor";
 import ExamsManagement from "./pages/CMS/ExamsManagement";
 import ResourcesManagement from "./pages/CMS/ResourcesManagement";
 import StudentsManagement from "./pages/CMS/StudentsManagement";
+import CMSAuth from "./pages/CMS/CMSAuth";
 
 const queryClient = new QueryClient();
 
@@ -43,12 +45,14 @@ const App = () => (
           <Route path="/leaderboard" element={<Leaderboard />} />
           <Route path="/resources" element={<Resources />} />
           <Route path="/pricing" element={<Pricing />} />
+          <Route path="/challenges" element={<Challenges />} />
           <Route path="/exam-challenge/:examId" element={<ExamChallenge />} />
           <Route path="/challenge/:examId" element={<ExamChallengeNew />} />
           <Route path="/subjects/:subjectId" element={<Subject />} />
           <Route path="/subjects/:subjectId/rooms/:roomId" element={<Room />} />
           
           {/* CMS routes */}
+          <Route path="/cms/login" element={<CMSAuth />} />
           <Route path="/cms" element={<CMSDashboard />} />
           <Route path="/cms/rooms" element={<RoomsManagement />} />
           <Route path="/cms/rooms/:operation/:roomId" element={<RoomEditor />} />

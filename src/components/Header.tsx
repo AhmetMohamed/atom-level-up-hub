@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Menu, ChevronDown } from "lucide-react";
+import { Menu, ChevronDown, Award } from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import {
   DropdownMenu,
@@ -62,6 +62,14 @@ const Header = () => {
               </DropdownMenuContent>
             </DropdownMenu>
           </div>
+          
+          <Link 
+            to="/challenges"
+            className="text-muted-foreground hover:text-science-primary transition-colors flex items-center gap-1"
+          >
+            <Award className="h-4 w-4 mr-1" />
+            Challenges
+          </Link>
           
           <Link 
             to="/resources"
@@ -132,6 +140,14 @@ const Header = () => {
                   </Link>
                 </div>
               </div>
+              
+              <Link 
+                to="/challenges"
+                className="text-lg font-semibold hover:text-science-primary transition-colors flex items-center gap-2"
+              >
+                <Award className="h-5 w-5" />
+                Challenges
+              </Link>
               
               <Link 
                 to="/resources"

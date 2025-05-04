@@ -1,412 +1,255 @@
-
-import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import { Button } from '@/components/ui/button';
-import { Progress } from '@/components/ui/progress';
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { Badge } from '@/components/ui/badge';
-import { Clock, AlertCircle, CheckCircle, ArrowLeft } from 'lucide-react';
-import QuizQuestion from '@/components/QuizQuestion';
-import Header from '@/components/Header';
-import Footer from '@/components/Footer';
-
-interface Exam {
-  id: string;
-  title: string;
-  subject: string;
-  duration: string;
-  durationMinutes: number;
-  questions: Question[];
-  description: string;
-  difficulty: string;
-}
+import React, { useState, useEffect } from "react";
+import { useParams, Link } from "react-router-dom";
+import { Button } from "@/components/ui/button";
+import { Progress } from "@/components/ui/progress";
+import { Card, CardContent, CardFooter } from "@/components/ui/card";
+import { Label } from "@/components/ui/label";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { CheckCircle, XCircle, Clock, Award, FileText } from "lucide-react";
+import { Textarea } from "@/components/ui/textarea";
+import DashboardLayout from "@/components/DashboardLayout";
+import { toast } from "sonner";
 
 interface Question {
   id: string;
-  question: string;
+  text: string;
   options: string[];
-  answer: number;
+  correctAnswer: string;
+  explanation?: string;
 }
 
-const ExamChallengeNew = () => {
-  const { examId } = useParams();
-  const navigate = useNavigate();
-  
-  const [exam, setExam] = useState<Exam | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [timeRemaining, setTimeRemaining] = useState(0);
-  const [selectedAnswers, setSelectedAnswers] = useState<(number | undefined)[]>([]);
-  const [examStarted, setExamStarted] = useState(false);
-  const [examSubmitted, setExamSubmitted] = useState(false);
-  const [score, setScore] = useState({ correct: 0, total: 0, percentage: 0 });
+const mockQuestions: Question[] = [
+  {
+    id: "1",
+    text: "What is the powerhouse of the cell?",
+    options: ["Nucleus", "Mitochondria", "Endoplasmic Reticulum", "Golgi Apparatus"],
+    correctAnswer: "Mitochondria",
+    explanation: "Mitochondria are known as the powerhouse of the cell because they generate most of the cell's supply of adenosine triphosphate (ATP), used as a source of chemical energy."
+  },
+  {
+    id: "2",
+    text: "Which gas do plants absorb from the atmosphere during photosynthesis?",
+    options: ["Oxygen", "Carbon Dioxide", "Nitrogen", "Hydrogen"],
+    correctAnswer: "Carbon Dioxide",
+    explanation: "Plants absorb carbon dioxide from the atmosphere during photosynthesis to produce glucose and oxygen."
+  },
+  {
+    id: "3",
+    text: "What is the chemical symbol for water?",
+    options: ["Wa", "H2O", "HO2", "H2"],
+    correctAnswer: "H2O",
+    explanation: "The chemical symbol for water is H2O, indicating that each water molecule consists of two hydrogen atoms and one oxygen atom."
+  },
+  {
+    id: "4",
+    text: "Which of Newton's laws states that for every action, there is an equal and opposite reaction?",
+    options: ["First Law", "Second Law", "Third Law", "Law of Gravity"],
+    correctAnswer: "Third Law",
+    explanation: "Newton's Third Law of Motion states that for every action, there is an equal and opposite reaction."
+  },
+  {
+    id: "5",
+    text: "What is the process by which plants convert light energy into chemical energy?",
+    options: ["Respiration", "Photosynthesis", "Transpiration", "Digestion"],
+    correctAnswer: "Photosynthesis",
+    explanation: "Photosynthesis is the process by which plants convert light energy into chemical energy in the form of glucose."
+  }
+];
 
-  // Simulated exams data
-  const examsData: Record<string, Exam> = {
-    "challenge-biology": {
-      id: "biology-mock-gcse",
-      title: "GCSE Biology Mock Exam",
-      subject: "Biology",
-      duration: "45 min",
-      durationMinutes: 45,
-      difficulty: "GCSE Level",
-      description: "This mock exam covers key concepts in GCSE Biology including cell biology, organization, infection and response, bioenergetics, homeostasis, inheritance, and ecology.",
-      questions: Array(20).fill(null).map((_, index) => ({
-        id: `bio-q${index + 1}`,
-        question: `Biology Question ${index + 1} - Sample question about cells, organisms, or biological processes.`,
-        options: [
-          "Answer option 1",
-          "Answer option 2",
-          "Answer option 3",
-          "Answer option 4"
-        ],
-        answer: Math.floor(Math.random() * 4)
-      }))
-    },
-    "challenge-chemistry": {
-      id: "chemistry-a-level",
-      title: "A-Level Chemistry Test",
-      subject: "Chemistry",
-      duration: "60 min",
-      durationMinutes: 60,
-      difficulty: "A-Level",
-      description: "This challenging A-Level Chemistry test covers advanced topics including atomic structure, bonding, energetics, kinetics, equilibrium, redox processes, and organic chemistry.",
-      questions: Array(20).fill(null).map((_, index) => ({
-        id: `chem-q${index + 1}`,
-        question: `Chemistry Question ${index + 1} - Sample question about elements, compounds, or chemical reactions.`,
-        options: [
-          "Answer option 1",
-          "Answer option 2",
-          "Answer option 3",
-          "Answer option 4"
-        ],
-        answer: Math.floor(Math.random() * 4)
-      }))
-    },
-    "challenge-physics": {
-      id: "physics-a-level",
-      title: "A-Level Physics Exam",
-      subject: "Physics",
-      duration: "90 min",
-      durationMinutes: 90,
-      difficulty: "A-Level",
-      description: "This comprehensive A-Level Physics examination tests your knowledge of mechanics, electricity, waves, nuclear physics, and quantum phenomena.",
-      questions: Array(20).fill(null).map((_, index) => ({
-        id: `phys-q${index + 1}`,
-        question: `Physics Question ${index + 1} - Sample question about forces, energy, or physical phenomena.`,
-        options: [
-          "Answer option 1",
-          "Answer option 2",
-          "Answer option 3",
-          "Answer option 4"
-        ],
-        answer: Math.floor(Math.random() * 4)
-      }))
-    },
-    "challenge-math": {
-      id: "math-calculus-test",
-      title: "Calculus Challenge",
-      subject: "Mathematics",
-      duration: "45 min",
-      durationMinutes: 45,
-      difficulty: "Advanced",
-      description: "Test your advanced mathematics skills with this calculus challenge covering derivatives, integrals, differential equations, and their applications.",
-      questions: Array(20).fill(null).map((_, index) => ({
-        id: `math-q${index + 1}`,
-        question: `Mathematics Question ${index + 1} - Sample question about calculus concepts or applications.`,
-        options: [
-          "Answer option 1",
-          "Answer option 2",
-          "Answer option 3", 
-          "Answer option 4"
-        ],
-        answer: Math.floor(Math.random() * 4)
-      }))
+const ExamChallengeNew = () => {
+  const { examId } = useParams<{ examId: string }>();
+  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
+  const [userAnswers, setUserAnswers] = useState<{ [key: string]: string }>({});
+  const [isFinished, setIsFinished] = useState(false);
+  const [score, setScore] = useState(0);
+  const [showExplanations, setShowExplanations] = useState(false);
+  const [timeLeft, setTimeLeft] = useState(1800); // 30 minutes in seconds
+
+  useEffect(() => {
+    if (timeLeft <= 0) {
+      setIsFinished(true);
+      return;
+    }
+
+    if (isFinished) return;
+
+    const intervalId = setInterval(() => {
+      setTimeLeft(timeLeft - 1);
+    }, 1000);
+
+    return () => clearInterval(intervalId);
+  }, [timeLeft, isFinished]);
+
+  const currentQuestion = mockQuestions[currentQuestionIndex];
+
+  const handleAnswerChange = (questionId: string, answer: string) => {
+    setUserAnswers({ ...userAnswers, [questionId]: answer });
+  };
+
+  const goToNextQuestion = () => {
+    if (currentQuestionIndex < mockQuestions.length - 1) {
+      setCurrentQuestionIndex(currentQuestionIndex + 1);
+    } else {
+      finishExam();
     }
   };
 
-  useEffect(() => {
-    // Simulate loading exam data from API
-    setTimeout(() => {
-      const selectedExam = examsData[examId as string];
-      if (selectedExam) {
-        setExam(selectedExam);
-        setSelectedAnswers(Array(selectedExam.questions.length).fill(undefined));
-      }
-      setLoading(false);
-    }, 500);
-  }, [examId]);
-
-  useEffect(() => {
-    if (!examStarted || !exam) return;
-
-    // Initialize timer
-    setTimeRemaining(exam.durationMinutes * 60);
-    
-    // Start the countdown
-    const timer = setInterval(() => {
-      setTimeRemaining(prev => {
-        if (prev <= 1) {
-          clearInterval(timer);
-          submitExam();
-          return 0;
-        }
-        return prev - 1;
-      });
-    }, 1000);
-
-    return () => clearInterval(timer);
-  }, [examStarted, exam]);
-
-  const formatTime = (seconds: number) => {
-    const mins = Math.floor(seconds / 60);
-    const secs = seconds % 60;
-    return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+  const finishExam = () => {
+    setIsFinished(true);
+    calculateScore();
   };
 
-  const startExam = () => {
-    setExamStarted(true);
-  };
-
-  const handleSelectOption = (questionIndex: number, optionIndex: number) => {
-    setSelectedAnswers(prev => {
-      const newAnswers = [...prev];
-      newAnswers[questionIndex] = optionIndex;
-      return newAnswers;
-    });
-  };
-
-  const submitExam = () => {
-    // Calculate score
-    if (!exam) return;
-    
-    let correctCount = 0;
-    exam.questions.forEach((question, index) => {
-      if (selectedAnswers[index] === question.answer) {
-        correctCount++;
+  const calculateScore = () => {
+    let correctAnswersCount = 0;
+    mockQuestions.forEach((question) => {
+      if (userAnswers[question.id] === question.correctAnswer) {
+        correctAnswersCount++;
       }
     });
-
-    const percentage = Math.round((correctCount / exam.questions.length) * 100);
-    
-    setScore({
-      correct: correctCount,
-      total: exam.questions.length,
-      percentage: percentage
-    });
-
-    setExamSubmitted(true);
+    setScore(correctAnswersCount);
+    toast.success("Exam finished! Check your results below.");
   };
 
-  const navigateBack = () => {
-    navigate('/dashboard');
+  const toggleExplanations = () => {
+    setShowExplanations(!showExplanations);
   };
 
-  if (loading) {
-    return (
-      <div className="min-h-screen flex flex-col">
-        <Header />
-        <div className="container px-4 py-8 flex-1 flex items-center justify-center">
-          <div className="text-center">
-            <p className="text-muted-foreground mb-2">Loading exam...</p>
-            <Progress value={50} className="w-[300px]" />
-          </div>
-        </div>
-        <Footer />
-      </div>
-    );
+  const formatTime = (timeInSeconds: number) => {
+    const minutes = Math.floor(timeInSeconds / 60);
+    const seconds = timeInSeconds % 60;
+    return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+  };
+
+  if (!examId) {
+    return <div>Exam ID not provided.</div>;
   }
 
-  if (!exam) {
+  if (isFinished) {
     return (
-      <div className="min-h-screen flex flex-col">
-        <Header />
-        <div className="container px-4 py-8 flex-1">
-          <div className="text-center">
-            <h1 className="text-3xl font-bold mb-4">Exam Not Found</h1>
-            <p className="text-muted-foreground mb-6">The exam you're looking for doesn't exist or hasn't been created yet.</p>
-            <Button onClick={navigateBack}>Back to Dashboard</Button>
+      <DashboardLayout>
+        <div className="container px-4 py-6 max-w-3xl">
+          <div className="text-center mb-8">
+            <Award className="h-12 w-12 mx-auto text-yellow-500 mb-2" />
+            <h2 className="text-3xl font-bold">Exam Complete!</h2>
+            <p className="text-muted-foreground">
+              You've reached the end of the challenge. Here are your results:
+            </p>
+          </div>
+
+          <Card className="mb-4">
+            <CardContent className="text-center">
+              <div className="text-4xl font-bold text-blue-600">
+                {score} / {mockQuestions.length}
+              </div>
+              <p className="text-muted-foreground">
+                You answered {score} questions correctly out of {mockQuestions.length}.
+              </p>
+            </CardContent>
+          </Card>
+
+          <div className="space-y-4">
+            <Button onClick={toggleExplanations} variant="secondary">
+              {showExplanations ? "Hide Explanations" : "Show Explanations"}
+            </Button>
+
+            {showExplanations && (
+              <div className="space-y-4">
+                {mockQuestions.map((question) => (
+                  <Card key={question.id}>
+                    <CardContent>
+                      <h3 className="text-lg font-semibold mb-2">{question.text}</h3>
+                      <p>
+                        <strong>Your Answer:</strong> {userAnswers[question.id] || "Not Answered"}
+                      </p>
+                      <p>
+                        <strong>Correct Answer:</strong> {question.correctAnswer}
+                      </p>
+                      {question.explanation && (
+                        <div className="mt-2">
+                          <strong>Explanation:</strong> {question.explanation}
+                        </div>
+                      )}
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+            )}
+          </div>
+
+          <div className="mt-6 flex justify-between">
+            <Link to="/challenges">
+              <Button variant="outline">Back to Challenges</Button>
+            </Link>
+            <Button onClick={() => window.location.reload()}>Retake Exam</Button>
           </div>
         </div>
-        <Footer />
-      </div>
+      </DashboardLayout>
     );
   }
 
   return (
-    <div className="min-h-screen flex flex-col bg-slate-50">
-      <Header />
-      
-      <main className="flex-1 container px-4 py-6 max-w-4xl">
-        {!examStarted && !examSubmitted ? (
-          <Card className="shadow-sm">
-            <CardHeader className="pb-2">
-              <div className="flex items-center justify-between">
-                <Button variant="outline" size="sm" className="mb-4" onClick={navigateBack}>
-                  <ArrowLeft className="w-4 h-4 mr-2" />
-                  Back
-                </Button>
-                <Badge variant="outline" className="bg-science-light text-science-primary">
-                  {exam.subject}
-                </Badge>
-              </div>
-              <CardTitle className="text-3xl">{exam.title}</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <p className="text-muted-foreground">{exam.description}</p>
-              
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div className="flex items-center gap-2 bg-slate-100 p-4 rounded-md">
-                  <Clock className="h-5 w-5 text-muted-foreground" />
-                  <div>
-                    <p className="text-sm font-medium">Duration</p>
-                    <p className="text-lg font-semibold">{exam.duration}</p>
-                  </div>
+    <DashboardLayout>
+      <div className="container px-4 py-6 max-w-3xl">
+        <div className="mb-6 flex justify-between items-center">
+          <div>
+            <h1 className="text-2xl font-bold">Exam Challenge</h1>
+            <p className="text-muted-foreground">
+              {examId} - Question {currentQuestionIndex + 1} of {mockQuestions.length}
+            </p>
+          </div>
+          <div className="flex items-center gap-2">
+            <Clock className="h-4 w-4 text-muted-foreground" />
+            <span className="text-sm text-muted-foreground">Time Left: {formatTime(timeLeft)}</span>
+          </div>
+        </div>
+
+        <Card className="mb-4">
+          <CardContent>
+            <p className="text-lg font-semibold mb-4">{currentQuestion.text}</p>
+            <RadioGroup
+              defaultValue={userAnswers[currentQuestion.id]}
+              onValueChange={(value) => handleAnswerChange(currentQuestion.id, value)}
+            >
+              {currentQuestion.options.map((option) => (
+                <div key={option} className="mb-2">
+                  <RadioGroupItem value={option} id={option} className="peer sr-only" />
+                  <Label
+                    htmlFor={option}
+                    className="flex items-center p-4 border rounded-lg cursor-pointer peer-checked:bg-secondary peer-checked:text-secondary-foreground peer-checked:border-secondary"
+                  >
+                    {option}
+                  </Label>
                 </div>
-                <div className="flex items-center gap-2 bg-slate-100 p-4 rounded-md">
-                  <FileQuestion className="h-5 w-5 text-muted-foreground" />
-                  <div>
-                    <p className="text-sm font-medium">Questions</p>
-                    <p className="text-lg font-semibold">{exam.questions.length}</p>
-                  </div>
-                </div>
-                <div className="flex items-center gap-2 bg-slate-100 p-4 rounded-md">
-                  <GraduationCap className="h-5 w-5 text-muted-foreground" />
-                  <div>
-                    <p className="text-sm font-medium">Difficulty</p>
-                    <p className="text-lg font-semibold">{exam.difficulty}</p>
-                  </div>
-                </div>
-              </div>
-              
-              <Alert>
-                <AlertCircle className="h-4 w-4" />
-                <AlertTitle>Important Information</AlertTitle>
-                <AlertDescription>
-                  Once you start the exam, the timer will begin counting down. You must complete all 
-                  {exam.questions.length} questions within {exam.duration}. Make sure you're ready 
-                  before clicking the start button.
-                </AlertDescription>
-              </Alert>
-            </CardContent>
-            <CardFooter>
-              <Button className="w-full" onClick={startExam}>
-                Start Exam
-              </Button>
-            </CardFooter>
-          </Card>
-        ) : examSubmitted ? (
-          <Card className="shadow-sm">
-            <CardHeader className="text-center">
-              <div className="mb-4 flex justify-center">
-                <CheckCircle className="h-12 w-12 text-green-500" />
-              </div>
-              <CardTitle className="text-3xl">Exam Completed</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="text-center">
-                <div className="text-5xl font-bold mb-2">{score.percentage}%</div>
-                <p className="text-muted-foreground">You scored {score.correct} out of {score.total} questions correctly</p>
-              </div>
-              
-              <div className="p-4 bg-muted rounded-md">
-                <h3 className="font-semibold mb-2">Performance Analysis</h3>
-                <div className="space-y-2">
-                  <div>
-                    <div className="flex justify-between mb-1">
-                      <span className="text-sm font-medium">Overall Score</span>
-                      <span className="text-sm font-medium">{score.percentage}%</span>
-                    </div>
-                    <Progress value={score.percentage} className="h-2" />
-                  </div>
-                  
-                  <p className="text-sm text-muted-foreground mt-4">
-                    {score.percentage >= 80 
-                      ? "Excellent work! You've demonstrated a strong understanding of the subject matter."
-                      : score.percentage >= 60 
-                      ? "Good job. You have a solid grasp of most concepts, but there's still room for improvement."
-                      : "You might need to study more on this topic. Review the questions you missed."}
-                  </p>
-                </div>
-              </div>
-              
-              <div className="mt-6">
-                <h3 className="font-semibold mb-4">Question Review</h3>
-                <div className="space-y-4">
-                  {exam.questions.map((question, index) => (
-                    <QuizQuestion
-                      key={question.id}
-                      question={question}
-                      index={index}
-                      selectedOption={selectedAnswers[index]}
-                      isSubmitted={true}
-                      onSelectOption={(optionIndex) => {}}
-                    />
-                  ))}
-                </div>
-              </div>
-            </CardContent>
-            <CardFooter className="flex justify-between">
-              <Button variant="outline" onClick={navigateBack}>
-                Back to Dashboard
-              </Button>
-              <Button>Download Certificate</Button>
-            </CardFooter>
-          </Card>
-        ) : (
-          <>
-            <div className="mb-6 bg-white p-4 rounded-lg border sticky top-0 z-10">
-              <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-                <div>
-                  <h1 className="text-2xl font-bold">{exam.title}</h1>
-                  <p className="text-muted-foreground">{exam.subject} • {exam.difficulty}</p>
-                </div>
-                <div className="flex items-center gap-4">
-                  <div>
-                    <div className="text-sm text-muted-foreground mb-1">Answered:</div>
-                    <div className="font-bold">
-                      {selectedAnswers.filter(a => a !== undefined).length} / {exam.questions.length}
-                    </div>
-                  </div>
-                  <div className="bg-yellow-50 border border-yellow-200 p-3 rounded-lg flex items-center gap-2">
-                    <Clock className="text-yellow-500 h-5 w-5" />
-                    <div className="font-mono text-xl font-bold">{formatTime(timeRemaining)}</div>
-                  </div>
-                </div>
-              </div>
-              <Progress 
-                value={(selectedAnswers.filter(a => a !== undefined).length / exam.questions.length) * 100} 
-                className="mt-4 h-2" 
-              />
-            </div>
-            
-            <div className="space-y-6">
-              {exam.questions.map((question, index) => (
-                <QuizQuestion
-                  key={question.id}
-                  question={question}
-                  index={index}
-                  selectedOption={selectedAnswers[index]}
-                  isSubmitted={false}
-                  onSelectOption={(optionIndex) => handleSelectOption(index, optionIndex)}
-                />
               ))}
-              
-              <div className="sticky bottom-4 bg-white p-4 rounded-lg border shadow-md">
-                <div className="flex items-center justify-between">
-                  <div className="text-sm text-muted-foreground">
-                    {selectedAnswers.filter(a => a !== undefined).length} of {exam.questions.length} questions answered
-                  </div>
-                  <Button onClick={submitExam}>Submit Exam</Button>
-                </div>
-              </div>
-            </div>
-          </>
-        )}
-      </main>
-      
-      <Footer />
-    </div>
+            </RadioGroup>
+          </CardContent>
+          <CardFooter className="justify-between">
+            <Button
+              variant="outline"
+              onClick={() => window.history.back()}
+            >
+              Go Back
+            </Button>
+            <Button onClick={goToNextQuestion}>
+              {currentQuestionIndex === mockQuestions.length - 1 ? "Finish Exam" : "Next Question"}
+            </Button>
+          </CardFooter>
+        </Card>
+
+        <div className="flex justify-between">
+          <Link to="/challenges">
+            <Button variant="ghost">
+              <FileText className="h-4 w-4 mr-2" />
+              Back to Challenges
+            </Button>
+          </Link>
+          <Button variant="destructive" onClick={finishExam}>
+            <XCircle className="h-4 w-4 mr-2" />
+            End Exam
+          </Button>
+        </div>
+      </div>
+    </DashboardLayout>
   );
 };
 

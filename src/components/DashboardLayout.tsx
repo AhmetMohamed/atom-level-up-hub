@@ -1,3 +1,4 @@
+
 import React, { ReactNode, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { cn } from "@/lib/utils";
@@ -19,6 +20,7 @@ import {
   Dna,
   ChevronDown,
   ChevronUp,
+  Award
 } from "lucide-react";
 import { toast } from "sonner";
 import {
@@ -53,10 +55,10 @@ const DashboardLayout = ({ children }: DashboardLayoutProps) => {
       icon: <FileText className="w-5 h-5" />,
     },
     {
-      title: "Exam Challenges",
-      href: "/exam-challenge/challenge-biology",
-      icon: <Clock className="w-5 h-5" />,
-    },
+      title: "Challenges",
+      href: "/challenges",
+      icon: <Award className="w-5 h-5" />,
+    }
   ];
 
   const subjectLinks = [
