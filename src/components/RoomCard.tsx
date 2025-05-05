@@ -90,7 +90,7 @@ const RoomCard = ({ room, subject }: RoomCardProps) => {
 
       <CardFooter className="p-4 pt-0">
         <Link
-          to={`/room/${room.id}`}
+          to={`/subjects/${subject}/rooms/${room.id}`}
           className="w-full"
         >
           <Button
@@ -107,7 +107,7 @@ const RoomCard = ({ room, subject }: RoomCardProps) => {
                 : ""
             }`}
           >
-            {room.completed ? "Review Room" : "Start Room"}
+            {room.completed ? "Review Room" : room.completionPercentage > 0 ? "Continue Room" : "Start Room"}
             <ArrowRight className="ml-2 h-4 w-4" />
           </Button>
         </Link>

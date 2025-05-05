@@ -92,7 +92,7 @@ const ModuleCard = ({ module, subject, subjectId, pathId }: ModuleCardProps) => 
                           </Badge>
                         )}
                       </div>
-                      <Link to={`/room/${room.id}`}>
+                      <Link to={`/subjects/${subjectId}/rooms/${room.id}`}>
                         <Button variant="outline" size="sm" className="w-full mt-2">
                           {room.completed ? "Review" : room.completionPercentage > 0 ? "Continue" : "Start"} Room
                           <ArrowRight className="ml-1 h-3 w-3" />
@@ -108,7 +108,7 @@ const ModuleCard = ({ module, subject, subjectId, pathId }: ModuleCardProps) => 
       </CardContent>
       
       <CardFooter>
-        {/* Always use path ID when navigating to modules */}
+        {/* Use appropriate path for modules navigation */}
         {pathId ? (
           <Link to={`/subjects/${subjectId}/learning-paths/${pathId}/modules/${module.id}`} className="w-full">
             <Button className="w-full">

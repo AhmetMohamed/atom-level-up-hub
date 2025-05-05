@@ -22,19 +22,19 @@ const ModuleDetail = () => {
   const learningPath = getLearningPathById(subjectId || "", pathId || "");
   const module = getModuleById(subjectId || "", pathId || "", moduleId || "");
 
-  if (!module || !learningPath) {
+  if (!module) {
     return (
-      <>
+      <div className="flex flex-col min-h-screen">
         <Header />
-        <div className="container py-20 text-center">
+        <div className="container py-20 text-center flex-1">
           <h1 className="text-2xl font-bold mb-4">Module Not Found</h1>
           <p className="mb-8">
             The module you're looking for doesn't exist or has been moved.
           </p>
-          <Button onClick={() => navigate(-1)}>Go Back</Button>
+          <Button onClick={() => navigate(`/subjects/${subjectId}`)}>Go Back to {subject.title}</Button>
         </div>
         <Footer />
-      </>
+      </div>
     );
   }
 
@@ -45,12 +45,21 @@ const ModuleDetail = () => {
         <div className={`py-8 ${subject.color}`}>
           <div className="container px-4">
             <div className="mb-4">
-              <Link
-                to={`/subjects/${subjectId}/learning-paths/${pathId}`}
-                className="inline-flex items-center text-sm hover:underline"
-              >
-                <ArrowLeft className="h-4 w-4 mr-1" /> Back to {learningPath.title}
-              </Link>
+              {pathId ? (
+                <Link
+                  to={`/subjects/${subjectId}/learning-paths/${pathId}`}
+                  className="inline-flex items-center text-sm hover:underline"
+                >
+                  <ArrowLeft className="h-4 w-4 mr-1" /> Back to {learningPath?.title || "Learning Path"}
+                </Link>
+              ) : (
+                <Link
+                  to={`/subjects/${subjectId}`}
+                  className="inline-flex items-center text-sm hover:underline"
+                >
+                  <ArrowLeft className="h-4 w-4 mr-1" /> Back to {subject.title}
+                </Link>
+              )}
             </div>
 
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
