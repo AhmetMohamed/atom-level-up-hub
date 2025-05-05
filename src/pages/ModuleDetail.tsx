@@ -1,9 +1,8 @@
 
 import React from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { getModuleById, getSubjectData, getLearningPathById } from "@/lib/demoData";
@@ -15,6 +14,8 @@ const ModuleDetail = () => {
     pathId: string;
     moduleId: string;
   }>();
+  
+  const navigate = useNavigate();
 
   // Get the module data
   const subject = getSubjectData(subjectId || "");
@@ -30,9 +31,7 @@ const ModuleDetail = () => {
           <p className="mb-8">
             The module you're looking for doesn't exist or has been moved.
           </p>
-          <Link to={`/subjects/${subjectId}/learning-paths/${pathId}`}>
-            <Button>Return to Learning Path</Button>
-          </Link>
+          <Button onClick={() => navigate(-1)}>Go Back</Button>
         </div>
         <Footer />
       </>
@@ -40,9 +39,9 @@ const ModuleDetail = () => {
   }
 
   return (
-    <>
+    <div className="flex flex-col min-h-screen">
       <Header />
-      <div className="min-h-screen">
+      <div className="flex-1">
         <div className={`py-8 ${subject.color}`}>
           <div className="container px-4">
             <div className="mb-4">
@@ -107,7 +106,7 @@ const ModuleDetail = () => {
         </div>
       </div>
       <Footer />
-    </>
+    </div>
   );
 };
 

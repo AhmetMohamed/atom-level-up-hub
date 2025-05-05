@@ -35,6 +35,7 @@ function App() {
         <Route path="/subjects/:subjectId" element={<Subject />} />
         <Route path="/subjects/:subjectId/learning-paths/:pathId" element={<LearningPathDetail />} />
         <Route path="/subjects/:subjectId/learning-paths/:pathId/modules/:moduleId" element={<ModuleDetail />} />
+        <Route path="/subjects/:subjectId/learning-paths/discover/modules/:moduleId" element={<ModuleDetail />} />
         <Route path="/subjects/:subjectId/rooms/:roomId" element={<Room />} />
         <Route path="/room/:roomId" element={<Room />} />
         <Route path="/challenges" element={<Challenges />} />
