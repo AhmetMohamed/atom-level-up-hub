@@ -21,9 +21,10 @@ interface ModuleCardProps {
     border: string;
   };
   subjectId: string;
+  pathId?: string;
 }
 
-const ModuleCard = ({ module, subject, subjectId }: ModuleCardProps) => {
+const ModuleCard = ({ module, subject, subjectId, pathId }: ModuleCardProps) => {
   const completedRooms = module.rooms.filter(room => room.completed).length;
   const totalRooms = module.rooms.length;
   
@@ -107,10 +108,19 @@ const ModuleCard = ({ module, subject, subjectId }: ModuleCardProps) => {
       </CardContent>
       
       <CardFooter>
-        <Button className="w-full">
-          {module.progress > 0 ? "Continue Module" : "Start Module"}
-          <ArrowRight className="ml-2 h-4 w-4" />
-        </Button>
+        {pathId ? (
+          <Link to={`/subjects/${subjectId}/learning-paths/${pathId}/modules/${module.id}`} className="w-full">
+            <Button className="w-full">
+              {module.progress > 0 ? "Continue Module" : "Start Module"}
+              <ArrowRight className="ml-2 h-4 w-4" />
+            </Button>
+          </Link>
+        ) : (
+          <Button className="w-full">
+            {module.progress > 0 ? "Continue Module" : "Start Module"}
+            <ArrowRight className="ml-2 h-4 w-4" />
+          </Button>
+        )}
       </CardFooter>
     </Card>
   );

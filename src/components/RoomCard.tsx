@@ -90,7 +90,7 @@ const RoomCard = ({ room, subject }: RoomCardProps) => {
 
       <CardFooter className="p-4 pt-0">
         <Link
-          to={`/subjects/${subject.toLowerCase()}/rooms/${room.id}`}
+          to={`/room/${room.id}`}
           className="w-full"
         >
           <Button
