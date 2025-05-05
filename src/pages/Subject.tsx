@@ -1,7 +1,15 @@
 import React from "react";
 import { useParams, Link } from "react-router-dom";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { BookOpen, Book, Home, Microscope, FlaskConical, Calculator } from "lucide-react";
+import {
+  BookOpen,
+  Book,
+  Home,
+  Microscope,
+  FlaskConical,
+  Calculator,
+  ArrowRight,
+} from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import SubjectHeader from "@/components/SubjectHeader";
@@ -12,26 +20,29 @@ import { getSubjectData, LearningPath, Module, Room } from "@/lib/demoData";
 
 const Subject = () => {
   const { subjectId } = useParams<{ subjectId: string }>();
-  
+
   // Get subject data based on the subjectId
   const subject = getSubjectData(subjectId || "");
-  
+
   // Get the most recent rooms from all learning paths
   const getRecentRooms = (): Room[] => {
     const allRooms: Room[] = [];
-    
-    subject.learningPaths.forEach(path => {
-      path.modules.forEach(module => {
-        module.rooms.forEach(room => {
+
+    subject.learningPaths.forEach((path) => {
+      path.modules.forEach((module) => {
+        module.rooms.forEach((room) => {
           // Only add in-progress rooms or randomly select a few completed ones
-          if (room.completionPercentage > 0 && room.completionPercentage < 100 || 
-              (room.completed && Math.random() > 0.7)) {
+          if (
+            (room.completionPercentage > 0 &&
+              room.completionPercentage < 100) ||
+            (room.completed && Math.random() > 0.7)
+          ) {
             allRooms.push(room);
           }
         });
       });
     });
-    
+
     // Sort by completion percentage (in-progress first)
     return allRooms
       .sort((a, b) => {
@@ -46,28 +57,28 @@ const Subject = () => {
   // Get all modules from all learning paths
   const getAllModules = (): Module[] => {
     const allModules: Module[] = [];
-    
-    subject.learningPaths.forEach(path => {
-      path.modules.forEach(module => {
+
+    subject.learningPaths.forEach((path) => {
+      path.modules.forEach((module) => {
         allModules.push(module);
       });
     });
-    
+
     return allModules;
   };
-  
+
   // Get all rooms from all learning paths and modules
   const getAllRooms = (): Room[] => {
     const allRooms: Room[] = [];
-    
-    subject.learningPaths.forEach(path => {
-      path.modules.forEach(module => {
-        module.rooms.forEach(room => {
+
+    subject.learningPaths.forEach((path) => {
+      path.modules.forEach((module) => {
+        module.rooms.forEach((room) => {
           allRooms.push(room);
         });
       });
     });
-    
+
     return allRooms;
   };
 
@@ -136,8 +147,8 @@ const Subject = () => {
                         concepts of {subject.title} through interactive lessons,
                         practice quizzes, and engaging activities. Whether
                         you're preparing for GCSE, A-Level, or just curious
-                        about {subject.title}, our comprehensive materials will guide
-                        you through your learning journey.
+                        about {subject.title}, our comprehensive materials will
+                        guide you through your learning journey.
                       </p>
                       <h4 className="font-semibold mb-2">What you'll learn:</h4>
                       <ul className="list-disc pl-5 space-y-1 mb-4">
@@ -165,9 +176,11 @@ const Subject = () => {
                       ))}
                     </div>
                   </section>
-                  
+
                   <section>
-                    <h2 className="text-xl font-bold mb-4">Your Learning Paths</h2>
+                    <h2 className="text-xl font-bold mb-4">
+                      Your Learning Paths
+                    </h2>
                     <div className="grid grid-cols-1 gap-4">
                       {subject.learningPaths.slice(0, 2).map((learningPath) => (
                         <LearningPathCard
@@ -182,7 +195,10 @@ const Subject = () => {
                         />
                       ))}
                       <div className="mt-2">
-                        <Link to="#learning-path" className="text-blue-600 hover:underline flex items-center gap-1 text-sm">
+                        <Link
+                          to="#learning-path"
+                          className="text-blue-600 hover:underline flex items-center gap-1 text-sm"
+                        >
                           View all learning paths
                           <ArrowRight className="h-4 w-4" />
                         </Link>
@@ -220,22 +236,35 @@ const Subject = () => {
                         </h4>
                         <ul className="space-y-2">
                           {subject.learningPaths.map((path, index) => (
-                            <li key={path.id} className="flex items-center gap-2">
-                              <div className={`h-2 w-2 rounded-full ${
-                                path.status === 'completed' ? 'bg-green-500' : 
-                                path.status === 'in-progress' ? 'bg-amber-500' : 
-                                'bg-gray-300'
-                              }`}></div>
+                            <li
+                              key={path.id}
+                              className="flex items-center gap-2"
+                            >
+                              <div
+                                className={`h-2 w-2 rounded-full ${
+                                  path.status === "completed"
+                                    ? "bg-green-500"
+                                    : path.status === "in-progress"
+                                    ? "bg-amber-500"
+                                    : "bg-gray-300"
+                                }`}
+                              ></div>
                               <span className="text-sm">
-                                {path.title} - {' '}
-                                <span className={
-                                  path.status === 'completed' ? 'text-green-600' : 
-                                  path.status === 'in-progress' ? 'text-amber-600' : 
-                                  'text-gray-500'
-                                }>
-                                  {path.status === 'completed' ? 'Complete' : 
-                                   path.status === 'in-progress' ? 'In Progress' : 
-                                   'Locked'}
+                                {path.title} -{" "}
+                                <span
+                                  className={
+                                    path.status === "completed"
+                                      ? "text-green-600"
+                                      : path.status === "in-progress"
+                                      ? "text-amber-600"
+                                      : "text-gray-500"
+                                  }
+                                >
+                                  {path.status === "completed"
+                                    ? "Complete"
+                                    : path.status === "in-progress"
+                                    ? "In Progress"
+                                    : "Locked"}
                                 </span>
                               </span>
                             </li>
@@ -317,7 +346,7 @@ const Subject = () => {
                 <p className="text-muted-foreground">
                   Choose a learning path to follow through the curriculum.
                 </p>
-                
+
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                   {subject.learningPaths.map((learningPath) => (
                     <LearningPathCard
@@ -341,12 +370,12 @@ const Subject = () => {
               <p className="text-muted-foreground">
                 Browse all available modules in this subject.
               </p>
-              
+
               <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
                 {allModules.map((module) => (
-                  <ModuleCard 
-                    key={module.id} 
-                    module={module} 
+                  <ModuleCard
+                    key={module.id}
+                    module={module}
                     subject={{
                       color: subject.color,
                       textColor: subject.textColor,
@@ -364,7 +393,7 @@ const Subject = () => {
               <p className="text-muted-foreground">
                 Explore all learning rooms available in this subject.
               </p>
-              
+
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {allRooms.map((room) => (
                   <RoomCard
