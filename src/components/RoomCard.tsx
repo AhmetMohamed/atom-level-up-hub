@@ -3,7 +3,7 @@ import React from "react";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { ArrowRight, Clock } from "lucide-react";
+import { ArrowRight, Clock, BookOpen } from "lucide-react";
 import { Link } from "react-router-dom";
 import { getSubjectData } from "@/lib/demoData";
 
@@ -14,7 +14,7 @@ interface Room {
   image?: string;
   level?: string;
   completionPercentage: number;
-  sections: number;
+  sections: any[]; // This can be an array of sections
   quizzes: number;
   module: string;
   duration: string;
@@ -38,18 +38,25 @@ const RoomCard = ({ room, subject }: RoomCardProps) => {
       border: subjectData.border,
       buttonColor: room.completed
         ? `${subjectData.color} ${subjectData.textColor} ${subjectData.border}`
-        : `bg-${subjectName === "biology" ? "green" : subjectName === "chemistry" ? "blue" : subjectName === "physics" ? "purple" : "red"}-600`,
+        : subject === "biology" 
+          ? "bg-green-600 hover:bg-green-700"
+          : subject === "chemistry" 
+          ? "bg-blue-600 hover:bg-blue-700" 
+          : subject === "physics" 
+          ? "bg-purple-600 hover:bg-purple-700" 
+          : "bg-red-600 hover:bg-red-700",
     };
   };
 
   const styles = getSubjectStyles(subject);
+  const sectionsCount = Array.isArray(room.sections) ? room.sections.length : 0;
 
   return (
-    <Card className="overflow-hidden transition-all duration-300 hover:shadow-md">
+    <Card className="overflow-hidden transition-all duration-300 hover:shadow-lg border border-gray-200 animate-fade-in">
       <div className={`p-4 ${styles.color} border-b ${styles.border}`}>
-        <h3 className="font-bold text-lg">{room.title}</h3>
-        <p className="text-sm text-muted-foreground">
-          {room.sections} sections • {room.quizzes} quizzes
+        <h3 className={`font-bold text-lg ${styles.textColor}`}>{room.title}</h3>
+        <p className={`text-sm ${styles.textColor} opacity-90`}>
+          {sectionsCount} {sectionsCount === 1 ? 'section' : 'sections'} • {room.quizzes} {room.quizzes === 1 ? 'quiz' : 'quizzes'}
         </p>
       </div>
 
@@ -64,7 +71,7 @@ const RoomCard = ({ room, subject }: RoomCardProps) => {
           </Badge>
         </div>
 
-        <p className="text-sm text-gray-600 mb-4">{room.description}</p>
+        <p className="text-sm text-gray-600 mb-4 line-clamp-2">{room.description}</p>
 
         <div className="mt-2">
           <div className="flex items-center justify-between mb-1">
@@ -75,7 +82,7 @@ const RoomCard = ({ room, subject }: RoomCardProps) => {
           </div>
           <div className="w-full bg-gray-200 rounded-full h-2">
             <div
-              className={`h-2 rounded-full ${
+              className={`h-2 rounded-full transition-all duration-500 ${
                 room.completionPercentage === 100
                   ? "bg-green-500"
                   : room.completionPercentage > 0
@@ -95,20 +102,12 @@ const RoomCard = ({ room, subject }: RoomCardProps) => {
         >
           <Button
             variant={room.completed ? "outline" : "default"}
-            className={`w-full ${
-              !room.completed
-                ? subject === "biology"
-                  ? "bg-green-600"
-                  : subject === "chemistry"
-                  ? "bg-blue-600"
-                  : subject === "physics"
-                  ? "bg-purple-600"
-                  : "bg-red-600"
-                : ""
+            className={`w-full transition-all ${
+              !room.completed ? styles.buttonColor : ""
             }`}
           >
             {room.completed ? "Review Room" : room.completionPercentage > 0 ? "Continue Room" : "Start Room"}
-            <ArrowRight className="ml-2 h-4 w-4" />
+            <ArrowRight className="ml-2 h-4 w-4 animate-pulse" />
           </Button>
         </Link>
       </CardFooter>

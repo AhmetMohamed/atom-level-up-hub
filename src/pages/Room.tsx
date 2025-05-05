@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import { 
   Accordion,
@@ -10,22 +10,35 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
-import { ArrowLeft, Clock, User, BookOpen, CheckCircle } from "lucide-react";
+import { ArrowLeft, Clock, User, BookOpen, CheckCircle, Award, BookText } from "lucide-react";
+import { toast } from "sonner";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { getSubjectData, getRoomById } from "@/lib/demoData";
 
 const Room = () => {
   const { subjectId, roomId } = useParams();
-  const [activeSection, setActiveSection] = useState<string | null>("what-are-cells");
+  const [activeSection, setActiveSection] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
   
   // Get the actual subject ID from the URL or use the room's subject association
-  // Since we have the roomId, we can use that to find the related subject
   const actualRoomId = roomId || "";
   
   // Try to find the room from any subject
   let foundRoom;
-  let foundSubjectId = subjectId;
+  let foundSubjectId = subjectId || "";
+  
+  useEffect(() => {
+    // When component mounts, fetch the room data
+    setIsLoading(true);
+    
+    // Simulate loading
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 800);
+    
+    return () => clearTimeout(timer);
+  }, [roomId]);
   
   // If we have a roomId but no subjectId, search through all subjects
   if (actualRoomId && !foundSubjectId) {
@@ -39,10 +52,10 @@ const Room = () => {
     }
   } else {
     // Otherwise use the provided subjectId
-    foundRoom = getRoomById(foundSubjectId || "", actualRoomId);
+    foundRoom = getRoomById(foundSubjectId, actualRoomId);
   }
   
-  // Room data mapping for fallback
+  // Room data mapping for fallback - ensure sections is always an array
   const roomDataMap = {
     "intro-to-cells": {
       title: "Cell Structure & Function",
@@ -53,6 +66,7 @@ const Room = () => {
       duration: "45 mins",
       xpPoints: 50,
       progress: 0,
+      completionPercentage: 0,
       completed: false,
       description: "Explore the basic building blocks of life and understand how cells function.",
       sections: [
@@ -61,7 +75,7 @@ const Room = () => {
           title: "1. Introduction to Cells",
           content: "Cells are the fundamental units of life. They are the smallest structural and functional units of living organisms. All living things are made up of cells, from single-celled bacteria to multi-cellular organisms like humans.\n\nThere are two main types of cells:\n- Prokaryotic cells - simple cells without a nucleus (e.g., bacteria)\n- Eukaryotic cells - complex cells with a nucleus (e.g., plant and animal cells)",
           completed: false,
-          image: "public/lovable-uploads/4ce305d8-2d7c-42f8-8aaa-fcd470a3bf58.png"
+          image: "/lovable-uploads/4ce305d8-2d7c-42f8-8aaa-fcd470a3bf58.png"
         },
         {
           id: "cell-organelles",
@@ -250,7 +264,25 @@ const Room = () => {
   
   // Use either the found room from the data or fallback to the hardcoded room
   const room = foundRoom || roomDataMap[actualRoomId as keyof typeof roomDataMap];
-  const subject = getSubjectData(foundSubjectId || "");
+  const subject = getSubjectData(foundSubjectId);
+  
+  // Ensure sections is always an array
+  const roomSections = Array.isArray(room?.sections) ? room.sections : [];
+  
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex flex-col">
+        <Header />
+        <div className="flex-grow flex items-center justify-center">
+          <div className="text-center">
+            <div className="inline-block animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-primary mb-4"></div>
+            <p className="text-muted-foreground">Loading room content...</p>
+          </div>
+        </div>
+        <Footer />
+      </div>
+    );
+  }
   
   if (!room) {
     return (
@@ -258,6 +290,9 @@ const Room = () => {
         <Header />
         <div className="container px-4 py-8 flex-1 flex items-center justify-center">
           <div className="text-center max-w-md">
+            <div className="mb-4 text-amber-500">
+              <BookText className="h-16 w-16 mx-auto" />
+            </div>
             <h1 className="text-3xl font-bold mb-4">Room Not Found</h1>
             <p className="text-muted-foreground mb-6">The room you're looking for doesn't exist or hasn't been created yet.</p>
             <Link to={`/subjects/${foundSubjectId || "biology"}`}>
@@ -274,43 +309,62 @@ const Room = () => {
     setActiveSection(sectionId === activeSection ? null : sectionId);
   };
 
-  const markAsComplete = () => {
+  const markAsComplete = (sectionId: string) => {
     // This would connect to an API in a real application
+    toast.success("Section marked as complete!", {
+      description: "Your progress has been updated"
+    });
   };
   
+  // If no active section is selected, set the first one
+  useEffect(() => {
+    if (roomSections.length > 0 && !activeSection) {
+      setActiveSection(roomSections[0].id);
+    }
+  }, [roomSections, activeSection]);
+
   return (
     <div className="min-h-screen flex flex-col bg-slate-50">
       <Header />
       
-      <main className="flex-1">
-        <div className="container px-4 py-6 max-w-4xl mx-auto">
-          <Link to={`/subjects/${foundSubjectId || "biology"}`} className="inline-flex items-center mb-6 text-muted-foreground hover:text-foreground transition-colors">
-            <ArrowLeft className="mr-2 h-4 w-4" />
-            Back to {subject.title || "Subject"}
-          </Link>
-          
-          <div className="mb-6">
-            <div className="flex gap-2 mb-1">
-              <Badge variant="outline" className="bg-white">{room.subject || subject.title}</Badge>
-              <Badge variant="outline" className="bg-white">{room.level || "Standard"}</Badge>
-            </div>
+      <main className="flex-1 w-full">
+        <div className={`w-full py-8 ${subject.color}`}>
+          <div className="container px-4 mx-auto">
+            <Link to={`/subjects/${foundSubjectId || "biology"}`} className="inline-flex items-center mb-6 text-muted-foreground hover:text-foreground transition-colors">
+              <ArrowLeft className="mr-2 h-4 w-4" />
+              Back to {subject.title || "Subject"}
+            </Link>
             
-            <h1 className="text-3xl font-bold tracking-tight mb-2">{room.title}</h1>
-            <p className="text-muted-foreground mb-4">{room.description}</p>
-            
-            <div className="flex items-center justify-between flex-wrap gap-4 mt-4">
-              <div className="flex items-center gap-2">
-                <Clock className="h-4 w-4 text-muted-foreground" />
-                <span>{room.duration}</span>
+            <div className="mb-6">
+              <div className="flex gap-2 mb-1">
+                <Badge variant="outline" className="bg-white">{room.subject || subject.title}</Badge>
+                <Badge variant="outline" className="bg-white">{room.level || "Standard"}</Badge>
               </div>
               
-              <div className="flex items-center gap-2">
-                <User className="h-4 w-4 text-muted-foreground" />
-                <span>By: {room.instructor || "Instructor"}</span>
+              <h1 className="text-3xl font-bold tracking-tight mb-2 animate-fade-in">{room.title}</h1>
+              <p className="text-muted-foreground mb-4">{room.description}</p>
+              
+              <div className="flex items-center justify-between flex-wrap gap-4 mt-4">
+                <div className="flex items-center gap-2">
+                  <Clock className="h-4 w-4 text-muted-foreground" />
+                  <span>{room.duration}</span>
+                </div>
+                
+                <div className="flex items-center gap-2">
+                  <User className="h-4 w-4 text-muted-foreground" />
+                  <span>By: {room.instructor || "Instructor"}</span>
+                </div>
+                
+                <div className="flex items-center gap-2">
+                  <Award className="h-4 w-4 text-muted-foreground" />
+                  <span>{room.xpPoints} XP</span>
+                </div>
               </div>
             </div>
           </div>
-          
+        </div>
+        
+        <div className="container px-4 mx-auto py-8">
           {/* Progress tracking */}
           <div className="mb-8">
             <div className="flex justify-between items-center mb-2">
@@ -321,95 +375,127 @@ const Room = () => {
           </div>
           
           {/* Room Content */}
-          <div className="space-y-4">
-            {(room.sections || []).map((section) => (
-              <Accordion
-                key={section.id}
-                type="single"
-                collapsible
-                value={activeSection === section.id ? section.id : ""}
-                onValueChange={() => handleSectionClick(section.id)}
-              >
-                <AccordionItem value={section.id} className="border rounded-lg overflow-hidden">
-                  <AccordionTrigger className="px-4 py-3 hover:no-underline bg-white">
-                    <div className="flex items-center gap-3 w-full">
-                      <div className="font-semibold">{section.title}</div>
-                      {section.completed && (
-                        <CheckCircle className="h-4 w-4 text-green-500 ml-auto" />
-                      )}
-                    </div>
-                  </AccordionTrigger>
-                  <AccordionContent className="px-4 py-6 bg-white">
-                    <div className="prose max-w-none">
-                      {section.content.split('\n\n').map((paragraph, idx) => (
-                        <p key={idx}>{paragraph}</p>
-                      ))}
-                      
-                      {section.image && (
-                        <div className="mt-4 flex justify-center">
-                          <img 
-                            src={section.image}
-                            alt={section.title}
-                            className="rounded-lg max-h-96 object-contain"
-                          />
-                        </div>
-                      )}
-                      
-                      <div className="mt-6">
-                        <Button variant="outline" size="sm" onClick={() => {}}>
-                          Take Section Quiz
-                        </Button>
-                        <Button className="ml-2" size="sm" onClick={markAsComplete}>
-                          Mark as Complete
-                        </Button>
-                      </div>
-                    </div>
-                  </AccordionContent>
-                </AccordionItem>
-              </Accordion>
-            ))}
-            
-            {/* Quiz Section */}
-            {room.quiz && (
-              <Card className="mt-8 overflow-hidden">
-                <div className="bg-science-light p-4 border-b border-science-primary/20">
-                  <h2 className="text-xl font-bold text-science-primary flex items-center">
-                    <BookOpen className="h-5 w-5 mr-2" />
-                    Final Assessment
-                  </h2>
-                  <p className="text-sm text-muted-foreground">Test your understanding of the concepts covered in this room.</p>
-                </div>
-                
-                <CardContent className="p-6">
-                  <div className="space-y-6">
-                    {room.quiz.map((question, index) => (
-                      <div key={index} className="p-4 border rounded-lg">
-                        <h3 className="font-medium mb-3">Question {index + 1}: {question.question}</h3>
-                        <div className="space-y-2">
-                          {question.options.map((option, i) => (
-                            <div key={i} className="flex items-center">
-                              <input 
-                                type="radio" 
-                                id={`q${index}-o${i}`} 
-                                name={`question-${index}`} 
-                                className="mr-2"
-                              />
-                              <label htmlFor={`q${index}-o${i}`} className="text-sm">
-                                {option}
-                              </label>
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <div className="lg:col-span-2">
+              <div className="space-y-4">
+                {roomSections.length > 0 ? (
+                  roomSections.map((section) => (
+                    <Accordion
+                      key={section.id}
+                      type="single"
+                      collapsible
+                      value={activeSection === section.id ? section.id : ""}
+                      onValueChange={() => handleSectionClick(section.id)}
+                    >
+                      <AccordionItem value={section.id} className="border rounded-lg overflow-hidden animate-fade-in">
+                        <AccordionTrigger className="px-4 py-3 hover:no-underline bg-white">
+                          <div className="flex items-center gap-3 w-full">
+                            <div className="font-semibold">{section.title}</div>
+                            {section.completed && (
+                              <CheckCircle className="h-4 w-4 text-green-500 ml-auto" />
+                            )}
+                          </div>
+                        </AccordionTrigger>
+                        <AccordionContent className="px-4 py-6 bg-white">
+                          <div className="prose max-w-none">
+                            {section.content.split('\n\n').map((paragraph, idx) => (
+                              <p key={idx}>{paragraph}</p>
+                            ))}
+                            
+                            {section.image && (
+                              <div className="mt-4 flex justify-center">
+                                <img 
+                                  src={section.image}
+                                  alt={section.title}
+                                  className="rounded-lg max-h-96 object-contain transition-all duration-500 hover:scale-105"
+                                />
+                              </div>
+                            )}
+                            
+                            <div className="mt-6">
+                              <Button variant="outline" size="sm" onClick={() => {}}>
+                                Take Section Quiz
+                              </Button>
+                              <Button className="ml-2" size="sm" onClick={() => markAsComplete(section.id)}>
+                                Mark as Complete
+                              </Button>
                             </div>
-                          ))}
-                        </div>
-                      </div>
-                    ))}
-                    
-                    <div className="flex justify-end mt-4">
-                      <Button>Submit Answers</Button>
-                    </div>
+                          </div>
+                        </AccordionContent>
+                      </AccordionItem>
+                    </Accordion>
+                  ))
+                ) : (
+                  <div className="text-center py-12 border rounded-lg">
+                    <BookOpen className="h-12 w-12 mx-auto text-muted-foreground mb-3" />
+                    <h3 className="text-lg font-medium">No sections available</h3>
+                    <p className="text-muted-foreground mt-1">This room doesn't have any content sections yet.</p>
                   </div>
-                </CardContent>
-              </Card>
-            )}
+                )}
+              </div>
+            </div>
+            
+            <div>
+              <div className="sticky top-4">
+                {/* Quiz Section */}
+                {room.quiz && (
+                  <Card className="overflow-hidden mb-6 animate-fade-in">
+                    <div className="bg-science-light p-4 border-b border-science-primary/20">
+                      <h2 className="text-xl font-bold text-science-primary flex items-center">
+                        <BookOpen className="h-5 w-5 mr-2" />
+                        Final Assessment
+                      </h2>
+                      <p className="text-sm text-muted-foreground">Test your understanding of the concepts covered in this room.</p>
+                    </div>
+                    
+                    <CardContent className="p-6">
+                      <div className="space-y-4">
+                        <p className="text-sm">The quiz contains {room.quiz.length} questions to test your knowledge.</p>
+                        <Button className="w-full">Start Quiz</Button>
+                      </div>
+                    </CardContent>
+                  </Card>
+                )}
+                
+                {/* Resources Section */}
+                <Card className="animate-fade-in">
+                  <div className="bg-slate-100 p-4 border-b">
+                    <h2 className="font-bold flex items-center">
+                      <BookText className="h-4 w-4 mr-2" />
+                      Additional Resources
+                    </h2>
+                  </div>
+                  <CardContent className="p-4">
+                    <ul className="space-y-3 text-sm">
+                      <li>
+                        <a href="#" className="flex items-center p-2 hover:bg-slate-50 rounded-md transition-colors">
+                          <div className="h-8 w-8 rounded bg-blue-100 flex items-center justify-center mr-3">
+                            <BookOpen className="h-4 w-4 text-blue-600" />
+                          </div>
+                          <span>Supplementary Reading</span>
+                        </a>
+                      </li>
+                      <li>
+                        <a href="#" className="flex items-center p-2 hover:bg-slate-50 rounded-md transition-colors">
+                          <div className="h-8 w-8 rounded bg-green-100 flex items-center justify-center mr-3">
+                            <User className="h-4 w-4 text-green-600" />
+                          </div>
+                          <span>Ask a Tutor</span>
+                        </a>
+                      </li>
+                      <li>
+                        <a href="#" className="flex items-center p-2 hover:bg-slate-50 rounded-md transition-colors">
+                          <div className="h-8 w-8 rounded bg-purple-100 flex items-center justify-center mr-3">
+                            <CheckCircle className="h-4 w-4 text-purple-600" />
+                          </div>
+                          <span>Practice Exercises</span>
+                        </a>
+                      </li>
+                    </ul>
+                  </CardContent>
+                </Card>
+              </div>
+            </div>
           </div>
         </div>
       </main>
