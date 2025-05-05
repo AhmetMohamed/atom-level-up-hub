@@ -1,3 +1,4 @@
+
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -41,15 +42,18 @@ const App = () => (
           <Route path="/signup" element={<SignUp />} />
           <Route path="/signin" element={<SignIn />} />
           <Route path="/dashboard" element={<Dashboard />} />
-          {/* <Route path="/lessons/:lessonId" element={<Lesson />} /> */}
           <Route path="/leaderboard" element={<Leaderboard />} />
           <Route path="/resources" element={<Resources />} />
           <Route path="/pricing" element={<Pricing />} />
           <Route path="/challenges" element={<Challenges />} />
           <Route path="/exam-challenge/:examId" element={<ExamChallenge />} />
           <Route path="/challenge/:examId" element={<ExamChallengeNew />} />
+          
+          {/* Subject routes */}
           <Route path="/subjects/:subjectId" element={<Subject />} />
           <Route path="/subjects/:subjectId/rooms/:roomId" element={<Room />} />
+          <Route path="/subjects/:subjectId/learning-paths/:pathId" element={<Subject />} />
+          <Route path="/subjects/:subjectId/learning-paths/:pathId/modules/:moduleId" element={<Subject />} />
 
           {/* CMS routes */}
           <Route path="/cms/login" element={<CMSAuth />} />

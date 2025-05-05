@@ -11,37 +11,15 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-
-interface Room {
-  id: string;
-  title: string;
-  duration: string;
-  xpPoints: number;
-  completed: boolean;
-  content?: Array<{
-    type: string;
-    content: string;
-  }>;
-}
-
-interface Module {
-  id: string;
-  title: string;
-  description: string;
-  difficulty: string;
-  progress: number;
-  rooms: Room[];
-}
-
-interface Subject {
-  color: string;
-  textColor: string;
-  border: string;
-}
+import { Module } from "@/lib/demoData";
 
 interface ModuleCardProps {
   module: Module;
-  subject: Subject;
+  subject: {
+    color: string;
+    textColor: string;
+    border: string;
+  };
   subjectId: string;
 }
 
@@ -71,9 +49,12 @@ const ModuleCard = ({ module, subject, subjectId }: ModuleCardProps) => {
           </div>
           <span className="text-sm">{completedRooms}/{totalRooms} completed</span>
         </div>
-        <div className="progress-container">
+        <div className="w-full bg-gray-200 rounded-full h-2 mb-4">
           <div 
-            className="progress-bar" 
+            className={`h-2 rounded-full ${
+              module.progress === 100 ? "bg-green-500" : 
+              module.progress > 0 ? "bg-blue-600" : "bg-gray-300"
+            }`} 
             style={{ width: `${module.progress}%` }}
           ></div>
         </div>
@@ -86,7 +67,7 @@ const ModuleCard = ({ module, subject, subjectId }: ModuleCardProps) => {
               </AccordionTrigger>
               <AccordionContent>
                 <ul className="space-y-3 py-2">
-                  {module.rooms.map((room, index) => (
+                  {module.rooms.map((room) => (
                     <li key={room.id} className="border rounded-lg p-3">
                       <div className="flex items-start justify-between mb-2">
                         <div>
@@ -100,15 +81,19 @@ const ModuleCard = ({ module, subject, subjectId }: ModuleCardProps) => {
                           <Badge variant="outline" className="bg-green-100 text-green-800 border-green-200">
                             Completed
                           </Badge>
-                        ) : (
+                        ) : room.completionPercentage > 0 ? (
                           <Badge variant="outline" className="bg-amber-100 text-amber-800 border-amber-200">
                             In Progress
                           </Badge>
+                        ) : (
+                          <Badge variant="outline" className="bg-gray-100 text-gray-800 border-gray-200">
+                            Not Started
+                          </Badge>
                         )}
                       </div>
-                      <Link to={`/subjects/${subjectId}/modules/${module.id}/rooms/${room.id}`}>
+                      <Link to={`/subjects/${subjectId}/rooms/${room.id}`}>
                         <Button variant="outline" size="sm" className="w-full mt-2">
-                          {room.completed ? "Review" : "Start"} Room
+                          {room.completed ? "Review" : room.completionPercentage > 0 ? "Continue" : "Start"} Room
                           <ArrowRight className="ml-1 h-3 w-3" />
                         </Button>
                       </Link>
@@ -122,12 +107,10 @@ const ModuleCard = ({ module, subject, subjectId }: ModuleCardProps) => {
       </CardContent>
       
       <CardFooter>
-        <Link to={`/subjects/${subjectId}/modules/${module.id}`} className="w-full">
-          <Button className="w-full">
-            {module.progress > 0 ? "Continue Module" : "Start Module"}
-            <ArrowRight className="ml-2 h-4 w-4" />
-          </Button>
-        </Link>
+        <Button className="w-full">
+          {module.progress > 0 ? "Continue Module" : "Start Module"}
+          <ArrowRight className="ml-2 h-4 w-4" />
+        </Button>
       </CardFooter>
     </Card>
   );
