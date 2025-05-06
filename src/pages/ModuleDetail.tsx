@@ -7,24 +7,8 @@ import { ArrowLeft, Clock, AlertCircle, Search, BookOpen, Lightbulb, BookMarked 
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import RoomCard from "@/components/RoomCard";
+import { Room } from "@/components/RoomCard";
 import { getSubjectData, getLearningPathById, getModuleById } from "@/lib/demoData";
-
-// Define the Room interface to match RoomCard props
-interface Room {
-  id: string;
-  title: string;
-  description: string;
-  image?: string;
-  level?: string;
-  completionPercentage: number;
-  progress: number; // Make it required, not optional
-  sections: any[] | number;
-  quizzes?: number;
-  module: string;
-  duration: string;
-  xpPoints: number;
-  completed: boolean;
-}
 
 const ModuleDetail = () => {
   const { subjectId, pathId, moduleId } = useParams<{ subjectId: string; pathId: string; moduleId: string }>();

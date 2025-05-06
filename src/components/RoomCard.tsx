@@ -7,7 +7,8 @@ import { ArrowRight, Clock } from "lucide-react";
 import { Link } from "react-router-dom";
 import { getSubjectData } from "@/lib/demoData";
 
-interface Room {
+// Define the Room interface to be used across the application
+export interface Room {
   id: string;
   title: string;
   description: string;

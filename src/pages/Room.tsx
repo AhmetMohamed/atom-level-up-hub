@@ -14,23 +14,7 @@ import { ArrowLeft, Clock, User, BookOpen, CheckCircle } from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { getRoomById, getSubjectData } from "@/lib/demoData";
-
-// Define a consistent interface for Room with required progress property
-interface Room {
-  id: string;
-  title: string;
-  description: string;
-  image?: string;
-  level?: string;
-  completionPercentage: number;
-  progress: number;  // Make this required
-  sections: any[] | number;
-  quizzes?: number;
-  module: string;
-  duration: string;
-  xpPoints: number;
-  completed: boolean;
-}
+import { Room as RoomType } from "@/components/RoomCard";
 
 const Room = () => {
   const { subjectId, roomId } = useParams();
@@ -230,6 +214,7 @@ const Room = () => {
           {/* Room Content */}
           <div className="space-y-4">
             {roomSections.length > 0 ? (
+              
               roomSections.map((section: any) => (
                 <Accordion
                   key={section.id}
@@ -291,6 +276,7 @@ const Room = () => {
             
             {/* Quiz Section */}
             {useRoomData.quiz && (
+              
               <Card className="mt-8 overflow-hidden">
                 <div className="bg-science-light p-4 border-b border-science-primary/20">
                   <h2 className="text-xl font-bold text-science-primary flex items-center">
