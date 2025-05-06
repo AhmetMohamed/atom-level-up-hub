@@ -13,8 +13,8 @@ interface Room {
   description: string;
   image?: string;
   level?: string;
-  completionPercentage: number;  // Ensure this property exists
-  progress?: number;  // Make progress optional
+  completionPercentage: number;
+  progress: number;  // Make progress required, not optional
   sections: any[] | number;  // Allow both array and number types
   quizzes?: number;
   module: string;

@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { 
@@ -16,12 +15,48 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { getRoomById, getSubjectData } from "@/lib/demoData";
 
+// Define a consistent interface for Room with required progress property
+interface Room {
+  id: string;
+  title: string;
+  description: string;
+  image?: string;
+  level?: string;
+  completionPercentage: number;
+  progress: number;  // Make this required
+  sections: any[] | number;
+  quizzes?: number;
+  module: string;
+  duration: string;
+  xpPoints: number;
+  completed: boolean;
+}
+
 const Room = () => {
   const { subjectId, roomId } = useParams();
   const [activeSection, setActiveSection] = useState<string | null>("what-are-cells");
   
   const subject = getSubjectData(subjectId || "");
   const room = getRoomById(subjectId || "", roomId || "");
+  
+  // Room data mapping
+  type RoomDataMap = {
+    [key: string]: {
+      title: string;
+      subject: string;
+      level: string;
+      module: string;
+      instructor: string;
+      duration: string;
+      xpPoints: number;
+      progress: number;
+      completed: boolean;
+      completionPercentage: number;
+      description: string;
+      sections: any[];
+      quiz: any[];
+    }
+  };
   
   // Room data mapping
   const roomDataMap = {
@@ -148,7 +183,7 @@ const Room = () => {
   // Fall back to progress if completionPercentage is not available
   const completionPercentage = useRoomData.completionPercentage !== undefined 
     ? useRoomData.completionPercentage 
-    : useRoomData.progress !== undefined ? useRoomData.progress : 0;
+    : useRoomData.progress;
     
   return (
     <div className="min-h-screen flex flex-col bg-slate-50">
