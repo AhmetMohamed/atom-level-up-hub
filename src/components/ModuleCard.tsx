@@ -21,11 +21,16 @@ interface ModuleCardProps {
     border: string;
   };
   subjectId: string;
+  pathId?: string;
 }
 
-const ModuleCard = ({ module, subject, subjectId }: ModuleCardProps) => {
+const ModuleCard = ({ module, subject, subjectId, pathId }: ModuleCardProps) => {
   const completedRooms = module.rooms.filter(room => room.completed).length;
   const totalRooms = module.rooms.length;
+  
+  const moduleDetailUrl = pathId 
+    ? `/subjects/${subjectId}/learning-paths/${pathId}/modules/${module.id}`
+    : `/subjects/${subjectId}/modules/${module.id}`;
   
   return (
     <Card className="overflow-hidden transition-all duration-300 hover:shadow-md">
@@ -107,10 +112,12 @@ const ModuleCard = ({ module, subject, subjectId }: ModuleCardProps) => {
       </CardContent>
       
       <CardFooter>
-        <Button className="w-full">
-          {module.progress > 0 ? "Continue Module" : "Start Module"}
-          <ArrowRight className="ml-2 h-4 w-4" />
-        </Button>
+        <Link to={moduleDetailUrl} className="w-full">
+          <Button className="w-full">
+            {module.progress === 100 ? "Review Module" : module.progress > 0 ? "Continue Module" : "Start Module"}
+            <ArrowRight className="ml-2 h-4 w-4" />
+          </Button>
+        </Link>
       </CardFooter>
     </Card>
   );

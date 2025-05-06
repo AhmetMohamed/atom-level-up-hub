@@ -1,3 +1,4 @@
+
 import React from "react";
 import { useParams, Link } from "react-router-dom";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -5,9 +6,6 @@ import {
   BookOpen,
   Book,
   Home,
-  Microscope,
-  FlaskConical,
-  Calculator,
   ArrowRight,
 } from "lucide-react";
 import Header from "@/components/Header";
@@ -16,7 +14,7 @@ import SubjectHeader from "@/components/SubjectHeader";
 import ModuleCard from "@/components/ModuleCard";
 import RoomCard from "@/components/RoomCard";
 import LearningPathCard from "@/components/LearningPathCard";
-import { getSubjectData, LearningPath, Module, Room } from "@/lib/demoData";
+import { getSubjectData, LearningPath, Module } from "@/lib/demoData";
 
 const Subject = () => {
   const { subjectId } = useParams<{ subjectId: string }>();
@@ -25,8 +23,8 @@ const Subject = () => {
   const subject = getSubjectData(subjectId || "");
 
   // Get the most recent rooms from all learning paths
-  const getRecentRooms = (): Room[] => {
-    const allRooms: Room[] = [];
+  const getRecentRooms = () => {
+    const allRooms = [];
 
     subject.learningPaths.forEach((path) => {
       path.modules.forEach((module) => {
@@ -55,7 +53,7 @@ const Subject = () => {
   };
 
   // Get all modules from all learning paths
-  const getAllModules = (): Module[] => {
+  const getAllModules = () => {
     const allModules: Module[] = [];
 
     subject.learningPaths.forEach((path) => {
@@ -68,8 +66,8 @@ const Subject = () => {
   };
 
   // Get all rooms from all learning paths and modules
-  const getAllRooms = (): Room[] => {
-    const allRooms: Room[] = [];
+  const getAllRooms = () => {
+    const allRooms = [];
 
     subject.learningPaths.forEach((path) => {
       path.modules.forEach((module) => {
@@ -106,7 +104,7 @@ const Subject = () => {
                 className="flex items-center gap-2"
               >
                 <BookOpen className="h-4 w-4" />
-                Learning Path
+                Learning Paths
               </TabsTrigger>
               <TabsTrigger value="modules" className="flex items-center gap-2">
                 <Book className="h-4 w-4" />
@@ -198,6 +196,10 @@ const Subject = () => {
                         <Link
                           to="#learning-path"
                           className="text-blue-600 hover:underline flex items-center gap-1 text-sm"
+                          onClick={(e) => {
+                            e.preventDefault();
+                            document.querySelector('[data-value="learning-path"]')?.click();
+                          }}
                         >
                           View all learning paths
                           <ArrowRight className="h-4 w-4" />
@@ -235,7 +237,7 @@ const Subject = () => {
                           Learning Paths Status
                         </h4>
                         <ul className="space-y-2">
-                          {subject.learningPaths.map((path, index) => (
+                          {subject.learningPaths.map((path) => (
                             <li
                               key={path.id}
                               className="flex items-center gap-2"

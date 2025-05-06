@@ -18,6 +18,8 @@ import Subject from "./pages/Subject";
 import Room from "./pages/Room";
 import Pricing from "./pages/Pricing";
 import Challenges from "./pages/Challenges";
+import LearningPathDetail from "./pages/LearningPathDetail";
+import ModuleDetail from "./pages/ModuleDetail";
 
 // CMS Routes
 import CMSDashboard from "./pages/CMS/CMSDashboard";
@@ -52,8 +54,13 @@ const App = () => (
           {/* Subject routes */}
           <Route path="/subjects/:subjectId" element={<Subject />} />
           <Route path="/subjects/:subjectId/rooms/:roomId" element={<Room />} />
-          <Route path="/subjects/:subjectId/learning-paths/:pathId" element={<Subject />} />
-          <Route path="/subjects/:subjectId/learning-paths/:pathId/modules/:moduleId" element={<Subject />} />
+          
+          {/* Learning Path routes */}
+          <Route path="/subjects/:subjectId/learning-paths/:pathId" element={<LearningPathDetail />} />
+          
+          {/* Module routes */}
+          <Route path="/subjects/:subjectId/modules/:moduleId" element={<ModuleDetail />} />
+          <Route path="/subjects/:subjectId/learning-paths/:pathId/modules/:moduleId" element={<ModuleDetail />} />
 
           {/* CMS routes */}
           <Route path="/cms/login" element={<CMSAuth />} />
