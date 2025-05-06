@@ -16,8 +16,7 @@ import SubjectHeader from "@/components/SubjectHeader";
 import ModuleCard from "@/components/ModuleCard";
 import RoomCard from "@/components/RoomCard";
 import LearningPathCard from "@/components/LearningPathCard";
-import { getSubjectData, LearningPath, Module } from "@/lib/demoData";
-import { Room } from "@/types/room";
+import { getSubjectData, LearningPath, Module, Room } from "@/lib/demoData";
 
 const Subject = () => {
   const { subjectId } = useParams<{ subjectId: string }>();
@@ -38,8 +37,7 @@ const Subject = () => {
               room.completionPercentage < 100) ||
             (room.completed && Math.random() > 0.7)
           ) {
-            // Convert DemoRoom to Room type
-            allRooms.push(room as unknown as Room);
+            allRooms.push(room);
           }
         });
       });
@@ -76,8 +74,7 @@ const Subject = () => {
     subject.learningPaths.forEach((path) => {
       path.modules.forEach((module) => {
         module.rooms.forEach((room) => {
-          // Convert DemoRoom to Room type
-          allRooms.push(room as unknown as Room);
+          allRooms.push(room);
         });
       });
     });
