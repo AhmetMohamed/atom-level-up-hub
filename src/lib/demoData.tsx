@@ -1,25 +1,9 @@
-
 import { Book, AtomIcon, TestTube, BookOpen } from "lucide-react";
 import React from "react";
+import { Room as RoomType, Section } from "@/types/room";
 
 // Define proper interfaces
-export interface Room {
-  id: string;
-  title: string;
-  description: string;
-  image?: string;
-  level?: string;
-  difficulty: string;
-  completionPercentage: number;
-  sections: any[] | number;
-  quizzes: number;
-  module: string;
-  duration: string;
-  xpPoints: number;
-  completed: boolean;
-  moduleId: string;
-  order: number;
-}
+export interface Room extends RoomType {}
 
 export interface Module {
   id: string;

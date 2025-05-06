@@ -11,7 +11,7 @@ export interface Room {
   moduleId: string;
   order: number;
   duration: string;
-  completionPercentage?: number;
+  completionPercentage: number; // Changed from optional to required
   quizzes?: number;
   module?: string;
   xpPoints?: number;
