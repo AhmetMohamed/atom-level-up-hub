@@ -1,64 +1,71 @@
 
+@import url('https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    --background: 260 60% 99%;
+    --foreground: 260 20% 10%;
+
     --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card-foreground: 260 20% 10%;
+
     --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
-    --primary: 221.2 83.2% 53.3%;
-    --primary-foreground: 210 40% 98%;
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 221.2 83.2% 53.3%;
-    --radius: 0.5rem;
+    --popover-foreground: 260 20% 10%;
 
-    /* Science subject colors */
-    --biology-color: 150 52% 92%;
-    --chemistry-color: 217 80% 90%;
-    --physics-color: 260 60% 90%;
-    --math-color: 0 72% 90%;
+    --primary: 260 80% 50%;
+    --primary-foreground: 260 5% 100%;
 
-    --science-primary: 216 98% 52%;
-    --science-primary-foreground: 210 40% 98%;
-    --science-secondary: 210 40% 96.1%;
-    --science-secondary-foreground: 222.2 47.4% 11.2%; 
-    --science-light: 214 95% 93%;
+    --secondary: 199 89% 48%;
+    --secondary-foreground: 260 5% 100%;
+
+    --muted: 260 10% 90%;
+    --muted-foreground: 260 10% 40%;
+
+    --accent: 24 94% 53%;
+    --accent-foreground: 260 5% 100%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 260 5% 100%;
+
+    --border: 260 10% 85%;
+    --input: 260 10% 85%;
+    --ring: 260 80% 50%;
+
+    --radius: 0.6rem;
   }
 
   .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
-    --primary: 217.2 91.2% 59.8%;
-    --primary-foreground: 210 40% 98%;
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 224.3 76.3% 48%;
+    --background: 260 20% 10%;
+    --foreground: 260 5% 90%;
+
+    --card: 260 15% 12%;
+    --card-foreground: 260 5% 90%;
+
+    --popover: 260 15% 12%;
+    --popover-foreground: 260 5% 90%;
+
+    --primary: 260 80% 60%;
+    --primary-foreground: 260 5% 100%;
+
+    --secondary: 199 89% 50%;
+    --secondary-foreground: 260 5% 100%;
+
+    --muted: 260 15% 20%;
+    --muted-foreground: 260 10% 70%;
+
+    --accent: 24 94% 60%;
+    --accent-foreground: 260 5% 100%;
+
+    --destructive: 0 62% 50%;
+    --destructive-foreground: 260 5% 100%;
+
+    --border: 260 15% 25%;
+    --input: 260 15% 25%;
+    --ring: 260 80% 60%;
   }
 }
 
@@ -67,120 +74,78 @@
     @apply border-border;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground font-sans;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-display font-bold;
   }
 }
 
 @layer components {
+  .card-hover {
+    @apply transition-all duration-300 hover:shadow-lg hover:-translate-y-1;
+  }
+  
+  .btn-science {
+    @apply rounded-lg font-medium transition-all duration-200 
+           hover:scale-[1.02] active:scale-[0.98] focus:outline-none focus:ring-2 
+           focus:ring-opacity-50;
+  }
+  
+  .btn-primary {
+    @apply btn-science bg-science-primary text-white 
+           hover:bg-science-primary/90 focus:ring-science-primary;
+  }
+  
+  .btn-secondary {
+    @apply btn-science bg-science-secondary text-white 
+           hover:bg-science-secondary/90 focus:ring-science-secondary;
+  }
+  
+  .btn-accent {
+    @apply btn-science bg-science-accent text-white 
+           hover:bg-science-accent/90 focus:ring-science-accent;
+  }
+  
+  .btn-outline {
+    @apply btn-science border-2 border-science-primary text-science-primary 
+           hover:bg-science-primary/10 focus:ring-science-primary;
+  }
+  
   .badge-xp {
-    @apply bg-yellow-50 text-amber-800 border-amber-200 font-medium text-xs px-2 py-1 rounded-full;
+    @apply inline-flex items-center px-3 py-1 rounded-full text-xs font-medium 
+           bg-amber-100 text-amber-800 border border-amber-200;
+  }
+  
+  .badge-streak {
+    @apply inline-flex items-center px-3 py-1 rounded-full text-xs font-medium 
+           bg-red-100 text-red-800 border border-red-200;
   }
   
   .badge-level {
-    @apply bg-blue-50 text-blue-800 border-blue-200 font-medium text-xs px-2 py-1 rounded-full;
+    @apply inline-flex items-center px-3 py-1 rounded-full text-xs font-medium 
+           bg-science-light text-science-primary border border-science-primary/30;
   }
   
-  .animate-pulse-light {
-    animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  /* Progress bar styling */
+  .progress-container {
+    @apply h-2 w-full bg-muted rounded-full overflow-hidden;
   }
-}
-
-@keyframes pulse {
-  0%, 100% {
-    opacity: 1;
+  
+  .progress-bar {
+    @apply h-full bg-science-primary rounded-full;
   }
-  50% {
-    opacity: 0.7;
+  
+  /* Card styling */
+  .science-card {
+    @apply rounded-xl border bg-card p-5 shadow-sm transition-all duration-300 
+           hover:shadow-md;
   }
-}
-
-/* Add animation keyframes */
-@keyframes fade-in {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
+  
+  /* Input styling */
+  .input-science {
+    @apply block w-full rounded-lg border border-input bg-background px-4 py-3
+           text-foreground shadow-sm placeholder:text-muted-foreground focus:border-science-primary 
+           focus:outline-none focus:ring-2 focus:ring-science-primary/20;
   }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes scale-in {
-  from {
-    opacity: 0;
-    transform: scale(0.95);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
-
-@keyframes slide-in-right {
-  from {
-    transform: translateX(30px);
-    opacity: 0;
-  }
-  to {
-    transform: translateX(0);
-    opacity: 1;
-  }
-}
-
-/* Add reusable animation classes */
-.animate-fade-in {
-  animation: fade-in 0.5s ease-out forwards;
-}
-
-.animate-scale-in {
-  animation: scale-in 0.3s ease-out forwards;
-}
-
-.animate-slide-in {
-  animation: slide-in-right 0.4s ease-out forwards;
-}
-
-/* Staggered animations for lists */
-.stagger-item:nth-child(1) { animation-delay: 0.1s; }
-.stagger-item:nth-child(2) { animation-delay: 0.2s; }
-.stagger-item:nth-child(3) { animation-delay: 0.3s; }
-.stagger-item:nth-child(4) { animation-delay: 0.4s; }
-.stagger-item:nth-child(5) { animation-delay: 0.5s; }
-.stagger-item:nth-child(6) { animation-delay: 0.6s; }
-
-/* Interactive animations */
-.hover-scale {
-  transition: transform 0.2s ease;
-}
-
-.hover-scale:hover {
-  transform: scale(1.03);
-}
-
-.hover-lift {
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.hover-lift:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-}
-
-/* Science theme-specific styles */
-.bg-science-primary {
-  background-color: hsl(var(--science-primary));
-  color: hsl(var(--science-primary-foreground));
-}
-
-.bg-science-light {
-  background-color: hsl(var(--science-light));
-}
-
-.text-science-primary {
-  color: hsl(var(--science-primary));
-}
-
-.border-science-primary {
-  border-color: hsl(var(--science-primary));
 }
