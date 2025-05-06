@@ -4,7 +4,7 @@ import { useParams, Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { ArrowLeft, Clock, AlertCircle, Search, BookOpen } from "lucide-react";
+import { ArrowLeft, Clock, AlertCircle, Search, BookOpen, Lightbulb, BookMarked } from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import RoomCard from "@/components/RoomCard";
@@ -53,6 +53,24 @@ const ModuleDetail = () => {
                   <div>
                     <span className="font-medium">View learning paths</span>
                     <p className="text-sm text-muted-foreground">Check other learning paths that include different modules</p>
+                  </div>
+                </li>
+                <li className="flex items-start gap-3">
+                  <div className="flex-shrink-0 mt-1">
+                    <Lightbulb className="h-5 w-5 text-amber-600" />
+                  </div>
+                  <div>
+                    <span className="font-medium">Check recommended modules</span>
+                    <p className="text-sm text-muted-foreground">Discover modules that match your learning level and interests</p>
+                  </div>
+                </li>
+                <li className="flex items-start gap-3">
+                  <div className="flex-shrink-0 mt-1">
+                    <BookMarked className="h-5 w-5 text-purple-600" />
+                  </div>
+                  <div>
+                    <span className="font-medium">Take an assessment</span>
+                    <p className="text-sm text-muted-foreground">Find out which modules are right for your current knowledge level</p>
                   </div>
                 </li>
               </ul>

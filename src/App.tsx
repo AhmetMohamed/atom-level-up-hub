@@ -20,6 +20,12 @@ import Pricing from "./pages/Pricing";
 import Challenges from "./pages/Challenges";
 import LearningPathDetail from "./pages/LearningPathDetail";
 import ModuleDetail from "./pages/ModuleDetail";
+import RealExamPrep from "./pages/ExamChallenge/RealExamPrep";
+
+// Admin Routes
+import AdminDashboard from "./pages/Admin/AdminDashboard";
+import UserManagement from "./pages/Admin/UserManagement";
+import PaymentVerification from "./pages/Admin/PaymentVerification";
 
 // CMS Routes
 import CMSDashboard from "./pages/CMS/CMSDashboard";
@@ -50,6 +56,7 @@ const App = () => (
           <Route path="/challenges" element={<Challenges />} />
           <Route path="/exam-challenge/:examId" element={<ExamChallenge />} />
           <Route path="/challenge/:examId" element={<ExamChallengeNew />} />
+          <Route path="/exam-prep/:subjectId" element={<RealExamPrep />} />
           
           {/* Subject routes */}
           <Route path="/subjects/:subjectId" element={<Subject />} />
@@ -62,6 +69,11 @@ const App = () => (
           <Route path="/subjects/:subjectId/modules/:moduleId" element={<ModuleDetail />} />
           <Route path="/subjects/:subjectId/learning-paths/:pathId/modules/:moduleId" element={<ModuleDetail />} />
 
+          {/* Admin routes */}
+          <Route path="/admin" element={<AdminDashboard />} />
+          <Route path="/admin/users" element={<UserManagement />} />
+          <Route path="/admin/payments" element={<PaymentVerification />} />
+          
           {/* CMS routes */}
           <Route path="/cms/login" element={<CMSAuth />} />
           <Route path="/cms" element={<CMSDashboard />} />

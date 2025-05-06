@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { 
@@ -86,11 +85,44 @@ const Room = () => {
       <div className="min-h-screen flex flex-col">
         <Header />
         <div className="container px-4 py-8 flex-1">
-          <div className="text-center">
+          <div className="max-w-2xl mx-auto text-center">
+            <div className="mb-6 flex justify-center">
+              <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-red-100 text-red-600">
+                <BookOpen className="h-10 w-10" />
+              </div>
+            </div>
+            
             <h1 className="text-3xl font-bold mb-4">Room Not Found</h1>
-            <p className="text-muted-foreground mb-6">The room you're looking for doesn't exist or hasn't been created yet.</p>
+            <p className="text-muted-foreground text-lg mb-6">
+              The room you're looking for doesn't exist or hasn't been created yet.
+            </p>
+            
+            <div className="bg-slate-50 p-6 rounded-lg mb-8">
+              <h2 className="text-xl font-medium mb-3">What you can do next:</h2>
+              <ul className="space-y-3 text-left mb-6">
+                <li className="flex items-start gap-3">
+                  <div className="flex-shrink-0 mt-1">
+                    <BookOpen className="h-5 w-5 text-blue-600" />
+                  </div>
+                  <div>
+                    <span className="font-medium">Browse other rooms</span>
+                    <p className="text-sm text-muted-foreground">Explore other available rooms in this subject</p>
+                  </div>
+                </li>
+                <li className="flex items-start gap-3">
+                  <div className="flex-shrink-0 mt-1">
+                    <BookOpen className="h-5 w-5 text-green-600" />
+                  </div>
+                  <div>
+                    <span className="font-medium">Check learning paths</span>
+                    <p className="text-sm text-muted-foreground">Find structured learning paths that include different rooms</p>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            
             <Link to={`/subjects/${subjectId}`}>
-              <Button>Back to Subject</Button>
+              <Button>Back to {subject.title}</Button>
             </Link>
           </div>
         </div>
@@ -107,15 +139,11 @@ const Room = () => {
     // This would connect to an API in a real application
   };
   
-  // Process sections based on whether they're a number (from demoData) or an array (from hardcoded data)
-  const roomSections = typeof useRoomData.sections === 'number' 
-    ? [] // If it's a number from demoData, we don't have section content yet
-    : useRoomData.sections || [];
+  // Process sections based on whether they're an array (demo data) or a number (empty placeholder)
+  const roomSections = Array.isArray(useRoomData.sections) ? useRoomData.sections : [];
   
-  // Get the completion percentage from either progress (hardcoded data) or completionPercentage (demoData)
-  const completionPercentage = 'completionPercentage' in useRoomData 
-    ? useRoomData.completionPercentage 
-    : useRoomData.progress;
+  // Get the completion percentage from the data
+  const completionPercentage = useRoomData.completionPercentage;
     
   return (
     <div className="min-h-screen flex flex-col bg-slate-50">
@@ -222,7 +250,7 @@ const Room = () => {
             )}
             
             {/* Quiz Section */}
-            {('quiz' in useRoomData && useRoomData.quiz) && (
+            {useRoomData.quiz && (
               <Card className="mt-8 overflow-hidden">
                 <div className="bg-science-light p-4 border-b border-science-primary/20">
                   <h2 className="text-xl font-bold text-science-primary flex items-center">
@@ -234,7 +262,7 @@ const Room = () => {
                 
                 <CardContent className="p-6">
                   <div className="space-y-6">
-                    {('quiz' in useRoomData && useRoomData.quiz) && useRoomData.quiz.map((question: any, index: number) => (
+                    {useRoomData.quiz.map((question: any, index: number) => (
                       <div key={index} className="p-4 border rounded-lg">
                         <h3 className="font-medium mb-3">Question {index + 1}: {question.question}</h3>
                         <div className="space-y-2">
