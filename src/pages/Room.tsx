@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { 
@@ -10,39 +11,15 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
-import { ArrowLeft, Clock, User, BookOpen, CheckCircle } from "lucide-react";
+import { ArrowLeft, Clock, User, BookOpen, CheckCircle, Lightbulb } from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import { getSubjectData, getRoomById } from "@/lib/demoData";
 
 const Room = () => {
   const { subjectId, roomId } = useParams();
   const [activeSection, setActiveSection] = useState<string | null>("what-are-cells");
   
-  // Get the actual subject ID from the URL or use the room's subject association
-  // Since we have the roomId, we can use that to find the related subject
-  const actualRoomId = roomId || "";
-  
-  // Try to find the room from any subject
-  let foundRoom;
-  let foundSubjectId = subjectId;
-  
-  // If we have a roomId but no subjectId, search through all subjects
-  if (actualRoomId && !foundSubjectId) {
-    for (const [subjId, subjData] of Object.entries(getSubjectData(""))) {
-      const room = getRoomById(subjId, actualRoomId);
-      if (room) {
-        foundRoom = room;
-        foundSubjectId = subjId;
-        break;
-      }
-    }
-  } else {
-    // Otherwise use the provided subjectId
-    foundRoom = getRoomById(foundSubjectId || "", actualRoomId);
-  }
-  
-  // Room data mapping for fallback
+  // Room data mapping
   const roomDataMap = {
     "intro-to-cells": {
       title: "Cell Structure & Function",
@@ -248,20 +225,18 @@ const Room = () => {
     }
   };
   
-  // Use either the found room from the data or fallback to the hardcoded room
-  const room = foundRoom || roomDataMap[actualRoomId as keyof typeof roomDataMap];
-  const subject = getSubjectData(foundSubjectId || "");
+  const room = roomDataMap[roomId as keyof typeof roomDataMap];
   
   if (!room) {
     return (
-      <div className="flex flex-col min-h-screen">
+      <div className="min-h-screen flex flex-col">
         <Header />
-        <div className="container px-4 py-8 flex-1 flex items-center justify-center">
-          <div className="text-center max-w-md">
+        <div className="container px-4 py-8 flex-1">
+          <div className="text-center">
             <h1 className="text-3xl font-bold mb-4">Room Not Found</h1>
             <p className="text-muted-foreground mb-6">The room you're looking for doesn't exist or hasn't been created yet.</p>
-            <Link to={`/subjects/${foundSubjectId || "biology"}`}>
-              <Button>Back to {subject.title || "Subject"}</Button>
+            <Link to={`/subjects/${subjectId}`}>
+              <Button>Back to Subject</Button>
             </Link>
           </div>
         </div>
@@ -284,15 +259,15 @@ const Room = () => {
       
       <main className="flex-1">
         <div className="container px-4 py-6 max-w-4xl mx-auto">
-          <Link to={`/subjects/${foundSubjectId || "biology"}`} className="inline-flex items-center mb-6 text-muted-foreground hover:text-foreground transition-colors">
+          <Link to={`/subjects/${subjectId}`} className="inline-flex items-center mb-6 text-muted-foreground hover:text-foreground transition-colors">
             <ArrowLeft className="mr-2 h-4 w-4" />
-            Back to {subject.title || "Subject"}
+            Back to Learning Rooms
           </Link>
           
           <div className="mb-6">
             <div className="flex gap-2 mb-1">
-              <Badge variant="outline" className="bg-white">{room.subject || subject.title}</Badge>
-              <Badge variant="outline" className="bg-white">{room.level || "Standard"}</Badge>
+              <Badge variant="outline" className="bg-white">{room.subject}</Badge>
+              <Badge variant="outline" className="bg-white">{room.level}</Badge>
             </div>
             
             <h1 className="text-3xl font-bold tracking-tight mb-2">{room.title}</h1>
@@ -306,7 +281,7 @@ const Room = () => {
               
               <div className="flex items-center gap-2">
                 <User className="h-4 w-4 text-muted-foreground" />
-                <span>By: {room.instructor || "Instructor"}</span>
+                <span>By: {room.instructor}</span>
               </div>
             </div>
           </div>
@@ -315,14 +290,14 @@ const Room = () => {
           <div className="mb-8">
             <div className="flex justify-between items-center mb-2">
               <div className="text-sm font-medium">Progress</div>
-              <div className="text-sm font-medium">{room.completionPercentage || room.progress || 0}% complete</div>
+              <div className="text-sm font-medium">{room.progress}% complete</div>
             </div>
-            <Progress value={room.completionPercentage || room.progress || 0} className="h-2" />
+            <Progress value={room.progress} className="h-2" />
           </div>
           
           {/* Room Content */}
           <div className="space-y-4">
-            {(room.sections || []).map((section) => (
+            {room.sections.map((section) => (
               <Accordion
                 key={section.id}
                 type="single"

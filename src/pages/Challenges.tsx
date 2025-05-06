@@ -7,10 +7,7 @@ import {
   Award, 
   Star, 
   Filter,
-  SortDesc,
-  BookOpen,
-  CheckCircle,
-  Clock3
+  SortDesc
 } from "lucide-react";
 import {
   Card,
@@ -25,7 +22,6 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 
@@ -123,57 +119,6 @@ const challenges: Challenge[] = [
   },
 ];
 
-const examChallenges = [
-  {
-    id: "bio-gcse-1",
-    title: "GCSE Biology Practice Exam",
-    subject: "Biology",
-    difficulty: "hard",
-    mcqQuestions: 20,
-    structuredQuestions: 10,
-    timeMinutes: 120,
-    completionRate: 35,
-    xpReward: 500,
-    examBoard: "AQA"
-  },
-  {
-    id: "chem-gcse-1",
-    title: "GCSE Chemistry Practice Exam",
-    subject: "Chemistry",
-    difficulty: "hard",
-    mcqQuestions: 20,
-    structuredQuestions: 10,
-    timeMinutes: 120,
-    completionRate: 30,
-    xpReward: 500,
-    examBoard: "Edexcel"
-  },
-  {
-    id: "phys-gcse-1",
-    title: "GCSE Physics Practice Exam",
-    subject: "Physics",
-    difficulty: "hard",
-    mcqQuestions: 20,
-    structuredQuestions: 10,
-    timeMinutes: 120,
-    completionRate: 25,
-    xpReward: 500,
-    examBoard: "OCR"
-  },
-  {
-    id: "math-gcse-1",
-    title: "GCSE Mathematics Practice Exam",
-    subject: "Mathematics",
-    difficulty: "hard",
-    mcqQuestions: 20,
-    structuredQuestions: 10,
-    timeMinutes: 120,
-    completionRate: 40,
-    xpReward: 500,
-    examBoard: "AQA"
-  }
-];
-
 const Challenges = () => {
   const [selectedSubject, setSelectedSubject] = useState<string | null>(null);
   const [selectedDifficulty, setSelectedDifficulty] = useState<string | null>(null);
@@ -196,9 +141,6 @@ const Challenges = () => {
           return 0;
       }
     });
-
-  const filteredExamChallenges = examChallenges
-    .filter(challenge => !selectedSubject || challenge.subject === selectedSubject);
 
   const getSubjectColor = (subject: string) => {
     switch (subject.toLowerCase()) {
@@ -363,200 +305,98 @@ const Challenges = () => {
               </div>
             )}
 
-            <Tabs defaultValue="quick-challenges" className="w-full mb-6">
-              <TabsList className="w-full justify-start mb-6 overflow-x-auto">
-                <TabsTrigger value="quick-challenges" className="flex items-center gap-2">
-                  <Award className="h-4 w-4" />
-                  Quick Challenges
-                </TabsTrigger>
-                <TabsTrigger value="real-exam-prep" className="flex items-center gap-2">
-                  <BookOpen className="h-4 w-4" />
-                  Real Exam Prep
-                </TabsTrigger>
-              </TabsList>
-
-              <TabsContent value="quick-challenges">
-                {filteredChallenges.length === 0 ? (
-                  <div className="text-center py-16">
-                    <h3 className="text-xl font-semibold mb-2">No challenges found</h3>
-                    <p className="text-muted-foreground mb-6">Try adjusting your filter criteria</p>
-                    <Button onClick={clearFilters}>Clear all filters</Button>
-                  </div>
-                ) : (
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    {filteredChallenges.map((challenge) => (
-                      <Card key={challenge.id} className="overflow-hidden transition-all hover:shadow-md">
-                        <div className={`p-4 ${getSubjectColor(challenge.subject)}`}>
-                          <div className="flex justify-between items-center">
-                            <h3 className="font-bold text-lg">{challenge.title}</h3>
-                            <Badge variant="outline" className={getSubjectColor(challenge.subject)}>
-                              {challenge.subject}
-                            </Badge>
+            {filteredChallenges.length === 0 ? (
+              <div className="text-center py-16">
+                <h3 className="text-xl font-semibold mb-2">No challenges found</h3>
+                <p className="text-muted-foreground mb-6">Try adjusting your filter criteria</p>
+                <Button onClick={clearFilters}>Clear all filters</Button>
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {filteredChallenges.map((challenge) => (
+                  <Card key={challenge.id} className="overflow-hidden transition-all hover:shadow-md">
+                    <div className={`p-4 ${getSubjectColor(challenge.subject)}`}>
+                      <div className="flex justify-between items-center">
+                        <h3 className="font-bold text-lg">{challenge.title}</h3>
+                        <Badge variant="outline" className={getSubjectColor(challenge.subject)}>
+                          {challenge.subject}
+                        </Badge>
+                      </div>
+                    </div>
+                    
+                    <CardContent className="p-4">
+                      <div className="grid grid-cols-3 gap-2 text-center mb-4">
+                        <div className="flex flex-col items-center p-2 bg-gray-50 rounded-lg">
+                          <span className="text-xs text-muted-foreground">Difficulty</span>
+                          <div className="flex mt-1">
+                            {Array(getDifficultyStars(challenge.difficulty))
+                              .fill(0)
+                              .map((_, i) => (
+                                <Star 
+                                  key={i} 
+                                  className="h-4 w-4 text-amber-500 fill-amber-500" 
+                                />
+                              ))}
+                            {Array(3 - getDifficultyStars(challenge.difficulty))
+                              .fill(0)
+                              .map((_, i) => (
+                                <Star 
+                                  key={i} 
+                                  className="h-4 w-4 text-gray-300" 
+                                />
+                              ))}
                           </div>
                         </div>
                         
-                        <CardContent className="p-4">
-                          <div className="grid grid-cols-3 gap-2 text-center mb-4">
-                            <div className="flex flex-col items-center p-2 bg-gray-50 rounded-lg">
-                              <span className="text-xs text-muted-foreground">Difficulty</span>
-                              <div className="flex mt-1">
-                                {Array(getDifficultyStars(challenge.difficulty))
-                                  .fill(0)
-                                  .map((_, i) => (
-                                    <Star 
-                                      key={i} 
-                                      className="h-4 w-4 text-amber-500 fill-amber-500" 
-                                    />
-                                  ))}
-                                {Array(3 - getDifficultyStars(challenge.difficulty))
-                                  .fill(0)
-                                  .map((_, i) => (
-                                    <Star 
-                                      key={i} 
-                                      className="h-4 w-4 text-gray-300" 
-                                    />
-                                  ))}
-                              </div>
-                            </div>
-                            
-                            <div className="flex flex-col items-center p-2 bg-gray-50 rounded-lg">
-                              <span className="text-xs text-muted-foreground">Time</span>
-                              <div className="flex items-center mt-1">
-                                <Clock className="h-4 w-4 text-blue-600 mr-1" />
-                                <span className="font-medium">{challenge.timeMinutes} min</span>
-                              </div>
-                            </div>
-                            
-                            <div className="flex flex-col items-center p-2 bg-gray-50 rounded-lg">
-                              <span className="text-xs text-muted-foreground">Questions</span>
-                              <span className="font-medium mt-1">{challenge.questions}</span>
-                            </div>
+                        <div className="flex flex-col items-center p-2 bg-gray-50 rounded-lg">
+                          <span className="text-xs text-muted-foreground">Time</span>
+                          <div className="flex items-center mt-1">
+                            <Clock className="h-4 w-4 text-blue-600 mr-1" />
+                            <span className="font-medium">{challenge.timeMinutes} min</span>
                           </div>
-                          
-                          <div className="flex items-center justify-between mb-2">
-                            <span className="text-xs text-muted-foreground">Completion Rate</span>
-                            <span className="text-xs font-medium">
-                              {challenge.completionRate}%
-                            </span>
-                          </div>
-                          <div className="w-full bg-gray-200 rounded-full h-2">
-                            <div
-                              className={`h-2 rounded-full ${
-                                challenge.completionRate > 75 ? "bg-green-500" :
-                                challenge.completionRate > 50 ? "bg-blue-500" :
-                                challenge.completionRate > 25 ? "bg-amber-500" : "bg-red-500"
-                              }`}
-                              style={{ width: `${challenge.completionRate}%` }}
-                            ></div>
-                          </div>
-                        </CardContent>
+                        </div>
                         
-                        <CardFooter className="border-t p-4 flex items-center justify-between">
-                          <Badge variant="secondary" className="flex items-center gap-1">
-                            <Award className="h-3.5 w-3.5" />
-                            <span>{challenge.xpReward} XP</span>
-                          </Badge>
-                          
-                          <Link to={`/challenge/${challenge.id}`}>
-                            <Button size="sm">
-                              Start Challenge
-                              <ArrowRight className="h-4 w-4 ml-1.5" />
-                            </Button>
-                          </Link>
-                        </CardFooter>
-                      </Card>
-                    ))}
-                  </div>
-                )}
-              </TabsContent>
-
-              <TabsContent value="real-exam-prep">
-                <div className="mb-8 p-5 bg-blue-50 border border-blue-100 rounded-lg">
-                  <h3 className="text-xl font-bold mb-2 flex items-center gap-2">
-                    <BookOpen className="h-5 w-5 text-blue-600" />
-                    GCSE Style Exams
-                  </h3>
-                  <p className="text-sm text-gray-600 mb-4">
-                    Challenge yourself with our full-length GCSE-style exams. Each exam contains 20 multiple choice questions and 10 structured questions designed to simulate real exam conditions.
-                  </p>
-                  <div className="flex flex-wrap gap-2">
-                    <div className="flex items-center gap-1 bg-white px-2 py-1 rounded-md text-xs text-gray-600">
-                      <Clock3 className="h-3.5 w-3.5 text-blue-500" />
-                      <span>2 hour duration</span>
-                    </div>
-                    <div className="flex items-center gap-1 bg-white px-2 py-1 rounded-md text-xs text-gray-600">
-                      <CheckCircle className="h-3.5 w-3.5 text-green-500" />
-                      <span>Automatic grading</span>
-                    </div>
-                    <div className="flex items-center gap-1 bg-white px-2 py-1 rounded-md text-xs text-gray-600">
-                      <BookOpen className="h-3.5 w-3.5 text-amber-500" />
-                      <span>GCSE curriculum aligned</span>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                  {filteredExamChallenges.map((exam) => (
-                    <Card key={exam.id} className="overflow-hidden transition-all hover:shadow-md border-t-4" style={{ borderTopColor: exam.subject === 'Biology' ? '#10b981' : exam.subject === 'Chemistry' ? '#3b82f6' : exam.subject === 'Physics' ? '#8b5cf6' : '#f59e0b' }}>
-                      <CardContent className="p-6">
-                        <div className="flex justify-between mb-4">
-                          <Badge variant="outline" className={getSubjectColor(exam.subject)}>
-                            {exam.subject}
-                          </Badge>
-                          <Badge variant="outline" className="bg-gray-100 text-gray-800 border-gray-200">
-                            {exam.examBoard}
-                          </Badge>
+                        <div className="flex flex-col items-center p-2 bg-gray-50 rounded-lg">
+                          <span className="text-xs text-muted-foreground">Questions</span>
+                          <span className="font-medium mt-1">{challenge.questions}</span>
                         </div>
-
-                        <h3 className="font-bold text-xl mb-4">{exam.title}</h3>
-                        
-                        <div className="grid grid-cols-2 gap-4 mb-6">
-                          <div className="bg-slate-50 p-3 rounded-lg">
-                            <div className="text-sm font-medium mb-1">Multiple Choice</div>
-                            <div className="flex items-center gap-2">
-                              <div className="bg-blue-100 text-blue-800 w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold">
-                                {exam.mcqQuestions}
-                              </div>
-                              <div className="text-sm text-gray-600">questions</div>
-                            </div>
-                          </div>
-                          
-                          <div className="bg-slate-50 p-3 rounded-lg">
-                            <div className="text-sm font-medium mb-1">Structured</div>
-                            <div className="flex items-center gap-2">
-                              <div className="bg-purple-100 text-purple-800 w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold">
-                                {exam.structuredQuestions}
-                              </div>
-                              <div className="text-sm text-gray-600">questions</div>
-                            </div>
-                          </div>
-                        </div>
-
-                        <div className="flex items-center justify-between mb-2">
-                          <div className="flex items-center gap-2">
-                            <Clock className="h-4 w-4 text-gray-500" />
-                            <span className="text-sm">{exam.timeMinutes} minutes</span>
-                          </div>
-                          <div className="flex items-center gap-1">
-                            <Award className="h-4 w-4 text-amber-500" />
-                            <span className="font-medium">{exam.xpReward} XP</span>
-                          </div>
-                        </div>
-
-                        <div className="mt-6">
-                          <Link to={`/exam-challenge/${exam.id}`} className="w-full inline-block">
-                            <Button className="w-full">
-                              Start Exam
-                              <ArrowRight className="ml-2 h-4 w-4" />
-                            </Button>
-                          </Link>
-                        </div>
-                      </CardContent>
-                    </Card>
-                  ))}
-                </div>
-              </TabsContent>
-            </Tabs>
+                      </div>
+                      
+                      <div className="flex items-center justify-between mb-2">
+                        <span className="text-xs text-muted-foreground">Completion Rate</span>
+                        <span className="text-xs font-medium">
+                          {challenge.completionRate}%
+                        </span>
+                      </div>
+                      <div className="w-full bg-gray-200 rounded-full h-2">
+                        <div
+                          className={`h-2 rounded-full ${
+                            challenge.completionRate > 75 ? "bg-green-500" :
+                            challenge.completionRate > 50 ? "bg-blue-500" :
+                            challenge.completionRate > 25 ? "bg-amber-500" : "bg-red-500"
+                          }`}
+                          style={{ width: `${challenge.completionRate}%` }}
+                        ></div>
+                      </div>
+                    </CardContent>
+                    
+                    <CardFooter className="border-t p-4 flex items-center justify-between">
+                      <Badge variant="secondary" className="flex items-center gap-1">
+                        <Award className="h-3.5 w-3.5" />
+                        <span>{challenge.xpReward} XP</span>
+                      </Badge>
+                      
+                      <Link to={`/challenge/${challenge.id}`}>
+                        <Button size="sm">
+                          Start Challenge
+                          <ArrowRight className="h-4 w-4 ml-1.5" />
+                        </Button>
+                      </Link>
+                    </CardFooter>
+                  </Card>
+                ))}
+              </div>
+            )}
           </div>
         </div>
       </div>
