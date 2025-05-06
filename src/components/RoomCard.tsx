@@ -13,9 +13,9 @@ interface Room {
   description: string;
   image?: string;
   level?: string;
-  completionPercentage: number;
-  sections: number;
-  quizzes: number;
+  completionPercentage: number;  // Ensure this property exists
+  sections: any[] | number;  // Allow both array and number types
+  quizzes?: number;
   module: string;
   duration: string;
   xpPoints: number;
@@ -43,13 +43,17 @@ const RoomCard = ({ room, subject }: RoomCardProps) => {
   };
 
   const styles = getSubjectStyles(subject);
+  
+  // Handle sections count (could be array or number)
+  const sectionsCount = Array.isArray(room.sections) ? room.sections.length : room.sections;
+  const quizzesCount = room.quizzes || 0;
 
   return (
     <Card className="overflow-hidden transition-all duration-300 hover:shadow-md">
       <div className={`p-4 ${styles.color} border-b ${styles.border}`}>
         <h3 className="font-bold text-lg">{room.title}</h3>
         <p className="text-sm text-muted-foreground">
-          {room.sections} sections • {room.quizzes} quizzes
+          {sectionsCount} sections • {quizzesCount} quizzes
         </p>
       </div>
 

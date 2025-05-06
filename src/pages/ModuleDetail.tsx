@@ -1,4 +1,3 @@
-
 import React from "react";
 import { useParams, Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -9,6 +8,22 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import RoomCard from "@/components/RoomCard";
 import { getSubjectData, getLearningPathById, getModuleById } from "@/lib/demoData";
+
+// Define the Room interface to match RoomCard props
+interface Room {
+  id: string;
+  title: string;
+  description: string;
+  image?: string;
+  level?: string;
+  completionPercentage: number;
+  sections: any[] | number;
+  quizzes?: number;
+  module: string;
+  duration: string;
+  xpPoints: number;
+  completed: boolean;
+}
 
 const ModuleDetail = () => {
   const { subjectId, pathId, moduleId } = useParams<{ subjectId: string; pathId: string; moduleId: string }>();
@@ -132,13 +147,26 @@ const ModuleDetail = () => {
           <section className="mb-8">
             <h2 className="text-2xl font-bold mb-4">Rooms in this Module</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {module.rooms.map((room) => (
-                <RoomCard
-                  key={room.id}
-                  room={room}
-                  subject={subjectId || ""}
-                />
-              ))}
+              {module.rooms.map((roomData) => {
+                // Transform roomData to match Room interface if needed
+                const room: Room = {
+                  ...roomData,
+                  // Ensure completionPercentage exists (fallback to progress if not)
+                  completionPercentage: roomData.completionPercentage !== undefined ? 
+                    roomData.completionPercentage : 
+                    roomData.progress || 0,
+                  // Other properties with fallbacks if needed
+                  sections: roomData.sections || [],
+                };
+                
+                return (
+                  <RoomCard
+                    key={room.id}
+                    room={room}
+                    subject={subjectId || ""}
+                  />
+                );
+              })}
             </div>
           </section>
         </div>

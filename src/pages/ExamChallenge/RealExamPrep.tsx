@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -15,6 +16,32 @@ import { Clock, AlertCircle, BookOpen, ChevronRight, ChevronLeft } from "lucide-
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { getSubjectData } from "@/lib/demoData";
+
+// Define the question types explicitly
+interface MultipleChoiceQuestion {
+  id: string;
+  text: string;
+  options: string[];
+  answer: number;
+  explanation: string;
+  type: 'multiple-choice';
+}
+
+interface StructuredQuestion {
+  id: string;
+  text: string;
+  image?: string;
+  parts: {
+    id: string;
+    text: string;
+    marks: number;
+    type: string;
+    model_answer: string;
+  }[];
+  type: 'structured';
+}
+
+type Question = MultipleChoiceQuestion | StructuredQuestion;
 
 // Mock IGCSE exam data
 const mockIGCSEExam = {
@@ -42,6 +69,7 @@ const mockIGCSEExam = {
             ],
             answer: 2,
             explanation: "Protein synthesis occurs at the ribosomes, not at the cell membrane.",
+            type: 'multiple-choice' as const,
           },
           {
             id: "q2",
@@ -54,6 +82,7 @@ const mockIGCSEExam = {
             ],
             answer: 2,
             explanation: "Mitochondria are known as the 'powerhouses' of the cell as they produce ATP through cellular respiration.",
+            type: 'multiple-choice' as const,
           },
           {
             id: "q3",
@@ -66,6 +95,7 @@ const mockIGCSEExam = {
             ],
             answer: 1,
             explanation: "Osmosis is the movement of water molecules across a partially permeable membrane from a region of higher water concentration to a region of lower water concentration.",
+            type: 'multiple-choice' as const,
           },
           // More questions would be added here in a real application
         ],
@@ -102,7 +132,8 @@ const mockIGCSEExam = {
                 type: "extended-answer",
                 model_answer: "1. The waxy cuticle on the upper epidermis prevents water from evaporating from the leaf surface.\n2. Most stomata are located on the lower epidermis, reducing water loss as the lower surface is usually cooler and less exposed to direct sunlight.\n3. Stomata can close in hot or dry conditions to prevent excessive water loss.\n4. Some plants have adaptations like hair-like structures (trichomes) that trap moisture near the leaf surface."
               }
-            ]
+            ],
+            type: 'structured' as const,
           },
           {
             id: "sq2",
@@ -130,7 +161,8 @@ const mockIGCSEExam = {
                 type: "extended-answer",
                 model_answer: "1. The small intestine has a very long length (about 6-7 meters), providing a large surface area for absorption.\n2. The inner lining is folded into villi, which further increase the surface area.\n3. Each villus contains blood capillaries close to its surface for efficient absorption of digested food molecules.\n4. Epithelial cells of villi have microvilli (brush border), which further increase the surface area.\n5. Villi have a thin epithelium (one cell thick) for rapid diffusion of digested food molecules.\n6. The small intestine has a good blood supply to maintain concentration gradients for efficient absorption."
               }
-            ]
+            ],
+            type: 'structured' as const,
           },
           // More structured questions would be added here
         ],
@@ -234,7 +266,16 @@ const RealExamPrep = () => {
   // Current section and questions
   const currentSection = examData.sections.find(s => s.id === activeTab);
   const questions = currentSection?.questions || [];
-  const currentQuestionData = questions[currentQuestion];
+  const currentQuestionData = questions[currentQuestion] as Question;
+  
+  // Type guard functions
+  const isMultipleChoiceQuestion = (question: Question): question is MultipleChoiceQuestion => {
+    return question.type === 'multiple-choice';
+  };
+  
+  const isStructuredQuestion = (question: Question): question is StructuredQuestion => {
+    return question.type === 'structured';
+  };
   
   if (!currentSection) {
     return (
@@ -369,7 +410,7 @@ const RealExamPrep = () => {
                       </CardHeader>
                       
                       <CardContent>
-                        {section.id === "multiple-choice" && currentQuestionData && (
+                        {currentQuestionData && isMultipleChoiceQuestion(currentQuestionData) && section.id === "multiple-choice" && (
                           <div className="space-y-6">
                             <div>
                               <h3 className="text-lg font-medium mb-3">Question {currentQuestion + 1} of {questions.length}</h3>
@@ -395,7 +436,7 @@ const RealExamPrep = () => {
                           </div>
                         )}
                         
-                        {section.id === "structured-questions" && currentQuestionData && (
+                        {currentQuestionData && isStructuredQuestion(currentQuestionData) && section.id === "structured-questions" && (
                           <div className="space-y-6">
                             <div>
                               <h3 className="text-lg font-medium mb-3">Question {currentQuestion + 1} of {questions.length}</h3>

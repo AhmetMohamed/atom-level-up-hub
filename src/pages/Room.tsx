@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { 
@@ -34,6 +35,7 @@ const Room = () => {
       xpPoints: 50,
       progress: 0,
       completed: false,
+      completionPercentage: 0, // Add this property explicitly
       description: "Explore the basic building blocks of life and understand how cells function.",
       sections: [
         {
@@ -143,7 +145,10 @@ const Room = () => {
   const roomSections = Array.isArray(useRoomData.sections) ? useRoomData.sections : [];
   
   // Get the completion percentage from the data
-  const completionPercentage = useRoomData.completionPercentage;
+  // Fall back to progress if completionPercentage is not available
+  const completionPercentage = useRoomData.completionPercentage !== undefined 
+    ? useRoomData.completionPercentage 
+    : useRoomData.progress || 0;
     
   return (
     <div className="min-h-screen flex flex-col bg-slate-50">
