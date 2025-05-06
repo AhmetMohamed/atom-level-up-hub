@@ -30,9 +30,9 @@ const Room = () => {
         // Handle different formats of sections (number or array)
         if (Array.isArray(foundRoom.sections)) {
           setSections(foundRoom.sections);
-        } else {
+        } else if (typeof foundRoom.sections === 'number') {
           // If sections is a number, create mock sections
-          const mockSections = Array.from({ length: 3 }, (_, i) => ({
+          const mockSections = Array.from({ length: foundRoom.sections || 3 }, (_, i) => ({
             id: `section-${i}`,
             title: i === 0 ? "Introduction" : i === 1 ? "Main Content" : "Summary",
             content: i === 0 
@@ -43,6 +43,14 @@ const Room = () => {
             type: "text"
           }));
           setSections(mockSections);
+        } else {
+          // Default fallback
+          setSections([{
+            id: "default-section",
+            title: "Content",
+            content: `Content for ${foundRoom.title}`,
+            type: "text"
+          }]);
         }
       }
       setLoading(false);

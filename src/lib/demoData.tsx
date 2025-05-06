@@ -9,13 +9,16 @@ export interface Room {
   description: string;
   image?: string;
   level?: string;
+  difficulty: string;
   completionPercentage: number;
-  sections: number;
+  sections: any[] | number;
   quizzes: number;
   module: string;
   duration: string;
   xpPoints: number;
   completed: boolean;
+  moduleId: string;
+  order: number;
 }
 
 export interface Module {
@@ -510,6 +513,16 @@ export const subjectsData: { [key: string]: SubjectData } = {
   chemistry: chemistryData,
   physics: physicsData,
   mathematics: mathematicsData
+};
+
+// Export for backward compatibility with code using demoData
+export const demoData = {
+  subjects: [
+    { name: "biology", ...biologyData },
+    { name: "chemistry", ...chemistryData },
+    { name: "physics", ...physicsData },
+    { name: "mathematics", ...mathematicsData }
+  ]
 };
 
 // Helper function to get subject data by ID
