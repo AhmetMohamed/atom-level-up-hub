@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { 
@@ -111,6 +112,11 @@ const Room = () => {
     ? [] // If it's a number from demoData, we don't have section content yet
     : useRoomData.sections || [];
   
+  // Get the completion percentage from either progress (hardcoded data) or completionPercentage (demoData)
+  const completionPercentage = 'completionPercentage' in useRoomData 
+    ? useRoomData.completionPercentage 
+    : useRoomData.progress;
+    
   return (
     <div className="min-h-screen flex flex-col bg-slate-50">
       <Header />
@@ -148,9 +154,9 @@ const Room = () => {
           <div className="mb-8">
             <div className="flex justify-between items-center mb-2">
               <div className="text-sm font-medium">Progress</div>
-              <div className="text-sm font-medium">{useRoomData.completionPercentage}% complete</div>
+              <div className="text-sm font-medium">{completionPercentage}% complete</div>
             </div>
-            <Progress value={useRoomData.completionPercentage} className="h-2" />
+            <Progress value={completionPercentage} className="h-2" />
           </div>
           
           {/* Room Content */}
@@ -216,7 +222,7 @@ const Room = () => {
             )}
             
             {/* Quiz Section */}
-            {useRoomData.quiz && (
+            {('quiz' in useRoomData && useRoomData.quiz) && (
               <Card className="mt-8 overflow-hidden">
                 <div className="bg-science-light p-4 border-b border-science-primary/20">
                   <h2 className="text-xl font-bold text-science-primary flex items-center">
@@ -228,7 +234,7 @@ const Room = () => {
                 
                 <CardContent className="p-6">
                   <div className="space-y-6">
-                    {useRoomData.quiz.map((question: any, index: number) => (
+                    {('quiz' in useRoomData && useRoomData.quiz) && useRoomData.quiz.map((question: any, index: number) => (
                       <div key={index} className="p-4 border rounded-lg">
                         <h3 className="font-medium mb-3">Question {index + 1}: {question.question}</h3>
                         <div className="space-y-2">

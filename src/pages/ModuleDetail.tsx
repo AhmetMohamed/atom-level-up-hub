@@ -4,7 +4,7 @@ import { useParams, Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { ArrowLeft, Clock } from "lucide-react";
+import { ArrowLeft, Clock, AlertCircle, Search, BookOpen } from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import RoomCard from "@/components/RoomCard";
@@ -22,12 +22,56 @@ const ModuleDetail = () => {
       <div className="min-h-screen flex flex-col">
         <Header />
         <div className="container px-4 py-8 flex-1">
-          <div className="text-center">
+          <div className="max-w-2xl mx-auto text-center">
+            <div className="mb-6 flex justify-center">
+              <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-red-100 text-red-600">
+                <AlertCircle className="h-10 w-10" />
+              </div>
+            </div>
+            
             <h1 className="text-3xl font-bold mb-4">Module Not Found</h1>
-            <p className="text-muted-foreground mb-6">The module you're looking for doesn't exist or hasn't been created yet.</p>
-            <Link to={`/subjects/${subjectId}`}>
-              <Button>Back to Subject</Button>
-            </Link>
+            <p className="text-muted-foreground text-lg mb-6">
+              The module you're looking for doesn't exist or hasn't been created yet.
+            </p>
+            
+            <div className="bg-slate-50 p-6 rounded-lg mb-8">
+              <h2 className="text-xl font-medium mb-3">What you can do next:</h2>
+              <ul className="space-y-3 text-left mb-6">
+                <li className="flex items-start gap-3">
+                  <div className="flex-shrink-0 mt-1">
+                    <Search className="h-5 w-5 text-blue-600" />
+                  </div>
+                  <div>
+                    <span className="font-medium">Browse other modules</span>
+                    <p className="text-sm text-muted-foreground">Explore other available modules in this subject</p>
+                  </div>
+                </li>
+                <li className="flex items-start gap-3">
+                  <div className="flex-shrink-0 mt-1">
+                    <BookOpen className="h-5 w-5 text-green-600" />
+                  </div>
+                  <div>
+                    <span className="font-medium">View learning paths</span>
+                    <p className="text-sm text-muted-foreground">Check other learning paths that include different modules</p>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Link to={`/subjects/${subjectId}`}>
+                <Button variant="default" size="lg" className="w-full">
+                  Back to {subject.title}
+                </Button>
+              </Link>
+              {learningPath && (
+                <Link to={`/subjects/${subjectId}/learning-paths/${learningPath.id}`}>
+                  <Button variant="outline" size="lg" className="w-full">
+                    Back to Learning Path
+                  </Button>
+                </Link>
+              )}
+            </div>
           </div>
         </div>
         <Footer />

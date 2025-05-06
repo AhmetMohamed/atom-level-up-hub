@@ -198,7 +198,10 @@ const Subject = () => {
                           className="text-blue-600 hover:underline flex items-center gap-1 text-sm"
                           onClick={(e) => {
                             e.preventDefault();
-                            document.querySelector('[data-value="learning-path"]')?.click();
+                            const tabElement = document.querySelector('[data-value="learning-path"]');
+                            if (tabElement instanceof HTMLElement) {
+                              tabElement.click();
+                            }
                           }}
                         >
                           View all learning paths
