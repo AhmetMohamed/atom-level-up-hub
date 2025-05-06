@@ -17,6 +17,7 @@ interface Room {
   image?: string;
   level?: string;
   completionPercentage: number;
+  progress?: number; // Add this to make it optional
   sections: any[] | number;
   quizzes?: number;
   module: string;
@@ -155,6 +156,8 @@ const ModuleDetail = () => {
                   completionPercentage: roomData.completionPercentage !== undefined ? 
                     roomData.completionPercentage : 
                     roomData.progress || 0,
+                  // Include progress if it exists
+                  progress: roomData.progress,
                   // Other properties with fallbacks if needed
                   sections: roomData.sections || [],
                 };

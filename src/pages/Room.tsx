@@ -148,7 +148,7 @@ const Room = () => {
   // Fall back to progress if completionPercentage is not available
   const completionPercentage = useRoomData.completionPercentage !== undefined 
     ? useRoomData.completionPercentage 
-    : useRoomData.progress || 0;
+    : useRoomData.progress !== undefined ? useRoomData.progress : 0;
     
   return (
     <div className="min-h-screen flex flex-col bg-slate-50">
