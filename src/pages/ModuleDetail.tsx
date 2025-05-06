@@ -23,12 +23,17 @@ const ModuleDetail = () => {
 
       // Find the module and its subject name
       for (const subject of demoData.subjects) {
-        const mod = subject.modules.find(m => m.id === moduleId);
-        if (mod) {
-          foundModule = mod;
-          foundSubjectName = subject.name;
-          break;
+        // First check in learning paths
+        for (const path of subject.learningPaths) {
+          const mod = path.modules.find(m => m.id === moduleId);
+          if (mod) {
+            foundModule = mod;
+            foundSubjectName = subject.name;
+            break;
+          }
         }
+        
+        if (foundModule) break;
       }
 
       if (foundModule) {

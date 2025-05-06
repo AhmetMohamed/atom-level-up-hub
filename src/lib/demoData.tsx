@@ -82,6 +82,7 @@ const biologyData: SubjectData = {
               id: "bio-form4-mod1-room1",
               title: "Mitosis and Meiosis",
               description: "Cell division processes and their importance",
+              difficulty: "Medium",
               completionPercentage: 60,
               sections: 4,
               quizzes: 2,
@@ -89,11 +90,14 @@ const biologyData: SubjectData = {
               duration: "45 min",
               xpPoints: 80,
               completed: false,
+              moduleId: "bio-form4-mod1",
+              order: 1
             },
             {
               id: "bio-form4-mod1-room2",
               title: "Mendelian Genetics",
               description: "Principles of inheritance and genetic crosses",
+              difficulty: "Advanced",
               completionPercentage: 0,
               sections: 5,
               quizzes: 3,
@@ -101,6 +105,8 @@ const biologyData: SubjectData = {
               duration: "60 min",
               xpPoints: 100,
               completed: false,
+              moduleId: "bio-form4-mod1",
+              order: 2
             }
           ]
         },
@@ -115,6 +121,7 @@ const biologyData: SubjectData = {
               id: "bio-form4-mod2-room1",
               title: "Darwin's Theory",
               description: "Natural selection and evidence for evolution",
+              difficulty: "Medium",
               completionPercentage: 0,
               sections: 3,
               quizzes: 2,
@@ -122,6 +129,8 @@ const biologyData: SubjectData = {
               duration: "40 min",
               xpPoints: 75,
               completed: false,
+              moduleId: "bio-form4-mod2",
+              order: 1
             }
           ]
         }
@@ -146,6 +155,7 @@ const biologyData: SubjectData = {
               id: "bio-form3-mod1-room1",
               title: "Circulatory System",
               description: "The heart, blood vessels and circulation",
+              difficulty: "Medium", 
               completionPercentage: 100,
               sections: 4,
               quizzes: 2,
@@ -153,11 +163,14 @@ const biologyData: SubjectData = {
               duration: "35 min",
               xpPoints: 70,
               completed: true,
+              moduleId: "bio-form3-mod1",
+              order: 1
             },
             {
               id: "bio-form3-mod1-room2",
               title: "Respiratory System",
               description: "Gas exchange and respiratory mechanisms",
+              difficulty: "Medium",
               completionPercentage: 100,
               sections: 3,
               quizzes: 2,
@@ -165,6 +178,8 @@ const biologyData: SubjectData = {
               duration: "30 min",
               xpPoints: 65,
               completed: true,
+              moduleId: "bio-form3-mod1",
+              order: 2
             }
           ]
         }
@@ -189,6 +204,7 @@ const biologyData: SubjectData = {
               id: "bio-form2-mod1-room1",
               title: "Cell Structure",
               description: "Components of plant and animal cells",
+              difficulty: "Easy",
               completionPercentage: 100,
               sections: 3,
               quizzes: 1,
@@ -196,6 +212,8 @@ const biologyData: SubjectData = {
               duration: "25 min",
               xpPoints: 50,
               completed: true,
+              moduleId: "bio-form2-mod1",
+              order: 1
             }
           ]
         }
@@ -233,6 +251,7 @@ const chemistryData: SubjectData = {
               id: "chem-form4-mod1-room1",
               title: "Hydrocarbons",
               description: "Alkanes, alkenes, and alkynes",
+              difficulty: "Advanced",
               completionPercentage: 0,
               sections: 5,
               quizzes: 3,
@@ -240,6 +259,8 @@ const chemistryData: SubjectData = {
               duration: "50 min",
               xpPoints: 90,
               completed: false,
+              moduleId: "chem-form4-mod1",
+              order: 1
             }
           ]
         }
@@ -264,6 +285,7 @@ const chemistryData: SubjectData = {
               id: "chem-form3-mod1-room1",
               title: "Ionic Bonding",
               description: "Transfer of electrons between atoms",
+              difficulty: "Medium",
               completionPercentage: 100,
               sections: 3,
               quizzes: 2,
@@ -271,11 +293,14 @@ const chemistryData: SubjectData = {
               duration: "35 min",
               xpPoints: 70,
               completed: true,
+              moduleId: "chem-form3-mod1",
+              order: 1
             },
             {
               id: "chem-form3-mod1-room2",
               title: "Covalent Bonding",
               description: "Sharing of electrons between atoms",
+              difficulty: "Medium",
               completionPercentage: 30,
               sections: 4,
               quizzes: 2,
@@ -283,6 +308,8 @@ const chemistryData: SubjectData = {
               duration: "35 min",
               xpPoints: 70,
               completed: false,
+              moduleId: "chem-form3-mod1",
+              order: 2
             }
           ]
         }
@@ -320,6 +347,7 @@ const physicsData: SubjectData = {
               id: "phys-form4-mod1-room1",
               title: "Electromagnetic Induction",
               description: "Production of electricity from magnetic fields",
+              difficulty: "Advanced",
               completionPercentage: 0,
               sections: 4,
               quizzes: 3,
@@ -327,6 +355,8 @@ const physicsData: SubjectData = {
               duration: "45 min",
               xpPoints: 85,
               completed: false,
+              moduleId: "phys-form4-mod1",
+              order: 1
             }
           ]
         }
@@ -351,6 +381,7 @@ const physicsData: SubjectData = {
               id: "phys-form3-mod1-room1",
               title: "Newton's Laws",
               description: "The three laws of motion",
+              difficulty: "Medium",
               completionPercentage: 60,
               sections: 3,
               quizzes: 2,
@@ -358,6 +389,8 @@ const physicsData: SubjectData = {
               duration: "40 min",
               xpPoints: 75,
               completed: false,
+              moduleId: "phys-form3-mod1",
+              order: 1
             }
           ]
         }
@@ -395,6 +428,7 @@ const mathematicsData: SubjectData = {
               id: "math-form4-mod1-room1",
               title: "Differentiation",
               description: "Rules and applications of differentiation",
+              difficulty: "Advanced",
               completionPercentage: 100,
               sections: 5,
               quizzes: 3,
@@ -402,11 +436,14 @@ const mathematicsData: SubjectData = {
               duration: "50 min",
               xpPoints: 90,
               completed: true,
+              moduleId: "math-form4-mod1",
+              order: 1
             },
             {
               id: "math-form4-mod1-room2",
               title: "Integration",
               description: "Basic integration techniques",
+              difficulty: "Advanced",
               completionPercentage: 30,
               sections: 6,
               quizzes: 3,
@@ -414,6 +451,8 @@ const mathematicsData: SubjectData = {
               duration: "60 min",
               xpPoints: 100,
               completed: false,
+              moduleId: "math-form4-mod1",
+              order: 2
             }
           ]
         },
@@ -428,6 +467,7 @@ const mathematicsData: SubjectData = {
               id: "math-form4-mod2-room1",
               title: "Normal Distribution",
               description: "Properties and applications of normal distribution",
+              difficulty: "Medium",
               completionPercentage: 100,
               sections: 3,
               quizzes: 2,
@@ -435,11 +475,14 @@ const mathematicsData: SubjectData = {
               duration: "40 min",
               xpPoints: 80,
               completed: true,
+              moduleId: "math-form4-mod2",
+              order: 1
             },
             {
               id: "math-form4-mod2-room2",
               title: "Hypothesis Testing",
               description: "Statistical significance and p-values",
+              difficulty: "Medium",
               completionPercentage: 50,
               sections: 4,
               quizzes: 2,
@@ -447,6 +490,8 @@ const mathematicsData: SubjectData = {
               duration: "45 min",
               xpPoints: 85,
               completed: false,
+              moduleId: "math-form4-mod2",
+              order: 2
             }
           ]
         }
@@ -471,6 +516,7 @@ const mathematicsData: SubjectData = {
               id: "math-form3-mod1-room1",
               title: "Quadratic Equations",
               description: "Solving and applications of quadratic equations",
+              difficulty: "Medium",
               completionPercentage: 100,
               sections: 4,
               quizzes: 2,
@@ -478,6 +524,8 @@ const mathematicsData: SubjectData = {
               duration: "35 min",
               xpPoints: 70,
               completed: true,
+              moduleId: "math-form3-mod1",
+              order: 1
             }
           ]
         },
@@ -492,6 +540,7 @@ const mathematicsData: SubjectData = {
               id: "math-form3-mod2-room1",
               title: "Sine and Cosine Rules",
               description: "Applications in solving triangles",
+              difficulty: "Medium",
               completionPercentage: 100,
               sections: 3,
               quizzes: 2,
@@ -499,6 +548,8 @@ const mathematicsData: SubjectData = {
               duration: "40 min",
               xpPoints: 75,
               completed: true,
+              moduleId: "math-form3-mod2",
+              order: 1
             }
           ]
         }

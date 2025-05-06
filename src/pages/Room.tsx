@@ -19,7 +19,8 @@ const Room = () => {
     if (roomId) {
       // Find the room from all modules
       const allRooms = demoData.subjects
-        .flatMap(subject => subject.modules)
+        .flatMap(subject => subject.learningPaths)
+        .flatMap(path => path.modules)
         .flatMap(module => module.rooms);
       
       const foundRoom = allRooms.find(r => r.id === roomId);

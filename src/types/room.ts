@@ -11,6 +11,10 @@ export interface Room {
   moduleId: string;
   order: number;
   duration: string;
+  completionPercentage?: number;
+  quizzes?: number;
+  module?: string;
+  xpPoints?: number;
 }
 
 export interface Section {

@@ -1,3 +1,4 @@
+
 import React from "react";
 import { useParams, Link } from "react-router-dom";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -16,7 +17,8 @@ import SubjectHeader from "@/components/SubjectHeader";
 import ModuleCard from "@/components/ModuleCard";
 import RoomCard from "@/components/RoomCard";
 import LearningPathCard from "@/components/LearningPathCard";
-import { getSubjectData, LearningPath, Module, Room } from "@/lib/demoData";
+import { getSubjectData, LearningPath, Module, Room as DemoRoom } from "@/lib/demoData";
+import { Room } from "@/types/room";
 
 const Subject = () => {
   const { subjectId } = useParams<{ subjectId: string }>();
@@ -37,7 +39,8 @@ const Subject = () => {
               room.completionPercentage < 100) ||
             (room.completed && Math.random() > 0.7)
           ) {
-            allRooms.push(room);
+            // Convert DemoRoom to Room type
+            allRooms.push(room as unknown as Room);
           }
         });
       });
@@ -47,7 +50,7 @@ const Subject = () => {
     return allRooms
       .sort((a, b) => {
         if (a.completed === b.completed) {
-          return b.completionPercentage - a.completionPercentage;
+          return b.completionPercentage! - a.completionPercentage!;
         }
         return a.completed ? 1 : -1;
       })
@@ -74,7 +77,8 @@ const Subject = () => {
     subject.learningPaths.forEach((path) => {
       path.modules.forEach((module) => {
         module.rooms.forEach((room) => {
-          allRooms.push(room);
+          // Convert DemoRoom to Room type
+          allRooms.push(room as unknown as Room);
         });
       });
     });
