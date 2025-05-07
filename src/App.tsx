@@ -1,4 +1,3 @@
-
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -48,56 +47,49 @@ const App = () => (
       <Sonner />
       <BrowserRouter>
         <Routes>
+          {/* Main Routes */}
           <Route path="/" element={<Index />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/signin" element={<SignIn />} />
+          <Route path="/pricing" element={<Pricing />} />
+          <Route path="/resources" element={<Resources />} />
+          <Route path="/subjects" element={<Subject />} />
+          <Route path="/subjects/:subjectId" element={<Subject />} />
+          <Route path="/subjects/:subjectId/modules/:moduleId" element={<ModuleDetail />} />
+          <Route path="/subjects/:subjectId/learning-paths/:pathId" element={<LearningPathDetail />} />
+          <Route path="/subjects/:subjectId/learning-paths/:pathId/modules/:moduleId" element={<ModuleDetail />} />
+          <Route path="/subjects/:subjectId/rooms/:roomId" element={<Room />} />
+          <Route path="/lesson/:lessonId" element={<Lesson />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/leaderboard" element={<Leaderboard />} />
-          <Route path="/resources" element={<Resources />} />
-          <Route path="/pricing" element={<Pricing />} />
           <Route path="/challenges" element={<Challenges />} />
-          <Route path="/exam-challenge/:examId" element={<ExamChallenge />} />
-          <Route path="/challenge/:examId" element={<ExamChallengeNew />} />
-          <Route path="/exam-prep/:subjectId" element={<RealExamPrep />} />
+          <Route path="/exam-challenge" element={<ExamChallenge />} />
+          <Route path="/exam-challenge-new" element={<ExamChallengeNew />} />
+          <Route path="/exam-challenge/real-exam-prep" element={<RealExamPrep />} />
           
-          {/* Subject routes */}
-          <Route path="/subjects/:subjectId" element={<Subject />} />
-          <Route path="/learn/:subjectId" element={<Subject />} />
-          <Route path="/subjects/:subjectId/rooms/:roomId" element={<Room />} />
-          <Route path="/learn/:subjectId/rooms/:roomId" element={<Room />} />
-          
-          {/* Learning Path routes */}
-          <Route path="/subjects/:subjectId/learning-paths/:pathId" element={<LearningPathDetail />} />
-          <Route path="/learn/:subjectId/learning-paths/:pathId" element={<LearningPathDetail />} />
-          
-          {/* Module routes */}
-          <Route path="/subjects/:subjectId/modules/:moduleId" element={<ModuleDetail />} />
-          <Route path="/learn/:subjectId/modules/:moduleId" element={<ModuleDetail />} />
-          <Route path="/subjects/:subjectId/learning-paths/:pathId/modules/:moduleId" element={<ModuleDetail />} />
-          <Route path="/learn/:subjectId/learning-paths/:pathId/modules/:moduleId" element={<ModuleDetail />} />
-
-          {/* Admin routes */}
+          {/* Admin Routes */}
           <Route path="/admin" element={<AdminDashboard />} />
+          <Route path="/admin/dashboard" element={<AdminDashboard />} />
           <Route path="/admin/users" element={<UserManagement />} />
           <Route path="/admin/payments" element={<PaymentVerification />} />
           <Route path="/admin/premium" element={<PremiumContentManagement />} />
           <Route path="/admin/access" element={<AccessControl />} />
+          <Route path="/admin/reports" element={<AdminDashboard />} /> {/* Updated route */}
+          <Route path="/admin/content" element={<AdminDashboard />} /> {/* Updated route */}
+          <Route path="/admin/settings" element={<AdminDashboard />} /> {/* Updated route */}
           
-          {/* CMS routes */}
-          <Route path="/cms/login" element={<CMSAuth />} />
+          {/* CMS Routes */}
           <Route path="/cms" element={<CMSDashboard />} />
+          <Route path="/cms/auth" element={<CMSAuth />} />
+          <Route path="/cms/dashboard" element={<CMSDashboard />} />
           <Route path="/cms/rooms" element={<RoomsManagement />} />
-          <Route
-            path="/cms/rooms/:operation/:roomId"
-            element={<RoomEditor />}
-          />
-          <Route path="/cms/rooms/:operation" element={<RoomEditor />} />
-          <Route path="/cms/exams" element={<ExamsManagement />} />
+          <Route path="/cms/rooms/edit/:roomId" element={<RoomEditor />} />
           <Route path="/cms/modules" element={<ModulesManagement />} />
           <Route path="/cms/resources" element={<ResourcesManagement />} />
+          <Route path="/cms/exams" element={<ExamsManagement />} />
           <Route path="/cms/students" element={<StudentsManagement />} />
-
-          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+          
+          {/* 404 Route */}
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>

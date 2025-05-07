@@ -14,9 +14,9 @@ export interface Room {
   level?: string;
   duration?: string;
   xpPoints?: number;
-  progress: number; // Changed to required
+  progress: number; // Required property
   completed?: boolean;
-  completionPercentage: number; // Changed to required
+  completionPercentage: number; // Required property
   sections?: any[];
   status?: string;
 }

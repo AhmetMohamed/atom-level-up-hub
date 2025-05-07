@@ -5,7 +5,8 @@ import Footer from "@/components/Footer";
 import SubjectsSection from "@/components/SubjectsSection";
 import PricingSection from "@/components/PricingSection";
 import CTASection from "@/components/CTASection";
-import ModernHero from "@/components/ModernHero";
+import Hero from "@/components/Hero";
+import TrustLogos from "@/components/TrustLogos";
 import { motion } from "framer-motion";
 import { BookOpen, Award, Lightbulb, Layers, Clock, Medal, Brain, Sparkles, FileCheck } from "lucide-react";
 
@@ -349,7 +350,8 @@ const Index = () => {
   return (
     <>
       <Header />
-      <ModernHero />
+      <Hero />
+      <TrustLogos />
       <StatsSection />
       <FeaturesSection />
       <LearningMethodsSection />

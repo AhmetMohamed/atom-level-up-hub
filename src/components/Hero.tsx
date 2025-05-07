@@ -1,3 +1,5 @@
+
+import React, { useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import {
   GraduationCap,
@@ -6,216 +8,244 @@ import {
   Award,
   ChevronRight,
   ArrowRight,
+  CheckCircle,
+  Play,
+  Lightbulb
 } from "lucide-react";
 import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
 
 const Hero = () => {
   return (
-    <div className="relative overflow-hidden bg-gradient-to-br from-blue-50 to-indigo-50 py-20 md:py-28">
-      {/* Animated background elements */}
-      <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
-        <div className="absolute top-20 left-[10%] w-64 h-64 bg-primary opacity-10 rounded-full filter blur-3xl animate-pulse"></div>
-        <div className="absolute bottom-10 right-[5%] w-80 h-80 bg-purple-300 opacity-10 rounded-full filter blur-3xl animate-pulse delay-1000"></div>
-        <div className="absolute top-1/3 right-[15%] w-40 h-40 bg-green-300 opacity-10 rounded-full filter blur-3xl animate-pulse delay-2000"></div>
+    <div className="relative overflow-hidden">
+      {/* Background gradient and shapes */}
+      <div className="absolute inset-0 bg-gradient-to-b from-blue-50 via-indigo-50 to-white -z-10"></div>
+      <div className="absolute top-0 right-0 w-96 h-96 bg-blue-200 rounded-full filter blur-3xl opacity-20 -z-10"></div>
+      <div className="absolute bottom-0 left-20 w-72 h-72 bg-purple-200 rounded-full filter blur-3xl opacity-20 -z-10"></div>
+      <div className="absolute top-1/4 left-1/2 w-48 h-48 bg-green-200 rounded-full filter blur-3xl opacity-10 -z-10"></div>
+      
+      {/* Animated pattern overlays */}
+      <div className="absolute inset-0 overflow-hidden opacity-10 -z-5">
+        <div className="absolute top-0 left-0 w-full h-full 
+                     bg-[radial-gradient(circle_400px_at_70%_50%,rgba(100,100,255,0.4),transparent)]"></div>
       </div>
 
-      <div className="container grid grid-cols-1 md:grid-cols-2 gap-12 items-center relative z-10">
-        <div className="space-y-6 animate-fade-in">
-          <div className="inline-flex items-center rounded-full border px-4 py-1.5 text-sm font-semibold transition-colors bg-background shadow-sm">
-            <span className="text-xs text-muted-foreground flex items-center gap-1.5  text-science-primary">
-              🚀 Level up your science skills
-            </span>
-          </div>
-
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight">
-            Learn Science
-            <span className="relative">
-              <span className="inline-block animate-float">
-                <span className="relative z-10 bg-gradient-to-r from-primary to-purple-500 bg-clip-text text-transparent px-1">
-                  Interactively
-                </span>
-                <svg
-                  className="absolute -bottom-2 left-0 w-full"
-                  viewBox="0 0 138 24"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M3 20.8553C47.2659 6.08466 133.34 -9.96878 135 20.8553"
-                    stroke="#6366F1"
-                    strokeWidth="5"
-                    strokeLinecap="round"
-                  />
-                </svg>
+      <div className="container mx-auto px-4 py-20 md:py-32">
+        <div className="flex flex-col lg:flex-row items-center justify-between gap-12">
+          {/* Left content - Text section */}
+          <motion.div 
+            className="w-full lg:w-1/2 space-y-8"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+          >
+            {/* Eyebrow text */}
+            <motion.div 
+              className="inline-flex items-center rounded-full border px-4 py-1.5 bg-white shadow-sm"
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 0.2, duration: 0.5 }}
+            >
+              <span className="text-xs flex items-center gap-1.5 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent font-semibold">
+                <div className="w-4 h-4 rounded-full bg-gradient-to-r from-blue-500 to-purple-500 flex items-center justify-center">
+                  <Star className="w-2.5 h-2.5 text-white" />
+                </div>
+                Unlock your learning potential with interactive education
               </span>
-            </span>
-          </h1>
-
-          <p className="text-lg text-muted-foreground md:text-xl">
-            Comprehensive lessons, hands-on experiments, interactive quizzes,
-            and practice exams designed to help students excel in science
-            subjects.
-          </p>
-
-          <div className="flex flex-col sm:flex-row gap-3">
-            <Link to="/signup">
-              <Button className="bg-science-primary hover:bg-science-primary/90 h-12 px-6 text-base">
-                Start Learning
-                <ArrowRight className="ml-2 h-4 w-4" />
+            </motion.div>
+            
+            {/* Main heading */}
+            <motion.h1 
+              className="text-5xl sm:text-6xl lg:text-7xl font-bold tracking-tight leading-tight"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.3, duration: 0.8 }}
+            >
+              Master
+              <span className="bg-gradient-to-r from-blue-600 via-purple-600 to-violet-600 bg-clip-text text-transparent px-2">
+                Science
+              </span>
+              in a New Way
+            </motion.h1>
+            
+            {/* Subheading */}
+            <motion.p 
+              className="text-xl text-gray-600 max-w-lg"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.4, duration: 0.8 }}
+            >
+              Comprehensive lessons, hands-on experiments, and interactive quizzes designed to help you excel in all science subjects.
+            </motion.p>
+            
+            {/* CTA buttons */}
+            <motion.div 
+              className="flex flex-col sm:flex-row gap-4"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.5, duration: 0.8 }}
+            >
+              <Button 
+                className="h-14 px-8 text-base font-medium bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700"
+                asChild
+              >
+                <Link to="/signup">
+                  <span>Start Free Trial</span>
+                  <ArrowRight className="ml-2 h-5 w-5" />
+                </Link>
               </Button>
-            </Link>
-            <Link to="/subjects">
-              <Button variant="outline" className="h-12 px-6 text-base">
-                Explore Subjects
+              
+              <Button 
+                variant="outline" 
+                className="h-14 px-8 text-base font-medium border-gray-300 hover:bg-gray-50"
+                asChild
+              >
+                <Link to="/subjects" className="flex items-center">
+                  <Play className="mr-2 h-5 w-5 fill-blue-600 text-white" />
+                  <span>Watch Demo</span>
+                </Link>
               </Button>
-            </Link>
-          </div>
-
-          <div className="flex flex-wrap items-center gap-y-3 gap-x-6 pt-4 text-sm text-muted-foreground">
-            <div className="flex items-center gap-2">
-              <CheckmarkIcon />
-              <span>Interactive learning</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <CheckmarkIcon />
-              <span>Real exam prep</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <CheckmarkIcon />
-              <span>Track progress</span>
-            </div>
-          </div>
-        </div>
-
-        <div className="relative h-[340px] md:h-[460px] animate-fade-in animation-delay-600">
-          <div className="absolute inset-0 flex items-center justify-center">
-            <div className="relative w-full max-w-[380px] aspect-square">
-              {/* Main learning card */}
-              <div className="absolute inset-0 bg-white rounded-2xl shadow-xl rotate-3 hover:rotate-0 transition-all duration-300 p-5 flex flex-col z-10">
-                <div className="absolute -right-4 -top-4 w-16 h-16 bg-primary rounded-full flex items-center justify-center">
-                  <GraduationCap className="w-8 h-8 text-white" />
+            </motion.div>
+            
+            {/* Feature pills */}
+            <motion.div 
+              className="flex flex-wrap gap-3 pt-4"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.7, duration: 0.8 }}
+            >
+              {["AI Learning Path", "Expert Tutors", "Interactive Tests", "STEM Focus"].map((feature, i) => (
+                <motion.div 
+                  key={i}
+                  className="bg-white shadow-sm border border-gray-100 rounded-full px-4 py-2 text-sm flex items-center"
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.7 + (i * 0.1), duration: 0.5 }}
+                >
+                  <CheckCircle className="h-4 w-4 text-green-500 mr-2" />
+                  {feature}
+                </motion.div>
+              ))}
+            </motion.div>
+          </motion.div>
+          
+          {/* Right content - Visual elements */}
+          <motion.div 
+            className="w-full lg:w-1/2"
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.4, duration: 0.8 }}
+          >
+            <div className="relative mx-auto w-full max-w-lg">
+              {/* Main card */}
+              <motion.div 
+                className="bg-white rounded-2xl shadow-xl p-6 border border-gray-100"
+                whileHover={{ y: -5 }}
+                transition={{ duration: 0.3 }}
+              >
+                <div className="flex items-center justify-between mb-6">
+                  <div>
+                    <h3 className="text-xl font-bold">Your Learning Path</h3>
+                    <p className="text-gray-500">Personalized for your goals</p>
+                  </div>
+                  <div className="bg-blue-600 text-white p-2 rounded-lg">
+                    <Lightbulb className="h-6 w-6" />
+                  </div>
                 </div>
-
-                <div className="pt-2 pb-4">
-                  <h3 className="font-bold text-xl">GCSE Science</h3>
-                  <p className="text-sm text-muted-foreground mt-1">
-                    Complete learning program
-                  </p>
-                </div>
-
-                <div className="flex-1 grid grid-cols-2 gap-3">
-                  <SubjectCard
-                    title="Biology"
-                    color="bg-green-100 text-green-700"
-                    icon="🧬"
-                  />
-                  <SubjectCard
-                    title="Chemistry"
-                    color="bg-purple-100 text-purple-700"
-                    icon="⚗️"
-                  />
-                  <SubjectCard
-                    title="Physics"
-                    color="bg-blue-100 text-blue-700"
-                    icon="🔭"
-                  />
-                  <SubjectCard
-                    title="Math"
-                    color="bg-amber-100 text-amber-700"
-                    icon="📊"
-                  />
-                </div>
-
-                <div className="mt-4 pt-4 border-t flex items-center justify-between">
-                  <div className="flex -space-x-2">
-                    {[1, 2, 3, 4].map((i) => (
-                      <div
-                        key={i}
-                        className={`w-8 h-8 rounded-full border-2 border-white bg-primary/10 flex items-center justify-center text-xs font-bold`}
-                      >
-                        {i}
+                
+                <div className="space-y-4">
+                  {/* Module progress items */}
+                  {[
+                    { title: "Cell Biology", progress: 85, icon: "🧬" },
+                    { title: "Chemical Reactions", progress: 60, icon: "⚗️" },
+                    { title: "Quantum Physics", progress: 35, icon: "⚛️" }
+                  ].map((module, i) => (
+                    <motion.div 
+                      key={i} 
+                      className="bg-gray-50 rounded-lg p-4 flex items-center justify-between"
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 0.6 + (i * 0.1), duration: 0.5 }}
+                    >
+                      <div className="flex items-center">
+                        <div className="w-10 h-10 rounded-lg bg-blue-100 flex items-center justify-center text-xl mr-3">
+                          {module.icon}
+                        </div>
+                        <div>
+                          <p className="font-medium">{module.title}</p>
+                          <div className="flex items-center gap-1 text-xs text-gray-500">
+                            <div className="w-16 h-1.5 bg-gray-200 rounded-full">
+                              <div 
+                                className="h-1.5 rounded-full bg-gradient-to-r from-blue-600 to-purple-600"
+                                style={{ width: `${module.progress}%` }}
+                              />
+                            </div>
+                            <span>{module.progress}%</span>
+                          </div>
+                        </div>
                       </div>
-                    ))}
-                  </div>
-                  <span className="text-sm text-muted-foreground">
-                    +2,500 students
-                  </span>
+                      <Button variant="ghost" size="sm" className="rounded-full p-0 w-8 h-8">
+                        <ChevronRight className="h-4 w-4" />
+                      </Button>
+                    </motion.div>
+                  ))}
                 </div>
-              </div>
-
+                
+                <motion.div 
+                  className="mt-6"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 1, duration: 0.5 }}
+                >
+                  <Button className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700">
+                    Continue Learning
+                  </Button>
+                </motion.div>
+              </motion.div>
+              
               {/* Floating achievement card */}
-              <div className="absolute right-4 bottom-10 bg-white rounded-xl shadow-lg p-3 animate-float delay-500 z-20">
-                <div className="flex items-center gap-2">
-                  <div className="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center">
-                    <Award className="w-4 h-4 text-green-600" />
+              <motion.div
+                className="absolute -right-10 top-5 bg-white rounded-lg shadow-lg p-4 border border-gray-100"
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.9, duration: 0.6 }}
+                whileHover={{ y: -5 }}
+              >
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center">
+                    <Award className="h-5 w-5 text-green-600" />
                   </div>
-                  <div className="text-left">
-                    <p className="text-xs font-medium">Achievement</p>
-                    <p className="text-xs text-muted-foreground">
-                      Perfect Score!
-                    </p>
-                  </div>
-                </div>
-              </div>
-
-              {/* Floating progress card */}
-              <div className="absolute -left-10 top-6 bg-white rounded-xl shadow-lg p-3 animate-float delay-700 z-20">
-                <div className="flex items-center gap-2">
-                  <div className="w-8 h-8 rounded-full bg-amber-100 flex items-center justify-center">
-                    <BookOpen className="w-4 h-4 text-amber-600" />
-                  </div>
-                  <div className="text-left">
-                    <p className="text-xs font-medium">Learning Progress</p>
-                    <div className="w-24 h-1.5 bg-gray-200 rounded-full mt-1">
-                      <div className="w-3/5 h-full bg-primary rounded-full"></div>
-                    </div>
+                  <div>
+                    <p className="font-medium text-sm">Achievement Earned!</p>
+                    <p className="text-xs text-gray-500">Perfect Score Streak</p>
                   </div>
                 </div>
-              </div>
+              </motion.div>
+              
+              {/* Floating stats card */}
+              <motion.div
+                className="absolute -left-12 -bottom-10 bg-white rounded-lg shadow-lg p-4 border border-gray-100"
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 1.1, duration: 0.6 }}
+                whileHover={{ y: -5 }}
+              >
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center">
+                    <GraduationCap className="h-5 w-5 text-blue-600" />
+                  </div>
+                  <div>
+                    <p className="font-medium text-sm">Weekly Progress</p>
+                    <p className="text-xs text-green-600 font-semibold">+28% from last week</p>
+                  </div>
+                </div>
+              </motion.div>
             </div>
-          </div>
+          </motion.div>
         </div>
       </div>
     </div>
   );
 };
-
-// Helper components
-const CheckmarkIcon = () => (
-  <div className="rounded-full bg-green-100 p-1 text-green-600">
-    <svg
-      width="12"
-      height="12"
-      viewBox="0 0 12 12"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <path
-        d="M10 3L4.5 8.5L2 6"
-        stroke="currentColor"
-        strokeWidth="1.5"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  </div>
-);
-
-const SubjectCard = ({
-  title,
-  color,
-  icon,
-}: {
-  title: string;
-  color: string;
-  icon: string;
-}) => (
-  <div
-    className={`${color} rounded-lg p-3 flex flex-col items-center justify-center gap-1 hover:scale-105 transition-transform cursor-pointer`}
-  >
-    <span className="text-xl">{icon}</span>
-    <span className="text-xs font-medium">{title}</span>
-  </div>
-);
 
 export default Hero;

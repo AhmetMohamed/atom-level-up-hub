@@ -120,13 +120,13 @@ const ModuleDetail = () => {
             <div className="w-full bg-gray-200 rounded-full h-2 mb-4">
               <div 
                 className={`h-2 rounded-full ${
-                  module.progress === 100 ? "bg-green-500" : 
-                  module.progress > 0 ? "bg-blue-600" : "bg-gray-300"
+                  module.completionPercentage === 100 ? "bg-green-500" : 
+                  module.completionPercentage > 0 ? "bg-blue-600" : "bg-gray-300"
                 }`} 
-                style={{ width: `${module.progress}%` }}
+                style={{ width: `${module.completionPercentage}%` }}
               />
             </div>
-            <div className="text-sm text-right">{module.progress}% complete</div>
+            <div className="text-sm text-right">{module.completionPercentage}% complete</div>
           </div>
           
           <section className="mb-8">
