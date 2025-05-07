@@ -1,3 +1,4 @@
+
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -27,6 +28,9 @@ import UserManagement from "./pages/Admin/UserManagement";
 import PaymentVerification from "./pages/Admin/PaymentVerification";
 import PremiumContentManagement from "./pages/Admin/PremiumContentManagement";
 import AccessControl from "./pages/Admin/AccessControl";
+import AdminReports from "./pages/Admin/AdminReports";
+import ContentManagement from "./pages/Admin/ContentManagement";
+import AdminSettings from "./pages/Admin/AdminSettings";
 
 // CMS Routes
 import CMSDashboard from "./pages/CMS/CMSDashboard";
@@ -74,9 +78,9 @@ const App = () => (
           <Route path="/admin/payments" element={<PaymentVerification />} />
           <Route path="/admin/premium" element={<PremiumContentManagement />} />
           <Route path="/admin/access" element={<AccessControl />} />
-          <Route path="/admin/reports" element={<AdminDashboard />} /> {/* Updated route */}
-          <Route path="/admin/content" element={<AdminDashboard />} /> {/* Updated route */}
-          <Route path="/admin/settings" element={<AdminDashboard />} /> {/* Updated route */}
+          <Route path="/admin/reports" element={<AdminReports />} />
+          <Route path="/admin/content" element={<ContentManagement />} />
+          <Route path="/admin/settings" element={<AdminSettings />} />
           
           {/* CMS Routes */}
           <Route path="/cms" element={<CMSDashboard />} />
