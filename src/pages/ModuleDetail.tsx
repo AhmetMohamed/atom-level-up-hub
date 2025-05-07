@@ -10,12 +10,36 @@ import Footer from "@/components/Footer";
 import RoomCard, { Room } from "@/components/RoomCard";
 import { getSubjectData, getLearningPathById, getModuleById } from "@/lib/demoData";
 
+// Define an extended Module type for our component
+interface ExtendedModule {
+  id: string;
+  title: string;
+  description: string;
+  difficulty: string;
+  progress: number;
+  completionPercentage: number;
+  rooms: any[];
+}
+
 const ModuleDetail = () => {
   const { subjectId, pathId, moduleId } = useParams<{ subjectId: string; pathId: string; moduleId: string }>();
   
   const subject = getSubjectData(subjectId || "");
   const learningPath = getLearningPathById(subjectId || "", pathId || "");
-  const module = getModuleById(subjectId || "", pathId || "", moduleId || "");
+  const moduleData = getModuleById(subjectId || "", pathId || "", moduleId || "");
+  
+  // Create our extended module with guaranteed properties
+  const module: ExtendedModule | null = moduleData ? {
+    ...moduleData,
+    // Ensure completionPercentage exists (fallback to progress or 0)
+    completionPercentage: moduleData.completionPercentage !== undefined 
+      ? moduleData.completionPercentage 
+      : (moduleData.progress !== undefined ? moduleData.progress : 0),
+    // Ensure progress exists (fallback to completionPercentage or 0)
+    progress: moduleData.progress !== undefined 
+      ? moduleData.progress 
+      : (moduleData.completionPercentage !== undefined ? moduleData.completionPercentage : 0)
+  } : null;
   
   if (!module) {
     return (
