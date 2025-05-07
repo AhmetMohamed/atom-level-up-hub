@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -14,7 +15,7 @@ const Header = () => {
   const [isSubjectsOpen, setIsSubjectsOpen] = useState(false);
 
   return (
-    <header className=" backdrop-blur-sm sticky top-0 z-50">
+    <header className="backdrop-blur-sm sticky top-0 z-50 bg-white/80">
       <div className="container flex items-center justify-between h-16 px-4 md:px-6">
         <Link to="/" className="flex items-center gap-2">
           <div className="bg-science-primary w-8 h-8 rounded-lg flex items-center justify-center">
@@ -34,7 +35,7 @@ const Header = () => {
             Home
           </Link>
 
-          {/* Subjects dropdown */}
+          {/* Learn dropdown (formerly Subjects) */}
           <div className="relative">
             <DropdownMenu
               open={isSubjectsOpen}
@@ -42,14 +43,14 @@ const Header = () => {
             >
               <DropdownMenuTrigger asChild>
                 <button className="text-muted-foreground hover:text-science-primary transition-colors flex items-center gap-1">
-                  Subjects
+                  Learn
                   <ChevronDown className="h-4 w-4" />
                 </button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="start" className="w-48">
                 <DropdownMenuItem asChild>
                   <Link
-                    to="/subjects/biology"
+                    to="/learn/biology"
                     className="w-full cursor-pointer"
                   >
                     Biology
@@ -57,7 +58,7 @@ const Header = () => {
                 </DropdownMenuItem>
                 <DropdownMenuItem asChild>
                   <Link
-                    to="/subjects/chemistry"
+                    to="/learn/chemistry"
                     className="w-full cursor-pointer"
                   >
                     Chemistry
@@ -65,7 +66,7 @@ const Header = () => {
                 </DropdownMenuItem>
                 <DropdownMenuItem asChild>
                   <Link
-                    to="/subjects/physics"
+                    to="/learn/physics"
                     className="w-full cursor-pointer"
                   >
                     Physics
@@ -73,7 +74,7 @@ const Header = () => {
                 </DropdownMenuItem>
                 <DropdownMenuItem asChild>
                   <Link
-                    to="/subjects/mathematics"
+                    to="/learn/mathematics"
                     className="w-full cursor-pointer"
                   >
                     Mathematics
@@ -134,28 +135,28 @@ const Header = () => {
               </Link>
 
               <div className="space-y-3">
-                <p className="text-lg font-semibold">Subjects</p>
+                <p className="text-lg font-semibold">Learn</p>
                 <div className="pl-4 border-l border-muted space-y-2">
                   <Link
-                    to="/subjects/biology"
+                    to="/learn/biology"
                     className="block text-muted-foreground hover:text-science-primary transition-colors"
                   >
                     Biology
                   </Link>
                   <Link
-                    to="/subjects/chemistry"
+                    to="/learn/chemistry"
                     className="block text-muted-foreground hover:text-science-primary transition-colors"
                   >
                     Chemistry
                   </Link>
                   <Link
-                    to="/subjects/physics"
+                    to="/learn/physics"
                     className="block text-muted-foreground hover:text-science-primary transition-colors"
                   >
                     Physics
                   </Link>
                   <Link
-                    to="/subjects/mathematics"
+                    to="/learn/mathematics"
                     className="block text-muted-foreground hover:text-science-primary transition-colors"
                   >
                     Mathematics

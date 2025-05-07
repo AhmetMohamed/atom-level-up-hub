@@ -6,8 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { ArrowLeft, Clock, AlertCircle, Search, BookOpen, Lightbulb, BookMarked } from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import RoomCard from "@/components/RoomCard";
-import { Room } from "@/components/RoomCard";
+import RoomCard, { Room } from "@/components/RoomCard";
 import { getSubjectData, getLearningPathById, getModuleById } from "@/lib/demoData";
 
 const ModuleDetail = () => {
@@ -139,9 +138,10 @@ const ModuleDetail = () => {
                   // Ensure completionPercentage exists (fallback to progress if not)
                   completionPercentage: roomData.completionPercentage !== undefined ? 
                     roomData.completionPercentage : 
-                    roomData.progress,
+                    (roomData.progress !== undefined ? roomData.progress : 0),
                   // Ensure progress exists
-                  progress: roomData.progress !== undefined ? roomData.progress : 0,
+                  progress: roomData.progress !== undefined ? roomData.progress : 
+                    (roomData.completionPercentage !== undefined ? roomData.completionPercentage : 0),
                   // Other properties with fallbacks if needed
                   sections: roomData.sections || [],
                 };

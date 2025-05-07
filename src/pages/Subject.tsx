@@ -1,5 +1,5 @@
 
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
@@ -7,7 +7,9 @@ import {
   Book,
   Home,
   ArrowRight,
+  ArrowLeft
 } from "lucide-react";
+import { motion } from "framer-motion";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import SubjectHeader from "@/components/SubjectHeader";
@@ -16,8 +18,9 @@ import RoomCard from "@/components/RoomCard";
 import LearningPathCard from "@/components/LearningPathCard";
 import { getSubjectData, LearningPath, Module } from "@/lib/demoData";
 
-const Subject = () => {
+const LearnPage = () => {
   const { subjectId } = useParams<{ subjectId: string }>();
+  const [activeTab, setActiveTab] = useState("home");
 
   // Get subject data based on the subjectId
   const subject = getSubjectData(subjectId || "");
@@ -83,6 +86,35 @@ const Subject = () => {
   const recentRooms = getRecentRooms();
   const allModules = getAllModules();
   const allRooms = getAllRooms();
+  
+  // Animation variants
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1
+      }
+    }
+  };
+  
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.5
+      }
+    }
+  };
+
+  const tabIndicatorVariants = {
+    home: { x: 0 },
+    "learning-path": { x: "100%" },
+    modules: { x: "200%" },
+    rooms: { x: "300%" }
+  };
 
   return (
     <div>
@@ -93,38 +125,56 @@ const Subject = () => {
 
         {/* Main Content */}
         <div className="flex-1 container px-4 py-8 md:px-6">
-          <Tabs defaultValue="home" className="w-full">
-            <TabsList className="w-full justify-start mb-8 overflow-x-auto">
-              <TabsTrigger value="home" className="flex items-center gap-2">
-                <Home className="h-4 w-4" />
-                Home
-              </TabsTrigger>
-              <TabsTrigger
-                value="learning-path"
-                className="flex items-center gap-2"
-              >
-                <BookOpen className="h-4 w-4" />
-                Learning Paths
-              </TabsTrigger>
-              <TabsTrigger value="modules" className="flex items-center gap-2">
-                <Book className="h-4 w-4" />
-                Modules
-              </TabsTrigger>
-              <TabsTrigger value="rooms" className="flex items-center gap-2">
-                <div className="h-4 w-4">🚪</div>
-                Rooms
-              </TabsTrigger>
-            </TabsList>
+          <Tabs 
+            defaultValue="home" 
+            value={activeTab} 
+            onValueChange={setActiveTab}
+            className="w-full"
+          >
+            <div className="relative mb-8">
+              <TabsList className="w-full justify-start overflow-x-auto bg-transparent border-b">
+                <TabsTrigger value="home" className="flex items-center gap-2 data-[state=active]:text-science-primary data-[state=active]:bg-transparent data-[state=active]:shadow-none py-3 px-4">
+                  <Home className="h-4 w-4" />
+                  Overview
+                </TabsTrigger>
+                <TabsTrigger
+                  value="learning-path"
+                  className="flex items-center gap-2 data-[state=active]:text-science-primary data-[state=active]:bg-transparent data-[state=active]:shadow-none py-3 px-4"
+                >
+                  <BookOpen className="h-4 w-4" />
+                  Learning Paths
+                </TabsTrigger>
+                <TabsTrigger value="modules" className="flex items-center gap-2 data-[state=active]:text-science-primary data-[state=active]:bg-transparent data-[state=active]:shadow-none py-3 px-4">
+                  <Book className="h-4 w-4" />
+                  Modules
+                </TabsTrigger>
+                <TabsTrigger value="rooms" className="flex items-center gap-2 data-[state=active]:text-science-primary data-[state=active]:bg-transparent data-[state=active]:shadow-none py-3 px-4">
+                  <div className="h-4 w-4">🚪</div>
+                  Rooms
+                </TabsTrigger>
+              </TabsList>
+              <motion.div 
+                className="absolute bottom-0 left-0 h-0.5 w-1/4 bg-science-primary" 
+                animate={activeTab} 
+                variants={tabIndicatorVariants}
+                transition={{ type: "spring", stiffness: 300, damping: 30 }}
+              />
+            </div>
 
             {/* Home Tab Content */}
             <TabsContent value="home">
               <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                <div className="lg:col-span-2 space-y-8">
-                  <section>
+                <motion.div 
+                  className="lg:col-span-2 space-y-8"
+                  initial="hidden"
+                  animate="visible"
+                  variants={containerVariants}
+                >
+                  <motion.section variants={itemVariants}>
                     <h2 className="text-2xl font-bold mb-4">
                       Welcome to {subject.title}
                     </h2>
-                    <div className="bg-white p-6 rounded-lg border">
+                    <div className="bg-white p-6 rounded-lg border shadow-sm hover:shadow-md transition-shadow">
                       <div className="flex items-center gap-4 mb-4">
                         <div
                           className={`${subject.color} p-4 rounded-lg text-3xl`}
@@ -158,62 +208,94 @@ const Subject = () => {
                         <li>Advanced topics for deeper understanding</li>
                       </ul>
                     </div>
-                  </section>
+                  </motion.section>
 
-                  <section>
-                    <h2 className="text-xl font-bold mb-4">
-                      Continue Learning
-                    </h2>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      {recentRooms.map((room) => (
-                        <RoomCard
+                  <motion.section variants={itemVariants}>
+                    <div className="flex justify-between items-center mb-4">
+                      <h2 className="text-xl font-bold">
+                        Continue Learning
+                      </h2>
+                      <Link 
+                        to="#rooms"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          setActiveTab("rooms");
+                        }} 
+                        className="text-blue-600 hover:underline flex items-center gap-1 text-sm"
+                      >
+                        View all rooms
+                        <ArrowRight className="h-4 w-4" />
+                      </Link>
+                    </div>
+                    <motion.div 
+                      className="grid grid-cols-1 md:grid-cols-2 gap-4"
+                      variants={containerVariants}
+                    >
+                      {recentRooms.map((room, index) => (
+                        <motion.div
                           key={room.id}
-                          room={room}
-                          subject={subjectId || ""}
-                        />
-                      ))}
-                    </div>
-                  </section>
-
-                  <section>
-                    <h2 className="text-xl font-bold mb-4">
-                      Your Learning Paths
-                    </h2>
-                    <div className="grid grid-cols-1 gap-4">
-                      {subject.learningPaths.slice(0, 2).map((learningPath) => (
-                        <LearningPathCard
-                          key={learningPath.id}
-                          learningPath={learningPath}
-                          subject={{
-                            color: subject.color,
-                            textColor: subject.textColor,
-                            border: subject.border,
-                          }}
-                          subjectId={subjectId || ""}
-                        />
-                      ))}
-                      <div className="mt-2">
-                        <Link
-                          to="#learning-path"
-                          className="text-blue-600 hover:underline flex items-center gap-1 text-sm"
-                          onClick={(e) => {
-                            e.preventDefault();
-                            const tabElement = document.querySelector('[data-value="learning-path"]');
-                            if (tabElement instanceof HTMLElement) {
-                              tabElement.click();
-                            }
-                          }}
+                          variants={itemVariants}
+                          custom={index}
                         >
-                          View all learning paths
-                          <ArrowRight className="h-4 w-4" />
-                        </Link>
-                      </div>
-                    </div>
-                  </section>
-                </div>
+                          <RoomCard
+                            room={room}
+                            subject={subjectId || ""}
+                          />
+                        </motion.div>
+                      ))}
+                    </motion.div>
+                  </motion.section>
 
-                <div className="space-y-8">
-                  <section className="bg-white p-6 rounded-lg border">
+                  <motion.section variants={itemVariants}>
+                    <div className="flex justify-between items-center mb-4">
+                      <h2 className="text-xl font-bold">
+                        Your Learning Paths
+                      </h2>
+                      <Link 
+                        to="#learning-path"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          setActiveTab("learning-path");
+                        }} 
+                        className="text-blue-600 hover:underline flex items-center gap-1 text-sm"
+                      >
+                        View all learning paths
+                        <ArrowRight className="h-4 w-4" />
+                      </Link>
+                    </div>
+                    <motion.div 
+                      className="grid grid-cols-1 gap-4"
+                      variants={containerVariants}
+                    >
+                      {subject.learningPaths.slice(0, 2).map((learningPath, index) => (
+                        <motion.div
+                          key={learningPath.id}
+                          variants={itemVariants}
+                          custom={index}
+                        >
+                          <LearningPathCard
+                            key={learningPath.id}
+                            learningPath={learningPath}
+                            subject={{
+                              color: subject.color,
+                              textColor: subject.textColor,
+                              border: subject.border,
+                            }}
+                            subjectId={subjectId || ""}
+                          />
+                        </motion.div>
+                      ))}
+                    </motion.div>
+                  </motion.section>
+                </motion.div>
+
+                <motion.div 
+                  className="space-y-8"
+                  initial={{ opacity: 0, x: 20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.3, duration: 0.5 }}
+                >
+                  <section className="bg-white p-6 rounded-lg border shadow-sm">
                     <h3 className="text-lg font-semibold mb-4">
                       Your Progress
                     </h3>
@@ -226,12 +308,12 @@ const Subject = () => {
                           </span>
                         </div>
                         <div className="w-full bg-gray-200 rounded-full h-2">
-                          <div
+                          <motion.div
                             className={`h-2 rounded-full bg-blue-600`}
-                            style={{
-                              width: `${subject.completionPercentage}%`,
-                            }}
-                          ></div>
+                            style={{ width: `0%` }}
+                            animate={{ width: `${subject.completionPercentage}%` }}
+                            transition={{ delay: 0.5, duration: 1, ease: "easeOut" }}
+                          ></motion.div>
                         </div>
                       </div>
 
@@ -279,7 +361,7 @@ const Subject = () => {
                     </div>
                   </section>
 
-                  <section className="bg-white p-6 rounded-lg border">
+                  <section className="bg-white p-6 rounded-lg border shadow-sm">
                     <h3 className="text-lg font-semibold mb-4">
                       Key Resources
                     </h3>
@@ -340,7 +422,7 @@ const Subject = () => {
                       </li>
                     </ul>
                   </section>
-                </div>
+                </motion.div>
               </div>
             </TabsContent>
 
@@ -352,20 +434,30 @@ const Subject = () => {
                   Choose a learning path to follow through the curriculum.
                 </p>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                  {subject.learningPaths.map((learningPath) => (
-                    <LearningPathCard
+                <motion.div 
+                  className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+                  variants={containerVariants}
+                  initial="hidden"
+                  animate="visible"
+                >
+                  {subject.learningPaths.map((learningPath, index) => (
+                    <motion.div
                       key={learningPath.id}
-                      learningPath={learningPath}
-                      subject={{
-                        color: subject.color,
-                        textColor: subject.textColor,
-                        border: subject.border,
-                      }}
-                      subjectId={subjectId || ""}
-                    />
+                      variants={itemVariants}
+                      custom={index}
+                    >
+                      <LearningPathCard
+                        learningPath={learningPath}
+                        subject={{
+                          color: subject.color,
+                          textColor: subject.textColor,
+                          border: subject.border,
+                        }}
+                        subjectId={subjectId || ""}
+                      />
+                    </motion.div>
                   ))}
-                </div>
+                </motion.div>
               </div>
             </TabsContent>
 
@@ -376,20 +468,30 @@ const Subject = () => {
                 Browse all available modules in this subject.
               </p>
 
-              <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-                {allModules.map((module) => (
-                  <ModuleCard
+              <motion.div 
+                className="grid gap-6 md:grid-cols-2 lg:grid-cols-3"
+                variants={containerVariants}
+                initial="hidden"
+                animate="visible"
+              >
+                {allModules.map((module, index) => (
+                  <motion.div
                     key={module.id}
-                    module={module}
-                    subject={{
-                      color: subject.color,
-                      textColor: subject.textColor,
-                      border: subject.border,
-                    }}
-                    subjectId={subjectId || ""}
-                  />
+                    variants={itemVariants}
+                    custom={index}
+                  >
+                    <ModuleCard
+                      module={module}
+                      subject={{
+                        color: subject.color,
+                        textColor: subject.textColor,
+                        border: subject.border,
+                      }}
+                      subjectId={subjectId || ""}
+                    />
+                  </motion.div>
                 ))}
-              </div>
+              </motion.div>
             </TabsContent>
 
             {/* Rooms Tab Content */}
@@ -399,15 +501,25 @@ const Subject = () => {
                 Explore all learning rooms available in this subject.
               </p>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {allRooms.map((room) => (
-                  <RoomCard
+              <motion.div 
+                className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+                variants={containerVariants}
+                initial="hidden"
+                animate="visible"
+              >
+                {allRooms.map((room, index) => (
+                  <motion.div
                     key={room.id}
-                    room={room}
-                    subject={subjectId || ""}
-                  />
+                    variants={itemVariants}
+                    custom={index}
+                  >
+                    <RoomCard
+                      room={room}
+                      subject={subjectId || ""}
+                    />
+                  </motion.div>
                 ))}
-              </div>
+              </motion.div>
             </TabsContent>
           </Tabs>
         </div>
@@ -417,4 +529,4 @@ const Subject = () => {
   );
 };
 
-export default Subject;
+export default LearnPage;

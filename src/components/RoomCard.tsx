@@ -1,27 +1,24 @@
 
 import React from "react";
-import { Card, CardContent, CardFooter } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { ArrowRight, Clock } from "lucide-react";
 import { Link } from "react-router-dom";
-import { getSubjectData } from "@/lib/demoData";
+import { Card, CardContent } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Clock, Award, BookOpen } from "lucide-react";
 
-// Define the Room interface to be used across the application
+// Updated Room interface with both progress and completionPercentage
 export interface Room {
   id: string;
   title: string;
   description: string;
-  image?: string;
+  thumbnail?: string;
   level?: string;
-  completionPercentage: number;
-  progress: number;  // Make progress required, not optional
-  sections: any[] | number;  // Allow both array and number types
-  quizzes?: number;
-  module: string;
-  duration: string;
-  xpPoints: number;
-  completed: boolean;
+  duration?: string;
+  xpPoints?: number;
+  progress?: number;
+  completed?: boolean;
+  completionPercentage?: number;
+  sections?: any[];
+  status?: string;
 }
 
 interface RoomCardProps {
@@ -30,95 +27,66 @@ interface RoomCardProps {
 }
 
 const RoomCard = ({ room, subject }: RoomCardProps) => {
-  // Define color schemes based on subject
-  const getSubjectStyles = (subjectName: string) => {
-    const subjectData = getSubjectData(subjectName);
-    
-    return {
-      color: subjectData.color,
-      textColor: subjectData.textColor,
-      border: subjectData.border,
-      buttonColor: room.completed
-        ? `${subjectData.color} ${subjectData.textColor} ${subjectData.border}`
-        : `bg-${subjectName === "biology" ? "green" : subjectName === "chemistry" ? "blue" : subjectName === "physics" ? "purple" : "red"}-600`,
-    };
-  };
-
-  const styles = getSubjectStyles(subject);
+  // Use either completionPercentage or progress, with fallback
+  const progressValue = room.completionPercentage !== undefined 
+    ? room.completionPercentage 
+    : (room.progress !== undefined ? room.progress : 0);
   
-  // Handle sections count (could be array or number)
-  const sectionsCount = Array.isArray(room.sections) ? room.sections.length : room.sections;
-  const quizzesCount = room.quizzes || 0;
+  const isCompleted = room.completed || progressValue === 100;
 
   return (
-    <Card className="overflow-hidden transition-all duration-300 hover:shadow-md">
-      <div className={`p-4 ${styles.color} border-b ${styles.border}`}>
-        <h3 className="font-bold text-lg">{room.title}</h3>
-        <p className="text-sm text-muted-foreground">
-          {sectionsCount} sections • {quizzesCount} quizzes
-        </p>
-      </div>
-
-      <CardContent className="p-4">
-        <div className="flex items-center justify-between mb-4">
-          <div className="flex items-center gap-2 text-sm">
-            <Clock className="h-4 w-4 text-muted-foreground" />
-            <span>{room.duration}</span>
+    <Link to={`/subjects/${subject}/rooms/${room.id}`}>
+      <Card className="overflow-hidden transition-all hover:shadow-md hover:-translate-y-1">
+        <div className="relative">
+          <div className="bg-gradient-to-r from-blue-50 to-indigo-50 h-32 flex items-center justify-center">
+            <div className="text-4xl">{room.thumbnail || "🚪"}</div>
           </div>
-          <Badge variant="outline" className="badge-xp">
-            {room.xpPoints} XP
-          </Badge>
+          {isCompleted && (
+            <div className="absolute top-2 right-2">
+              <Badge variant="outline" className="bg-green-100 text-green-800 border-green-200">
+                Completed
+              </Badge>
+            </div>
+          )}
         </div>
-
-        <p className="text-sm text-gray-600 mb-4">{room.description}</p>
-
-        <div className="mt-2">
-          <div className="flex items-center justify-between mb-1">
-            <span className="text-xs text-gray-500">Completion</span>
-            <span className="text-xs font-medium">
-              {room.completionPercentage}%
-            </span>
+        <CardContent className="p-4">
+          <h3 className="font-semibold text-lg mb-2 line-clamp-1">{room.title}</h3>
+          <p className="text-muted-foreground text-sm mb-3 line-clamp-2">
+            {room.description}
+          </p>
+          <div className="flex items-center justify-between text-sm">
+            <div className="flex items-center gap-2">
+              {room.duration && (
+                <div className="flex items-center text-muted-foreground">
+                  <Clock className="h-3.5 w-3.5 mr-1" />
+                  <span>{room.duration}</span>
+                </div>
+              )}
+            </div>
+            {room.xpPoints && (
+              <div className="flex items-center gap-1 text-amber-600 font-medium">
+                <Award className="h-4 w-4" />
+                <span>{room.xpPoints} XP</span>
+              </div>
+            )}
           </div>
-          <div className="w-full bg-gray-200 rounded-full h-2">
-            <div
-              className={`h-2 rounded-full ${
-                room.completionPercentage === 100
-                  ? "bg-green-500"
-                  : room.completionPercentage > 0
-                  ? "bg-blue-600"
-                  : "bg-gray-300"
-              }`}
-              style={{ width: `${room.completionPercentage}%` }}
-            ></div>
+          
+          <div className="mt-3">
+            <div className="w-full bg-gray-200 rounded-full h-2">
+              <div
+                className={`h-2 rounded-full ${
+                  isCompleted ? "bg-green-500" : "bg-blue-600"
+                }`}
+                style={{ width: `${progressValue}%` }}
+              ></div>
+            </div>
+            <div className="text-xs text-right mt-1 text-muted-foreground">
+              {progressValue}% complete
+            </div>
           </div>
-        </div>
-      </CardContent>
-
-      <CardFooter className="p-4 pt-0">
-        <Link
-          to={`/subjects/${subject.toLowerCase()}/rooms/${room.id}`}
-          className="w-full"
-        >
-          <Button
-            variant={room.completed ? "outline" : "default"}
-            className={`w-full ${
-              !room.completed
-                ? subject === "biology"
-                  ? "bg-green-600"
-                  : subject === "chemistry"
-                  ? "bg-blue-600"
-                  : subject === "physics"
-                  ? "bg-purple-600"
-                  : "bg-red-600"
-                : ""
-            }`}
-          >
-            {room.completed ? "Review Room" : "Start Room"}
-            <ArrowRight className="ml-2 h-4 w-4" />
-          </Button>
-        </Link>
-      </CardFooter>
-    </Card>
+        </CardContent>
+      </Card>
+    </Link>
   );
 };
 

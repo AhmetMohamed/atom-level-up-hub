@@ -61,28 +61,28 @@ const DashboardLayout = ({ children }: DashboardLayoutProps) => {
     }
   ];
 
-  const subjectLinks = [
+  const learnLinks = [
     {
       title: "Biology",
-      href: "/subjects/biology",
+      href: "/learn/biology",
       icon: <Dna className="w-5 h-5" />,
       color: "text-green-600",
     },
     {
       title: "Chemistry",
-      href: "/subjects/chemistry",
+      href: "/learn/chemistry",
       icon: <FlaskConical className="w-5 h-5" />,
       color: "text-blue-600",
     },
     {
       title: "Physics",
-      href: "/subjects/physics",
+      href: "/learn/physics",
       icon: <Microscope className="w-5 h-5" />,
       color: "text-purple-600",
     },
     {
       title: "Mathematics",
-      href: "/subjects/mathematics",
+      href: "/learn/mathematics",
       icon: <Calculator className="w-5 h-5" />,
       color: "text-red-600",
     },
@@ -165,7 +165,7 @@ const DashboardLayout = ({ children }: DashboardLayoutProps) => {
                 <CollapsibleTrigger className="w-full flex items-center justify-between px-3 py-2 rounded-lg hover:bg-muted transition-colors">
                   <div className="flex items-center gap-3">
                     <Book className="w-5 h-5" />
-                    <span className="font-medium">Subjects</span>
+                    <span className="font-medium">Learn</span>
                   </div>
                   {subjectsExpanded ? (
                     <ChevronUp className="h-4 w-4" />
@@ -174,7 +174,7 @@ const DashboardLayout = ({ children }: DashboardLayoutProps) => {
                   )}
                 </CollapsibleTrigger>
                 <CollapsibleContent className="pl-2 mt-1 space-y-1">
-                  {subjectLinks.map((link) => (
+                  {learnLinks.map((link) => (
                     <Link
                       key={link.href}
                       to={link.href}
@@ -265,12 +265,12 @@ const DashboardLayout = ({ children }: DashboardLayoutProps) => {
                   <CollapsibleTrigger className="w-full flex items-center justify-between px-3 py-2 rounded-lg hover:bg-muted transition-colors">
                     <div className="flex items-center gap-3">
                       <Book className="w-5 h-5" />
-                      <span className="font-medium">Subjects</span>
+                      <span className="font-medium">Learn</span>
                     </div>
                     <ChevronDown className="h-4 w-4" />
                   </CollapsibleTrigger>
                   <CollapsibleContent className="pl-2 mt-1 space-y-1">
-                    {subjectLinks.map((link) => (
+                    {learnLinks.map((link) => (
                       <Link
                         key={link.href}
                         to={link.href}
@@ -304,7 +304,7 @@ const DashboardLayout = ({ children }: DashboardLayoutProps) => {
                     }}
                     className="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
                   >
-                    <LogOut className="w-5 h-5" />
+                    <LogOut className="w-5 w-5" />
                     <span>Logout</span>
                   </button>
                 </div>
