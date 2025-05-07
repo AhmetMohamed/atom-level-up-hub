@@ -116,130 +116,135 @@ const AccessControl = () => {
         
         {/* Tabs and Table Section */}
         <div className="bg-white rounded-lg border shadow-sm">
-          <div className="p-4 border-b">
-            <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-              <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full md:w-auto">
-                <TabsList>
-                  <TabsTrigger value="users">Users</TabsTrigger>
-                  <TabsTrigger value="roles">Roles & Permissions</TabsTrigger>
-                  <TabsTrigger value="access-logs">Access Logs</TabsTrigger>
-                </TabsList>
-              </Tabs>
-              
-              <div className="relative w-full md:w-64">
-                <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-                <Input 
-                  placeholder="Search..." 
-                  className="pl-8" 
-                  value={searchTerm} 
-                  onChange={(e) => setSearchTerm(e.target.value)} 
-                />
-              </div>
+  <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
+    {/* Header Section */}
+    <div className="p-4 border-b">
+      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+        <TabsList>
+          <TabsTrigger value="users">Users</TabsTrigger>
+          <TabsTrigger value="roles">Roles & Permissions</TabsTrigger>
+          <TabsTrigger value="access-logs">Access Logs</TabsTrigger>
+        </TabsList>
+
+        <div className="relative w-full md:w-64">
+          <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
+          <Input 
+            placeholder="Search..." 
+            className="pl-8" 
+            value={searchTerm} 
+            onChange={(e) => setSearchTerm(e.target.value)} 
+          />
+        </div>
+      </div>
+    </div>
+
+    {/* Users Tab Content */}
+    <TabsContent value="users" className="p-0 m-0">
+      <div className="p-4">
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead>User</TableHead>
+              <TableHead>Role</TableHead>
+              <TableHead>Status</TableHead>
+              <TableHead>Premium Access</TableHead>
+              <TableHead>Last Login</TableHead>
+              <TableHead className="text-right">Actions</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {filteredUsers.map((user) => (
+              <TableRow key={user.id}>
+                <TableCell>
+                  <div>
+                    <div className="font-medium">{user.name}</div>
+                    <div className="text-sm text-muted-foreground">{user.email}</div>
+                  </div>
+                </TableCell>
+                <TableCell>
+                  <Badge variant={user.role === "Admin" ? "default" : user.role === "Teacher" ? "secondary" : "outline"}>
+                    {user.role}
+                  </Badge>
+                </TableCell>
+                <TableCell>
+                  <Badge variant={user.status === "active" ? "outline" : "secondary"} className={user.status === "active" ? "bg-green-100 text-green-800 border-green-200" : "bg-red-100 text-red-800 border-red-200"}>
+                    {user.status === "active" ? "Active" : "Inactive"}
+                  </Badge>
+                </TableCell>
+                <TableCell>
+                  <Switch checked={user.premiumAccess} onCheckedChange={() => {}} />
+                </TableCell>
+                <TableCell>{user.lastLogin}</TableCell>
+                <TableCell className="text-right">
+                  <div className="flex justify-end gap-2">
+                    <Button variant="outline" size="sm">Edit</Button>
+                    <Button variant="outline" size="sm" className="text-red-500 hover:text-red-700">
+                      <UserMinus className="h-4 w-4" />
+                    </Button>
+                  </div>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </div>
+    </TabsContent>
+
+    {/* Roles Tab Content */}
+    <TabsContent value="roles" className="p-0 m-0">
+      <div className="p-4">
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead>Role Name</TableHead>
+              <TableHead>Users</TableHead>
+              <TableHead>Permissions</TableHead>
+              <TableHead className="text-right">Actions</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {rolesData.map((role) => (
+              <TableRow key={role.id}>
+                <TableCell className="font-medium">{role.name}</TableCell>
+                <TableCell>{role.users}</TableCell>
+                <TableCell>
+                  <div className="flex items-center gap-1">
+                    <div className="h-2 bg-science-primary rounded-full" style={{ width: `${(role.permissions / 15) * 100}px` }}></div>
+                    <span className="text-xs">{role.permissions}/15</span>
+                  </div>
+                </TableCell>
+                <TableCell className="text-right">
+                  <Button variant="outline" size="sm">Edit Permissions</Button>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </div>
+    </TabsContent>
+
+    {/* Access Logs Tab Content */}
+    <TabsContent value="access-logs" className="p-4">
+      <div className="flex justify-center items-center p-8 text-center">
+        <div>
+          <div className="flex justify-center mb-4">
+            <div className="p-3 bg-blue-100 rounded-full">
+              <Key className="h-8 w-8 text-blue-600" />
             </div>
           </div>
-          
-          <TabsContent value="users" className="p-0 m-0">
-            <div className="p-4">
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead>User</TableHead>
-                    <TableHead>Role</TableHead>
-                    <TableHead>Status</TableHead>
-                    <TableHead>Premium Access</TableHead>
-                    <TableHead>Last Login</TableHead>
-                    <TableHead className="text-right">Actions</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {filteredUsers.map((user) => (
-                    <TableRow key={user.id}>
-                      <TableCell>
-                        <div>
-                          <div className="font-medium">{user.name}</div>
-                          <div className="text-sm text-muted-foreground">{user.email}</div>
-                        </div>
-                      </TableCell>
-                      <TableCell>
-                        <Badge variant={user.role === "Admin" ? "default" : user.role === "Teacher" ? "secondary" : "outline"}>
-                          {user.role}
-                        </Badge>
-                      </TableCell>
-                      <TableCell>
-                        <Badge variant={user.status === "active" ? "outline" : "secondary"} className={user.status === "active" ? "bg-green-100 text-green-800 border-green-200" : "bg-red-100 text-red-800 border-red-200"}>
-                          {user.status === "active" ? "Active" : "Inactive"}
-                        </Badge>
-                      </TableCell>
-                      <TableCell>
-                        <Switch checked={user.premiumAccess} onCheckedChange={() => {}} />
-                      </TableCell>
-                      <TableCell>{user.lastLogin}</TableCell>
-                      <TableCell className="text-right">
-                        <div className="flex justify-end gap-2">
-                          <Button variant="outline" size="sm">Edit</Button>
-                          <Button variant="outline" size="sm" className="text-red-500 hover:text-red-700">
-                            <UserMinus className="h-4 w-4" />
-                          </Button>
-                        </div>
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </div>
-          </TabsContent>
-          
-          <TabsContent value="roles" className="p-0 m-0">
-            <div className="p-4">
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead>Role Name</TableHead>
-                    <TableHead>Users</TableHead>
-                    <TableHead>Permissions</TableHead>
-                    <TableHead className="text-right">Actions</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {rolesData.map((role) => (
-                    <TableRow key={role.id}>
-                      <TableCell className="font-medium">{role.name}</TableCell>
-                      <TableCell>{role.users}</TableCell>
-                      <TableCell>
-                        <div className="flex items-center gap-1">
-                          <div className="h-2 bg-science-primary rounded-full" style={{ width: `${(role.permissions / 15) * 100}px` }}></div>
-                          <span className="text-xs">{role.permissions}/15</span>
-                        </div>
-                      </TableCell>
-                      <TableCell className="text-right">
-                        <Button variant="outline" size="sm">Edit Permissions</Button>
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </div>
-          </TabsContent>
-          
-          <TabsContent value="access-logs" className="p-4">
-            <div className="flex justify-center items-center p-8 text-center">
-              <div>
-                <div className="flex justify-center mb-4">
-                  <div className="p-3 bg-blue-100 rounded-full">
-                    <Key className="h-8 w-8 text-blue-600" />
-                  </div>
-                </div>
-                <h3 className="text-xl font-medium mb-2">Access Logs</h3>
-                <p className="text-muted-foreground mb-4">
-                  View detailed access logs to monitor login attempts, permission changes, and security events.
-                </p>
-                <Button>
-                  View Access Logs
-                </Button>
-              </div>
-            </div>
-          </TabsContent>
+          <h3 className="text-xl font-medium mb-2">Access Logs</h3>
+          <p className="text-muted-foreground mb-4">
+            View detailed access logs to monitor login attempts, permission changes, and security events.
+          </p>
+          <Button>
+            View Access Logs
+          </Button>
         </div>
+      </div>
+    </TabsContent>
+  </Tabs>
+</div>
+
         
         {/* Additional Actions Section */}
         <div className="mt-8">
