@@ -10,7 +10,18 @@ import Footer from "@/components/Footer";
 import RoomCard, { Room } from "@/components/RoomCard";
 import { getSubjectData, getLearningPathById, getModuleById } from "@/lib/demoData";
 
-// Define an extended Module type for our component
+// Define a type for the module data returned from the API
+interface Module {
+  id: string;
+  title: string;
+  description: string;
+  difficulty: string;
+  rooms: any[];
+  progress?: number;
+  completionPercentage?: number;
+}
+
+// Define an extended Module type for our component with guaranteed properties
 interface ExtendedModule {
   id: string;
   title: string;
@@ -26,7 +37,7 @@ const ModuleDetail = () => {
   
   const subject = getSubjectData(subjectId || "");
   const learningPath = getLearningPathById(subjectId || "", pathId || "");
-  const moduleData = getModuleById(subjectId || "", pathId || "", moduleId || "");
+  const moduleData: Module | null = getModuleById(subjectId || "", pathId || "", moduleId || "");
   
   // Create our extended module with guaranteed properties
   const module: ExtendedModule | null = moduleData ? {
