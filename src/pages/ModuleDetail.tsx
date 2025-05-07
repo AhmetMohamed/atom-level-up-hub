@@ -1,3 +1,4 @@
+
 import React from "react";
 import { useParams, Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -141,9 +142,7 @@ const ModuleDetail = () => {
                     (roomData.progress !== undefined ? roomData.progress : 0),
                   // Ensure progress exists
                   progress: roomData.progress !== undefined ? roomData.progress : 
-                    (roomData.completionPercentage !== undefined ? roomData.completionPercentage : 0),
-                  // Other properties with fallbacks if needed
-                  sections: roomData.sections || [],
+                    (roomData.completionPercentage !== undefined ? roomData.completionPercentage : 0)
                 };
                 
                 return (

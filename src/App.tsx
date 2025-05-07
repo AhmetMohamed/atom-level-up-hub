@@ -27,6 +27,7 @@ import AdminDashboard from "./pages/Admin/AdminDashboard";
 import UserManagement from "./pages/Admin/UserManagement";
 import PaymentVerification from "./pages/Admin/PaymentVerification";
 import PremiumContentManagement from "./pages/Admin/PremiumContentManagement";
+import AccessControl from "./pages/Admin/AccessControl";
 
 // CMS Routes
 import CMSDashboard from "./pages/CMS/CMSDashboard";
@@ -80,6 +81,7 @@ const App = () => (
           <Route path="/admin/users" element={<UserManagement />} />
           <Route path="/admin/payments" element={<PaymentVerification />} />
           <Route path="/admin/premium" element={<PremiumContentManagement />} />
+          <Route path="/admin/access" element={<AccessControl />} />
           
           {/* CMS routes */}
           <Route path="/cms/login" element={<CMSAuth />} />

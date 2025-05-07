@@ -21,9 +21,63 @@ import { getSubjectData, LearningPath, Module } from "@/lib/demoData";
 const LearnPage = () => {
   const { subjectId } = useParams<{ subjectId: string }>();
   const [activeTab, setActiveTab] = useState("home");
+  const [tabWidths, setTabWidths] = useState({ home: 25, "learning-path": 25, modules: 25, rooms: 25 });
+  const [tabPositions, setTabPositions] = useState({ home: 0, "learning-path": 25, modules: 50, rooms: 75 });
+  
+  // Create refs for each tab
+  const homeTabRef = React.useRef<HTMLButtonElement>(null);
+  const pathTabRef = React.useRef<HTMLButtonElement>(null);
+  const modulesTabRef = React.useRef<HTMLButtonElement>(null);
+  const roomsTabRef = React.useRef<HTMLButtonElement>(null);
 
   // Get subject data based on the subjectId
   const subject = getSubjectData(subjectId || "");
+
+  useEffect(() => {
+    // Calculate tab widths and positions when tabs are rendered
+    const calculateTabDimensions = () => {
+      const tabsList = document.querySelector('.tabs-list');
+      if (!tabsList) return;
+      
+      const homeTab = homeTabRef.current;
+      const pathTab = pathTabRef.current;
+      const modulesTab = modulesTabRef.current;
+      const roomsTab = roomsTabRef.current;
+      
+      if (homeTab && pathTab && modulesTab && roomsTab) {
+        const tabsListWidth = tabsList.clientWidth;
+        
+        const homeWidth = homeTab.offsetWidth;
+        const pathWidth = pathTab.offsetWidth;
+        const modulesWidth = modulesTab.offsetWidth;
+        const roomsWidth = roomsTab.offsetWidth;
+        
+        const homePosition = homeTab.offsetLeft;
+        const pathPosition = pathTab.offsetLeft;
+        const modulesPosition = modulesTab.offsetLeft;
+        const roomsPosition = roomsTab.offsetLeft;
+        
+        setTabWidths({
+          home: (homeWidth / tabsListWidth) * 100,
+          "learning-path": (pathWidth / tabsListWidth) * 100,
+          modules: (modulesWidth / tabsListWidth) * 100,
+          rooms: (roomsWidth / tabsListWidth) * 100
+        });
+        
+        setTabPositions({
+          home: (homePosition / tabsListWidth) * 100,
+          "learning-path": (pathPosition / tabsListWidth) * 100,
+          modules: (modulesPosition / tabsListWidth) * 100,
+          rooms: (roomsPosition / tabsListWidth) * 100
+        });
+      }
+    };
+    
+    calculateTabDimensions();
+    window.addEventListener('resize', calculateTabDimensions);
+    
+    return () => window.removeEventListener('resize', calculateTabDimensions);
+  }, []);
 
   // Get the most recent rooms from all learning paths
   const getRecentRooms = () => {
@@ -109,13 +163,6 @@ const LearnPage = () => {
     }
   };
 
-  const tabIndicatorVariants = {
-    home: { x: 0 },
-    "learning-path": { x: "100%" },
-    modules: { x: "200%" },
-    rooms: { x: "300%" }
-  };
-
   return (
     <div>
       <Header />
@@ -132,31 +179,46 @@ const LearnPage = () => {
             className="w-full"
           >
             <div className="relative mb-8">
-              <TabsList className="w-full justify-start overflow-x-auto bg-transparent border-b">
-                <TabsTrigger value="home" className="flex items-center gap-2 data-[state=active]:text-science-primary data-[state=active]:bg-transparent data-[state=active]:shadow-none py-3 px-4">
+              <TabsList className="tabs-list w-full justify-start overflow-x-auto bg-transparent border-b">
+                <TabsTrigger 
+                  ref={homeTabRef}
+                  value="home" 
+                  className="flex items-center gap-2 data-[state=active]:text-science-primary data-[state=active]:bg-transparent data-[state=active]:shadow-none py-3 px-4"
+                >
                   <Home className="h-4 w-4" />
                   Overview
                 </TabsTrigger>
                 <TabsTrigger
+                  ref={pathTabRef}
                   value="learning-path"
                   className="flex items-center gap-2 data-[state=active]:text-science-primary data-[state=active]:bg-transparent data-[state=active]:shadow-none py-3 px-4"
                 >
                   <BookOpen className="h-4 w-4" />
                   Learning Paths
                 </TabsTrigger>
-                <TabsTrigger value="modules" className="flex items-center gap-2 data-[state=active]:text-science-primary data-[state=active]:bg-transparent data-[state=active]:shadow-none py-3 px-4">
+                <TabsTrigger 
+                  ref={modulesTabRef}
+                  value="modules" 
+                  className="flex items-center gap-2 data-[state=active]:text-science-primary data-[state=active]:bg-transparent data-[state=active]:shadow-none py-3 px-4"
+                >
                   <Book className="h-4 w-4" />
                   Modules
                 </TabsTrigger>
-                <TabsTrigger value="rooms" className="flex items-center gap-2 data-[state=active]:text-science-primary data-[state=active]:bg-transparent data-[state=active]:shadow-none py-3 px-4">
+                <TabsTrigger 
+                  ref={roomsTabRef}
+                  value="rooms" 
+                  className="flex items-center gap-2 data-[state=active]:text-science-primary data-[state=active]:bg-transparent data-[state=active]:shadow-none py-3 px-4"
+                >
                   <div className="h-4 w-4">🚪</div>
                   Rooms
                 </TabsTrigger>
               </TabsList>
               <motion.div 
-                className="absolute bottom-0 left-0 h-0.5 w-1/4 bg-science-primary" 
-                animate={activeTab} 
-                variants={tabIndicatorVariants}
+                className="absolute bottom-0 left-0 h-0.5 bg-science-primary" 
+                animate={{ 
+                  width: `${tabWidths[activeTab]}%`,
+                  left: `${tabPositions[activeTab]}%`
+                }}
                 transition={{ type: "spring", stiffness: 300, damping: 30 }}
               />
             </div>
