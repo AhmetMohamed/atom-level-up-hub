@@ -1,4 +1,3 @@
-
 import React from "react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -258,94 +257,6 @@ const AchievementShowcase = () => {
   );
 };
 
-// New Learning Methods section
-const LearningMethodsSection = () => {
-  return (
-    <section className="py-20 bg-white">
-      <div className="container px-4">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-          <motion.div
-            initial={{ opacity: 0, x: -30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-          >
-            <h2 className="text-3xl md:text-4xl font-bold mb-6">Modern Learning Methods for Modern Students</h2>
-            <p className="text-lg text-muted-foreground mb-8">
-              Our platform combines cutting-edge educational technology with proven learning methodologies to create an engaging and effective learning experience.
-            </p>
-            
-            <div className="space-y-6">
-              <div className="flex gap-4">
-                <div className="flex-shrink-0 bg-purple-100 rounded-lg p-3 h-fit">
-                  <Sparkles className="h-6 w-6 text-purple-600" />
-                </div>
-                <div>
-                  <h3 className="text-xl font-semibold mb-2">Adaptive Learning</h3>
-                  <p className="text-muted-foreground">
-                    Our platform adapts to your individual learning pace and style, focusing more on areas where you need additional help.
-                  </p>
-                </div>
-              </div>
-              
-              <div className="flex gap-4">
-                <div className="flex-shrink-0 bg-blue-100 rounded-lg p-3 h-fit">
-                  <Clock className="h-6 w-6 text-blue-600" />
-                </div>
-                <div>
-                  <h3 className="text-xl font-semibold mb-2">Spaced Repetition</h3>
-                  <p className="text-muted-foreground">
-                    We use scientifically-proven spaced repetition techniques to help you remember key concepts for longer periods.
-                  </p>
-                </div>
-              </div>
-              
-              <div className="flex gap-4">
-                <div className="flex-shrink-0 bg-green-100 rounded-lg p-3 h-fit">
-                  <Layers className="h-6 w-6 text-green-600" />
-                </div>
-                <div>
-                  <h3 className="text-xl font-semibold mb-2">Micro-Learning</h3>
-                  <p className="text-muted-foreground">
-                    Complex topics are broken down into digestible micro-lessons that can be completed in just a few minutes.
-                  </p>
-                </div>
-              </div>
-            </div>
-          </motion.div>
-          
-          <motion.div
-            initial={{ opacity: 0, x: 30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="relative"
-          >
-            <div className="aspect-video bg-gradient-to-br from-indigo-100 via-purple-100 to-pink-100 rounded-xl flex items-center justify-center">
-              <div className="absolute inset-0 flex items-center justify-center">
-                <div className="w-16 h-16 bg-white rounded-full shadow-lg flex items-center justify-center cursor-pointer">
-                  <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-6 h-6 text-science-primary">
-                    <path d="M8 5V19L19 12L8 5Z" fill="currentColor" />
-                  </svg>
-                </div>
-              </div>
-              <span className="text-xl text-gray-400">Learning Demo Video</span>
-            </div>
-            
-            <div className="absolute -bottom-6 -right-6 bg-white rounded-lg shadow-lg p-4 max-w-xs border">
-              <div className="flex items-center gap-3 mb-2">
-                <div className="h-2 w-2 bg-green-500 rounded-full"></div>
-                <span className="text-sm font-medium">Active students now</span>
-              </div>
-              <div className="text-2xl font-bold">1,247</div>
-            </div>
-          </motion.div>
-        </div>
-      </div>
-    </section>
-  );
-};
-
 const Index = () => {
   return (
     <>
@@ -353,10 +264,9 @@ const Index = () => {
       <Hero />
       <TrustLogos />
       <StatsSection />
-      <FeaturesSection />
-      <LearningMethodsSection />
-      <AchievementShowcase />
       <SubjectsSection />
+      <AchievementShowcase />
+      <FeaturesSection />
       <PricingSection />
       <CTASection />
       <Footer />

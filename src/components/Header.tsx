@@ -50,7 +50,7 @@ const Header = () => {
               <DropdownMenuContent align="start" className="w-48">
                 <DropdownMenuItem asChild>
                   <Link
-                    to="/learn/biology"
+                    to="/subjects/biology"
                     className="w-full cursor-pointer"
                   >
                     Biology
@@ -58,7 +58,7 @@ const Header = () => {
                 </DropdownMenuItem>
                 <DropdownMenuItem asChild>
                   <Link
-                    to="/learn/chemistry"
+                    to="/subjects/chemistry"
                     className="w-full cursor-pointer"
                   >
                     Chemistry
@@ -66,7 +66,7 @@ const Header = () => {
                 </DropdownMenuItem>
                 <DropdownMenuItem asChild>
                   <Link
-                    to="/learn/physics"
+                    to="/subjects/physics"
                     className="w-full cursor-pointer"
                   >
                     Physics
@@ -74,7 +74,7 @@ const Header = () => {
                 </DropdownMenuItem>
                 <DropdownMenuItem asChild>
                   <Link
-                    to="/learn/mathematics"
+                    to="/subjects/mathematics"
                     className="w-full cursor-pointer"
                   >
                     Mathematics
@@ -138,25 +138,25 @@ const Header = () => {
                 <p className="text-lg font-semibold">Learn</p>
                 <div className="pl-4 border-l border-muted space-y-2">
                   <Link
-                    to="/learn/biology"
+                    to="/subjects/biology"
                     className="block text-muted-foreground hover:text-science-primary transition-colors"
                   >
                     Biology
                   </Link>
                   <Link
-                    to="/learn/chemistry"
+                    to="/subjects/chemistry"
                     className="block text-muted-foreground hover:text-science-primary transition-colors"
                   >
                     Chemistry
                   </Link>
                   <Link
-                    to="/learn/physics"
+                    to="/subjects/physics"
                     className="block text-muted-foreground hover:text-science-primary transition-colors"
                   >
                     Physics
                   </Link>
                   <Link
-                    to="/learn/mathematics"
+                    to="/subjects/mathematics"
                     className="block text-muted-foreground hover:text-science-primary transition-colors"
                   >
                     Mathematics
