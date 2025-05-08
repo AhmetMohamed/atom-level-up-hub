@@ -1,4 +1,3 @@
-
 @import url('https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700&display=swap');
 
 @tailwind base;
@@ -72,6 +71,7 @@
 @layer base {
   * {
     @apply border-border;
+    box-sizing: border-box;
   }
   body {
     @apply bg-background text-foreground font-sans;
@@ -156,11 +156,14 @@
   /* Full-width container overrides */
   .container {
     @apply w-full px-4 mx-auto;
-    max-width: none !important;
+    max-width: 100% !important;
+    padding-left: 1rem;
+    padding-right: 1rem;
   }
   
   /* Ensure sections stretch full width */
   section {
     @apply w-full;
+    max-width: 100vw;
   }
 }

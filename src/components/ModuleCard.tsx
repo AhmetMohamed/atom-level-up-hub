@@ -1,4 +1,3 @@
-
 import React from "react";
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -32,7 +31,7 @@ const ModuleCard = ({ module, subject, subjectId, pathId }: ModuleCardProps) => 
     : `/subjects/${subjectId}/modules/${module.id}`;
   
   return (
-    <Card className="overflow-hidden transition-all duration-300 hover:shadow-md">
+    <Card className="overflow-hidden transition-all duration-300 hover:shadow-md w-full">
       <CardHeader className={`${subject.color}`}>
         <div className="flex items-start justify-between">
           <div>
