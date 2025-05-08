@@ -75,6 +75,10 @@
   }
   body {
     @apply bg-background text-foreground font-sans;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    overflow-x: hidden;
   }
   h1, h2, h3, h4, h5, h6 {
     @apply font-bold;
@@ -147,5 +151,16 @@
     @apply block w-full rounded-lg border border-input bg-background px-4 py-3
            text-foreground shadow-sm placeholder:text-muted-foreground focus:border-science-primary 
            focus:outline-none focus:ring-2 focus:ring-science-primary/20;
+  }
+  
+  /* Full-width container overrides */
+  .container {
+    @apply w-full px-4 mx-auto;
+    max-width: none !important;
+  }
+  
+  /* Ensure sections stretch full width */
+  section {
+    @apply w-full;
   }
 }
