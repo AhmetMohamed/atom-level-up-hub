@@ -1,9 +1,8 @@
 
 import React from "react";
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { ArrowRight, BookOpen } from "lucide-react";
+import { BookOpen } from "lucide-react";
 import { Link } from "react-router-dom";
 import {
   Accordion,
@@ -74,33 +73,29 @@ const ModuleCard = ({ module, subject, subjectId, pathId }: ModuleCardProps) => 
                 <ul className="space-y-3 py-2">
                   {module.rooms.map((room) => (
                     <li key={room.id} className="border rounded-lg p-3">
-                      <div className="flex items-start justify-between mb-2">
-                        <div>
-                          <h4 className="font-medium">{room.title}</h4>
-                          <div className="flex items-center gap-2 text-xs text-muted-foreground mt-1">
-                            <span>{room.duration}</span>
-                            <span className="badge-xp">{room.xpPoints} XP</span>
+                      <Link to={`/subjects/${subjectId}/rooms/${room.id}`} className="block">
+                        <div className="flex items-start justify-between mb-2">
+                          <div>
+                            <h4 className="font-medium">{room.title}</h4>
+                            <div className="flex items-center gap-2 text-xs text-muted-foreground mt-1">
+                              <span>{room.duration}</span>
+                              <span className="badge-xp">{room.xpPoints} XP</span>
+                            </div>
                           </div>
+                          {room.completed ? (
+                            <Badge variant="outline" className="bg-green-100 text-green-800 border-green-200">
+                              Completed
+                            </Badge>
+                          ) : room.completionPercentage > 0 ? (
+                            <Badge variant="outline" className="bg-amber-100 text-amber-800 border-amber-200">
+                              In Progress
+                            </Badge>
+                          ) : (
+                            <Badge variant="outline" className="bg-gray-100 text-gray-800 border-gray-200">
+                              Not Started
+                            </Badge>
+                          )}
                         </div>
-                        {room.completed ? (
-                          <Badge variant="outline" className="bg-green-100 text-green-800 border-green-200">
-                            Completed
-                          </Badge>
-                        ) : room.completionPercentage > 0 ? (
-                          <Badge variant="outline" className="bg-amber-100 text-amber-800 border-amber-200">
-                            In Progress
-                          </Badge>
-                        ) : (
-                          <Badge variant="outline" className="bg-gray-100 text-gray-800 border-gray-200">
-                            Not Started
-                          </Badge>
-                        )}
-                      </div>
-                      <Link to={`/subjects/${subjectId}/rooms/${room.id}`}>
-                        <Button variant="outline" size="sm" className="w-full mt-2">
-                          {room.completed ? "Review" : room.completionPercentage > 0 ? "Continue" : "Start"} Room
-                          <ArrowRight className="ml-1 h-3 w-3" />
-                        </Button>
                       </Link>
                     </li>
                   ))}
@@ -110,15 +105,6 @@ const ModuleCard = ({ module, subject, subjectId, pathId }: ModuleCardProps) => 
           </Accordion>
         </div>
       </CardContent>
-      
-      <CardFooter>
-        <Link to={moduleDetailUrl} className="w-full">
-          <Button className="w-full">
-            {module.progress === 100 ? "Review Module" : module.progress > 0 ? "Continue Module" : "Start Module"}
-            <ArrowRight className="ml-2 h-4 w-4" />
-          </Button>
-        </Link>
-      </CardFooter>
     </Card>
   );
 };
