@@ -1,4 +1,3 @@
-
 import React from "react";
 import { Link } from "react-router-dom";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
@@ -189,7 +188,7 @@ const Challenges = () => {
                         </div>
                       </CardContent>
                       <CardFooter className="pt-0">
-                        <Link to={`/exam-prep/${subject.toLowerCase()}`} className="w-full">
+                        <Link to={`/challenges/exam/challenge-${subject.toLowerCase()}`} className="w-full">
                           <Button className="w-full">
                             Start Exam Prep
                           </Button>
