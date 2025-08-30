@@ -7,7 +7,7 @@ import PricingSection from "@/components/PricingSection";
 import CTASection from "@/components/CTASection";
 import TrustLogos from "@/components/TrustLogos";
 import { motion } from "framer-motion";
-import HeroGlassmorphism from "@/components/HeroGlassmorphism";
+import HeroSimple from "@/components/HeroSimple";
 import { Award, BookOpen, Brain, FileCheck, Medal, Sparkles } from "lucide-react";
 
 // Interactive stats section with countup animation
@@ -263,10 +263,9 @@ const Index = () => {
   return (
     <>
       <Header />
-      <HeroGlassmorphism />
+      <HeroSimple />
       <TrustLogos />
       <StatsSection />
-      <FeatureCardsSection />
       <SubjectsSection />
       <AchievementShowcase />
       <PricingSection />

@@ -154,10 +154,11 @@
            focus:outline-none focus:ring-2 focus:ring-science-primary/20;
   }
   
-  /* Container settings - restore previous settings */
+  /* Container settings - full width */
   .container {
     @apply mx-auto px-4;
-    max-width: 1280px;
+    max-width: 100%;
+    width: 100%;
   }
   
   /* Ensure sections don't overflow */

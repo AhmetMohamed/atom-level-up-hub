@@ -31,16 +31,16 @@ const TrustLogos = () => {
           </p>
         </motion.div>
 
-        {/* Single row with infinite scroll and gradient overlay effect */}
+        {/* Single row with logos only - same size */}
         <div className="relative overflow-hidden">
           <div className="absolute left-0 w-16 h-full bg-gradient-to-r from-white to-transparent z-10"></div>
           <div className="absolute right-0 w-16 h-full bg-gradient-to-l from-white to-transparent z-10"></div>
           
           <motion.div
-            className="flex items-center justify-center gap-12 py-8"
-            animate={{ x: [0, -1000] }}
+            className="flex items-center justify-center gap-16 py-8"
+            animate={{ x: [0, -800] }}
             transition={{
-              duration: 20,
+              duration: 15,
               repeat: Infinity,
               repeatType: "loop",
               ease: "linear"
@@ -50,57 +50,21 @@ const TrustLogos = () => {
               <motion.div 
                 key={index} 
                 className="flex items-center justify-center flex-shrink-0"
-                whileHover={{ scale: 1.05 }}
+                whileHover={{ scale: 1.1 }}
               >
                 {logo.logo.startsWith('/') ? (
-                  <div className={`w-16 h-16 rounded-xl flex items-center justify-center mr-3 shadow-sm overflow-hidden`}>
+                  <div className="w-20 h-20 rounded-xl bg-white flex items-center justify-center shadow-md overflow-hidden border border-gray-100">
                     <img 
                       src={logo.logo} 
                       alt={logo.name} 
-                      className="w-full h-full object-contain"
+                      className="w-14 h-14 object-contain"
                     />
                   </div>
                 ) : (
-                  <div className={`w-16 h-16 rounded-xl ${logo.bgColor} flex items-center justify-center mr-3 ${logo.textColor || 'text-gray-800'} font-bold shadow-sm`}>
+                  <div className={`w-20 h-20 rounded-xl ${logo.bgColor} flex items-center justify-center ${logo.textColor || 'text-gray-800'} font-bold shadow-md text-2xl border border-gray-100`}>
                     {logo.logo}
                   </div>
                 )}
-                <span className="font-medium whitespace-nowrap">{logo.name}</span>
-              </motion.div>
-            ))}
-          </motion.div>
-
-          {/* Second infinite scroll row going the opposite direction for a better effect */}
-          <motion.div
-            className="flex items-center justify-center gap-12 py-8"
-            animate={{ x: [-1000, 0] }}
-            transition={{
-              duration: 20,
-              repeat: Infinity,
-              repeatType: "loop",
-              ease: "linear"
-            }}
-          >
-            {duplicatedLogos.map((logo, index) => (
-              <motion.div 
-                key={`second-${index}`} 
-                className="flex items-center justify-center flex-shrink-0"
-                whileHover={{ scale: 1.05 }}
-              >
-                {logo.logo.startsWith('/') ? (
-                  <div className={`w-16 h-16 rounded-xl flex items-center justify-center mr-3 shadow-sm overflow-hidden`}>
-                    <img 
-                      src={logo.logo} 
-                      alt={logo.name} 
-                      className="w-full h-full object-contain"
-                    />
-                  </div>
-                ) : (
-                  <div className={`w-16 h-16 rounded-xl ${logo.bgColor} flex items-center justify-center mr-3 ${logo.textColor || 'text-gray-800'} font-bold shadow-sm`}>
-                    {logo.logo}
-                  </div>
-                )}
-                <span className="font-medium whitespace-nowrap">{logo.name}</span>
               </motion.div>
             ))}
           </motion.div>
